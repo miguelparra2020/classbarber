@@ -21,11 +21,10 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
- console.log(isOpen);
-
+  const [isOpen, setIsOpen] = useState(false)
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    // alert("hola")
+    setIsOpen(!isOpen)
   };
 
   return (
@@ -64,13 +63,12 @@ const Navbar = () => {
           </a>
         </div>
       </div>
-
       {/* Mobile Menu (visible solo cuando está abierto) */}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-gray-500 bg-opacity-75" aria-hidden="true" />
           <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog className="mx-auto max-w-sm rounded bg-gray-800 p-6 shadow-lg">
+            <div className="mx-auto max-w-sm rounded bg-gray-800 p-6 shadow-lg">
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
@@ -94,7 +92,7 @@ const Navbar = () => {
                   <span className="ml-1">{usuarioNavbar}</span>
                 </a>
               </div>
-            </Dialog>
+            </div>
           </div>
         </Dialog>
       </Transition>
