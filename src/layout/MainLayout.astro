@@ -1,15 +1,15 @@
 ---
 import Header from "../modules/7-General/0-Header/header.astro";
-import NavbarSelect from "../modules/0-Cliente/7-general-1-navbar-config.jsx";
+import NavbarSelect from "../modules/0-Cliente-Configuracion/7-general-1-navbar-config.jsx";
 ---
 
 <html lang="es">
-	<Header />
-	<body>
-		<!-- Navbar -->
-		<NavbarSelect client:load />
-        <!-- Main -->
-        <slot />
-        <!-- Footer -->
-	</body>
+  <Header />
+  <body>
+    <!-- Navbar -->
+    <NavbarSelect client:load />
+    <!-- Main -->
+    <slot />
+    <!-- Footer -->
+  </body>
 </html>
