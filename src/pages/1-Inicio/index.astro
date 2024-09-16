@@ -2,6 +2,7 @@
 import MainLayout from '../../layout/MainLayout.astro';
 import SesionLayout from '../../layout/SesionLayout.astro';
 import IntroSelect1 from '../../modules/1-Inicio/1-intros/1-intro1.astro';
+import IntroSelect2 from '../../modules/1-Inicio/1-intros/2-intro2.astro';
 const intro1 = true
 const intro2 = false
 ---
@@ -11,6 +12,11 @@ const intro2 = false
 	{intro1 && 
 	<SesionLayout>
 		<IntroSelect1/>
+	</SesionLayout>
+	}
+	{intro2 && 
+	<SesionLayout>
+		<IntroSelect2/>
 	</SesionLayout>
 	}
 	<!-- Intros estaticas -->
