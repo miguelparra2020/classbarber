@@ -1,5 +1,4 @@
 ---
-
 interface Props {
   href: string;
   size?: "md" | "lg";
@@ -8,12 +7,12 @@ interface Props {
   class?: string;
   [x: string]: any;
 }
- import {
-    colorButtonIntro, 
-    colorButtonIntroHover,
-    colorTextIntroButton,
-    colorTextIntroButtonHover
-} from '../../modules/0-Cliente-Configuracion/1-intros-config/1-intros-intro1-config.jsx'
+import {
+  colorButtonIntro,
+  colorButtonIntroHover,
+  colorTextIntroButton,
+  colorTextIntroButtonHover,
+} from "../../config/0-Cliente-Configuracion/1-intros-config/1-intros-intro1-config.jsx";
 
 const {
   href,
@@ -28,7 +27,7 @@ const sizes = {
   lg: "px-5 py-2.5",
   md: "px-4 py-2",
 };
-const stylePrimary = `${colorButtonIntro} ${colorTextIntroButtonHover} ${colorTextIntroButton} ${colorButtonIntroHover}  border-2 border-transparent`
+const stylePrimary = `${colorButtonIntro} ${colorTextIntroButtonHover} ${colorTextIntroButton} ${colorButtonIntroHover}  border-2 border-transparent`;
 const styles = {
   outline: "bg-white border-2 border-black hover:bg-blue-200 text-black ",
   primary: stylePrimary,

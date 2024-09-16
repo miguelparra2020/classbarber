@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import IconCarrito from '../../../components/icons/carritoIcon';
 import IconUser from '../../../components/icons/userIcon';
-import {fontFamilySelect} from '../../0-Cliente-Configuracion/0-fonFamily-config'
+import {fontFamilySelect} from '../../../config/0-Cliente-Configuracion/configuracion';
 import { Transition, Dialog } from '@headlessui/react';
 import {
   logoUrl,
@@ -35,7 +35,7 @@ import {
   colorLinksCard,
   colorIconMenuMobile
 
-} from '../../0-Cliente-Configuracion/7-general-config/7-general-1-navbar-config.jsx';
+} from '../../../config/0-Cliente-Configuracion/7-general-config/7-general-1-navbar-config.jsx';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
