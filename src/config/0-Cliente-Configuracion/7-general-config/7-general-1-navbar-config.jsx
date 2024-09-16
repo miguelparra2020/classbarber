@@ -1,6 +1,6 @@
 //Configuración del navbar
-export const logoUrl = "https://thehouseexclusive.com/_astro/favicon-512x512_kwxfbb_LCkFc.webp"
-export const nameStoreLogo = "The house exclusive"
+export const logoUrl = "https://imagenes.elpais.com/resizer/v2/Y3W6QUFBBZLLTALRW6NBRPZ2RA.jpg?auth=d68f18251117888479d8fdc3210796bc86d9d3f41719da72c2877bcafc3504ea&width=414"
+export const nameStoreLogo = "Mi Empresa"
 export const inicioNavbar = "Inicio"
 export const productosNavbar = "Productos"
 export const mediaNavbar = "Publicaciones"
@@ -23,11 +23,11 @@ export const activeproductosNavbar = true
 export const activemediaNavbar = true
 export const activenosotrosNavbar = true
 export const activecarritoNavbar = true
-export const activeusuarioNavbar = true
+export const activeusuarioNavbar = false
 
 // configuración de colores del navbar
-export const colorNavbar = "bg-white-900"
-export const colorNameStoreLogo = "text-green-900"
+export const colorNavbar = "bg-white"
+export const colorNameStoreLogo = "text-blue-900"
 export const colorLinkNavbar = "text-gray-600"
 export const colorLinkNavbarHover = " hover:text-green-600"
 

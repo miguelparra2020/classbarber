@@ -3,33 +3,79 @@ import MainLayout from '../../layout/MainLayout.astro';
 import SesionLayout from '../../layout/SesionLayout.astro';
 import IntroSelect1 from '../../modules/1-Inicio/1-intros/1-intro1.astro';
 import IntroSelect2 from '../../modules/1-Inicio/1-intros/2-intro2.astro';
+import IntroSelect3 from '../../modules/1-Inicio/1-intros/3-intro3.astro';
+import IntroSelect4 from '../../modules/1-Inicio/1-intros/4-intro4.astro';
+import IntroSelect5 from '../../modules/1-Inicio/1-intros/5-intro5.astro';
+import IntroSelect6 from '../../modules/1-Inicio/1-intros/6-intro6.astro';
+import IntroSelect7 from '../../modules/1-Inicio/1-intros/7-intro7.astro';
+import IntroSelect8 from '../../modules/1-Inicio/1-intros/8-intro8.astro';
+import IntroSelect9 from '../../modules/1-Inicio/1-intros/9-intro9.astro';
+import IntroSelect10 from '../../modules/1-Inicio/1-intros/10-intro10.astro';
 const intro1 = true
 const intro2 = false
+const intro3 = false
+const intro4 = false
+const intro5 = false
+const intro6 = false
+const intro7 = false
+const intro8 = false
+const intro9 = false
+const intro10 = false
+// Color de fondo de la sesión Introducción
+const colorIntro = "#fff";
 ---
 
 <MainLayout>
 	<!-- Intros estaticas -->
 	{intro1 && 
-	<SesionLayout>
+	<SesionLayout backgroundColor={colorIntro}>
 		<IntroSelect1/>
 	</SesionLayout>
 	}
 	{intro2 && 
-	<SesionLayout>
+	<SesionLayout backgroundColor={colorIntro}>
 		<IntroSelect2/>
 	</SesionLayout>
 	}
-	<!-- Intros estaticas -->
-
+	{intro3 && 
+	<SesionLayout backgroundColor={colorIntro}>
+		<IntroSelect3/>
+	</SesionLayout>
+	}
+	{intro4 && 
+	<SesionLayout backgroundColor={colorIntro}>
+		<IntroSelect4/>
+	</SesionLayout>
+	}
+	{intro5 && 
+	<SesionLayout backgroundColor={colorIntro}>
+		<IntroSelect5/>
+	</SesionLayout>
+	}
+	{intro6 && 
+	<SesionLayout backgroundColor={colorIntro}>
+		<IntroSelect6/>
+	</SesionLayout>
+	}
+	{intro7 && 
+	<SesionLayout backgroundColor={colorIntro}>
+		<IntroSelect7/>
+	</SesionLayout>
+	}
+	{intro8 && 
+	<SesionLayout backgroundColor={colorIntro}>
+		<IntroSelect8/>
+	</SesionLayout>
+	}
+	{intro9 && 
+	<SesionLayout backgroundColor={colorIntro}>
+		<IntroSelect9/>
+	</SesionLayout>
+	}
+	{intro10 && 
+	<SesionLayout backgroundColor={colorIntro}>
+		<IntroSelect10/>
+	</SesionLayout>
+	}
 	
-	<SesionLayout>
-		<div>
-			Hola 2
-		</div>
-	</SesionLayout>
-	<SesionLayout>
-		<div>
-			Hola 3
-		</div>
-	</SesionLayout>
 </MainLayout>

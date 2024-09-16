@@ -1,6 +1,14 @@
-<div style="width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column">
-    <div style="width: 100%; height: 12vh; background-color: white"></div>
-    <div style="width: 100%; height: 88vh">
-        <slot/>
-    </div>
+---
+interface Props {
+  backgroundColor: string;
+}
+
+const { backgroundColor } = Astro.props;
+---
+
+<div style={`background-color: ${backgroundColor}; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column`}>
+  <div style="width: 100%; height: 12vh"></div>
+  <div style="width: 100%; height: 88vh">
+    <slot />
+  </div>
 </div>

@@ -1,7 +1,84 @@
 ---
 import MainLayout from '../../layout/MainLayout.astro';
+import SesionLayout from '../../layout/SesionLayout.astro';
+import NosotrosSelect1 from '../../modules/4-Nosotros/1-nosotros1.astro';
+import NosotrosSelect2 from '../../modules/4-Nosotros/2-nosotros2.astro';
+import NosotrosSelect3 from '../../modules/4-Nosotros/3-nosotros3.astro';
+import NosotrosSelect4 from '../../modules/4-Nosotros/4-nosotros4.astro';
+import NosotrosSelect5 from '../../modules/4-Nosotros/5-nosotros5.astro';
+import NosotrosSelect6 from '../../modules/4-Nosotros/6-nosotros6.astro';
+import NosotrosSelect7 from '../../modules/4-Nosotros/7-nosotros7.astro';
+import NosotrosSelect8 from '../../modules/4-Nosotros/8-nosotros8.astro';
+import NosotrosSelect9 from '../../modules/4-Nosotros/9-nosotros9.astro';
+import NosotrosSelect10 from '../../modules/4-Nosotros/10-nosotros10.astro';
+// Nosotros estatica cual estará activo
+const nosotrosMision1 = true
+const nosotrosMision2 = false
+const nosotrosMision3 = false
+const nosotrosMision4 = false
+const nosotrosMision5 = false
+const nosotrosMision6 = false
+const nosotrosMision7 = false
+const nosotrosMision8 = false
+const nosotrosMision9 = false
+const nosotrosMision10 = false	
+
+// Color de fondo de la sesión misión
+const backgroundColorMisionSesion = "blue";
+
 ---
 
 <MainLayout>
-	Soy Nosotros
+	<!-- Nosotros estaticas -->
+	{nosotrosMision1 && 
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect1/>
+		</SesionLayout>
+		}
+	{nosotrosMision2 && 
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect2/>
+		</SesionLayout>
+		}
+	{nosotrosMision3 && 
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect3/>
+		</SesionLayout>
+		}
+	{nosotrosMision4 && 
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect4/>
+		</SesionLayout>
+		}
+	{nosotrosMision5 && 
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect5/>
+		</SesionLayout>
+		}
+	{nosotrosMision6 && 
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect6/>
+		</SesionLayout>
+		}
+	{nosotrosMision7 &&
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect7/>
+		</SesionLayout>
+		}
+	{nosotrosMision8 &&
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect8/>
+		</SesionLayout>
+		}
+	{nosotrosMision9 &&
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect9/>
+		</SesionLayout>
+		}
+	{nosotrosMision10 &&
+		<SesionLayout backgroundColor={backgroundColorMisionSesion}>
+			<NosotrosSelect10/>
+		</SesionLayout>
+		}
+	<!-- Nosotros estaticas -->
 </MainLayout>
