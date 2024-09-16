@@ -39,9 +39,4 @@ export const colorIconMenuMobile = "text-gray-600"
 
 // 
 
-//Seleccion de navbar unico estilo
-import Navbar from "../7-General/1-navbars/1-navbar.jsx"
-const NavbarSelect = () => {return <Navbar/>}
-export default NavbarSelect
-
 

@@ -35,7 +35,7 @@ import {
   colorLinksCard,
   colorIconMenuMobile
 
-} from '../../0-Cliente-Configuracion/7-general-1-navbar-config';
+} from '../../0-Cliente-Configuracion/7-general-config/7-general-1-navbar-config.jsx';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
