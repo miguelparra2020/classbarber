@@ -1,13 +1,21 @@
 ---
 import MainLayout from '../../layout/MainLayout.astro';
 import SesionLayout from '../../layout/SesionLayout.astro';
-import IntroSelect from '../../modules/1-Inicio/1-intros/1-intro1.astro';
+import IntroSelect1 from '../../modules/1-Inicio/1-intros/1-intro1.astro';
+const intro1 = true
+const intro2 = false
 ---
 
 <MainLayout>
+	<!-- Intros estaticas -->
+	{intro1 && 
 	<SesionLayout>
-		<IntroSelect/>
+		<IntroSelect1/>
 	</SesionLayout>
+	}
+	<!-- Intros estaticas -->
+
+	
 	<SesionLayout>
 		<div>
 			Hola 2

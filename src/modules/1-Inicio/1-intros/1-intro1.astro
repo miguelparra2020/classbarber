@@ -1,6 +1,14 @@
 ---
 import Picture from "astro/components/Picture.astro";
-import myImage from "../../../assets/foto_Empresa.jpg";
+import Link from "../../../components/ui/link.astro";
+import {
+  titleIntro,
+  textIntro,
+  colorTitleIntro,
+  colorTextIntro,
+  urlImagenIntro,
+  buttonVerMasActive
+  } from '../../../modules/0-Cliente-Configuracion/1-intros-config/1-intros-intro1-config.jsx'
 ---
 
 <style>
@@ -52,21 +60,27 @@ import myImage from "../../../assets/foto_Empresa.jpg";
 
 <div class="session1">
   <div class="textos_contenedor">
-    <div class="text-green-900 text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter">
-      Mi empresa
+    <div class={`${colorTitleIntro} text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter`}>
+      {titleIntro}
     </div>
-    <div class="text-lg mt-4 text-slate-600 max-w-xl">
-      es una marca de ropa innovadora que ofrece prendas de alta calidad, fusionando estilo, comodidad y sostenibilidad.
-      Fundada en 2005, nos enfocamos en moda responsable utilizando materiales eco-amigables y procesos éticos.
-      Creamos colecciones versátiles que van desde lo casual hasta lo elegante,
-      con un diseño detallado que garantiza durabilidad y confort.
+    <div class={`${colorTextIntro} text-lg mt-4 text-slate-600 max-w-xl `}>
+      {textIntro}
+    </div>
+    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+      {buttonVerMasActive && <Link
+        href="/4-Nosotros"
+        class="flex gap-1 items-center justify-center"
+        rel="noopener">
+
+         Ver más...
+      </Link> }
     </div>
   </div>
 
   <div class="imagen_contenedor">
     <div style="width: 90%;">
     <Picture
-        src={myImage}
+        src={urlImagenIntro}
         alt="Astronaut in the air"
         widths={[200, 400, 600]}
         sizes="(max-width: 600px) 100vw, 620px"
