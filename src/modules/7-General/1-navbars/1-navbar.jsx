@@ -32,7 +32,8 @@ import {
   colorLinkNavbarHover,
   colorEntorno,
   colorCard,
-  colorLinksCard
+  colorLinksCard,
+  colorIconMenuMobile
 
 } from '../../0-Cliente-Configuracion/7-general-1-navbar-config';
 
@@ -75,11 +76,13 @@ const Navbar = () => {
             {nameStoreLogo}</a>
         </>}       
 
-        {/* Hamburger Menu (visible solo en móviles) */}
-        <button
-          className="lg:hidden text-gray-300 hover:text-white focus:outline-none"
+         {/* Hamburger Menu (visible solo en móviles) */}
+         <button
+          className={`lg:hidden flex items-center ${colorIconMenuMobile} p-2`}
+          aria-label="Abrir menú de navegación"
           onClick={toggleMenu}
         >
+          <span className="sr-only">Menú</span>
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
           </svg>
@@ -115,7 +118,7 @@ const Navbar = () => {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className={`absolute top-4 right-4 ${colorLinksCard} hover:text-white `}
+                className={`absolute top-4 right-4 ${colorIconMenuMobile} `}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>

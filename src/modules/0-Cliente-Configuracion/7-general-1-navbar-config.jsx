@@ -35,6 +35,7 @@ export const colorLinkNavbarHover = " hover:text-blue-400"
 export const colorEntorno = "bg-gray-300"
 export const colorCard = " bg-gray-800"
 export const colorLinksCard= "text-gray-300"
+export const colorIconMenuMobile = "text-gray-600"
 
 // 
 
