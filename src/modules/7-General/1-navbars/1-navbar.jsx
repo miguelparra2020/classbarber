@@ -4,6 +4,7 @@ import IconUser from '../../../components/icons/userIcon';
 import {fontFamilySelect} from '../../0-Cliente-Configuracion/0-fonFamily-config'
 import { Transition, Dialog } from '@headlessui/react';
 import {
+  logoUrl,
   nameStoreLogo, 
   inicioNavbar, 
   productosNavbar, 
@@ -69,7 +70,7 @@ const Navbar = () => {
         {/* Logo */}
         {activenameStoreLogo && <>
           <a href={linknameStoreLogo} className={`${colorNameStoreLogo} text-xl font-bold flex items-center`}>
-            <img src="https://i.ibb.co/0m2dXKf/logo.png" alt="" width={40} height={40}/>
+            <img src={logoUrl} alt="" width={40} height={40}/>
             &nbsp; &nbsp;
             {nameStoreLogo}</a>
         </>}       

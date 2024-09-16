@@ -1,4 +1,5 @@
 //Configuración del navbar
+export const logoUrl = "https://i.ibb.co/0m2dXKf/logo.png"
 export const nameStoreLogo = "Mi Empresa"
 export const inicioNavbar = "Inicio"
 export const productosNavbar = "Productos"
@@ -34,6 +35,8 @@ export const colorLinkNavbarHover = " hover:text-blue-400"
 export const colorEntorno = "bg-gray-300"
 export const colorCard = " bg-gray-800"
 export const colorLinksCard= "text-gray-300"
+
+// 
 
 //Seleccion de navbar unico estilo
 import Navbar from "../7-General/1-navbars/1-navbar.jsx"
