@@ -23,6 +23,10 @@ const intro9 = false
 const intro10 = false
 // Color de fondo de la sesión Introducción
 const colorIntro = "#fff";
+
+import CategoSelect1 from '../../modules/1-Inicio/2-categories/1-categories1.astro';
+
+const colorCatego = "#e2e2e2";
 ---
 
 <MainLayout>
@@ -77,5 +81,12 @@ const colorIntro = "#fff";
 		<IntroSelect10/>
 	</SesionLayout>
 	}
+	<!-- Intros dinamicas -->
+	<!-- Categorias Dinamicas -->
+	<SesionLayout backgroundColor={colorCatego}>
+		<CategoSelect1/>
+	</SesionLayout>
+	
+
 	
 </MainLayout>
