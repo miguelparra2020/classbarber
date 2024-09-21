@@ -22,11 +22,30 @@ const intro8 = false
 const intro9 = false
 const intro10 = false
 // Color de fondo de la sesión Introducción
-const colorIntro = "#fff";
+const colorIntro = "";
 
 import CategoSelect1 from '../../modules/1-Inicio/2-categories/1-categories1.astro';
-
-const colorCatego = "#e2e2e2";
+import CategoSelect2 from '../../modules/1-Inicio/2-categories/2-categories2.astro';
+import CategoSelect3 from '../../modules/1-Inicio/2-categories/3-categories3.astro';
+import CategoSelect4 from '../../modules/1-Inicio/2-categories/4-categories4.astro';
+import CategoSelect5 from '../../modules/1-Inicio/2-categories/5-categories5.astro';
+import CategoSelect6 from '../../modules/1-Inicio/2-categories/6-categories6.astro';
+import CategoSelect7 from '../../modules/1-Inicio/2-categories/7-categories7.astro';
+import CategoSelect8 from '../../modules/1-Inicio/2-categories/8-categories8.astro';
+import CategoSelect9 from '../../modules/1-Inicio/2-categories/9-categories9.astro';
+import CategoSelect10 from '../../modules/1-Inicio/2-categories/10-categories10.astro';
+const catego1 = false
+const catego2 = false
+const catego3 = false
+const catego4 = false
+const catego5 = false
+const catego6 = false
+const catego7 = false
+const catego8 = false
+const catego9 = false
+const catego10 = false
+// Color de fondo de la sesión Categorias
+const colorCatego = "#f9f9f9";
 ---
 
 <MainLayout>
@@ -83,10 +102,54 @@ const colorCatego = "#e2e2e2";
 	}
 	<!-- Intros dinamicas -->
 	<!-- Categorias Dinamicas -->
-	<SesionLayout backgroundColor={colorCatego}>
-		<CategoSelect1/>
-	</SesionLayout>
-	
-
-	
+	 {catego1 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect1/>
+		</SesionLayout>
+	}
+	{catego2 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect2/>
+		</SesionLayout>
+	}
+	{catego3 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect3/>
+		</SesionLayout>
+	}
+	{catego4 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect4/>
+		</SesionLayout>
+	}
+	{catego5 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect5/>
+		</SesionLayout>
+	}
+	{catego6 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect6/>
+		</SesionLayout>
+	}
+	{catego7 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect7/>
+		</SesionLayout>
+	}
+	{catego8 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect8/>
+		</SesionLayout>
+	}
+	{catego9 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect9/>
+		</SesionLayout>
+	}
+	{catego10 && 
+		<SesionLayout backgroundColor={colorCatego}>
+			<CategoSelect10/>
+		</SesionLayout>
+	}
 </MainLayout>

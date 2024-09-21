@@ -1,8 +1,115 @@
 ---
-
+const categories = [
+  {
+    title: "Ropa de hombre",
+    description: "Comodidad y exclusividad",
+    imageUrl: "https://audaces.com/wp-content/uploads/2022/03/estilos-de-moda.webp",
+    link: "#",
+  }
+];
 ---
 
-<div>
-    <div>titulo 1 </div>
-    <div>Categorias 1</div>
+<style>
+  .contenedor_categories {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .titulo_categories {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center; 
+    color: #333; /* Color elegante y neutro */
+  }
+
+  .descripcion_categories {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* Contenedor con scroll horizontal */
+  .cards {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Desplazamiento horizontal */
+    padding: 20px 0;
+    max-width: 100%; /* Asegura que el contenedor no sobrepase el ancho de la pantalla */
+    white-space: nowrap; /* Evitar que las tarjetas se quiebren a la siguiente línea */
+  }
+
+  .cards::-webkit-scrollbar {
+    display: none; /* Ocultar la barra de scroll en navegadores compatibles */
+  }
+
+  .card {
+    display: inline-block;
+    width: 300px; /* Limitar el ancho de las tarjetas */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    white-space: normal; /* Permitir que el contenido dentro de la tarjeta se ajuste */
+  }
+
+  .card img {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .card .p-5 {
+    padding: 20px;
+  }
+
+  .card .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .card .description {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  /* Añadir un max-width para el contenedor */
+  .container-scroll {
+    max-width: 1200px; /* Este valor controla cuántas tarjetas se mostrarán simultáneamente */
+    width: 100%;
+    overflow: hidden;
+  }
+</style>
+
+<div class="contenedor_categories">
+  <div class="titulo_categories">Colección Exclusiva</div>
+  <div class="descripcion_categories">
+    Descubre nuestras categorías cuidadosamente seleccionadas, donde la moda y la exclusividad se unen en cada prenda. Diseños únicos para quienes buscan marcar tendencia con estilo y elegancia.
+  </div>
+
+  <div class="container-scroll">
+    <div class="cards">
+      {categories.map((category) => (
+        <div class="card">
+          <a href={category.link}>
+            <img src={category.imageUrl} alt={category.title} />
+          </a>
+          <div class="p-5">
+            <a href={category.link}>
+              <h5 class="title">{category.title}</h5>
+            </a>
+            <p class="description">{category.description}</p>
+            <a href={category.link} class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              Ver más
+              <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
 </div>

@@ -1,6 +1,6 @@
 //Configuración del navbar
 export const logoUrl = "https://imagenes.elpais.com/resizer/v2/Y3W6QUFBBZLLTALRW6NBRPZ2RA.jpg?auth=d68f18251117888479d8fdc3210796bc86d9d3f41719da72c2877bcafc3504ea&width=414"
-export const nameStoreLogo = "Mi Empresa"
+export const nameStoreLogo = "Mi Tienda"
 export const inicioNavbar = "Inicio"
 export const productosNavbar = "Productos"
 export const mediaNavbar = "Publicaciones"
@@ -14,7 +14,7 @@ export const linkproductosNavbar = "/2-Productos"
 export const linkmediaNavbar = "/3-Media"
 export const linknosotrosNavbar = "/4-Nosotros"
 export const linkcarritoNavbar = "/5-Carrito"
-export const linkusuarioNavbar = "/6-Usuario"
+export const linkusuarioNavbar = "/6-Usuario" 
 //Configuración del navbar Activos  
 //Configuración del navbar Links
 export const activenameStoreLogo = true //Default
