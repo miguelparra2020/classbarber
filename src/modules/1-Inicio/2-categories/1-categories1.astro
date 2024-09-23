@@ -5,6 +5,12 @@ const categories = [
     description: "Comodidad y exclusividad",
     imageUrl: "https://audaces.com/wp-content/uploads/2022/03/estilos-de-moda.webp",
     link: "#",
+  },
+  {
+    title: "Ropa de hombre",
+    description: "Comodidad y exclusividad",
+    imageUrl: "https://audaces.com/wp-content/uploads/2022/03/estilos-de-moda.webp",
+    link: "#",
   }
 ];
 ---
@@ -35,6 +41,9 @@ const categories = [
   /* Contenedor con scroll horizontal */
   .cards {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
     overflow-x: auto; /* Desplazamiento horizontal */
     padding: 20px 0;
@@ -48,11 +57,11 @@ const categories = [
 
   .card {
     display: inline-block;
-    width: 300px; /* Limitar el ancho de las tarjetas */
+    width: 300px; 
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    white-space: normal; /* Permitir que el contenido dentro de la tarjeta se ajuste */
+    white-space: normal; 
   }
 
   .card img {
@@ -77,7 +86,7 @@ const categories = [
 
   /* Añadir un max-width para el contenedor */
   .container-scroll {
-    max-width: 1200px; /* Este valor controla cuántas tarjetas se mostrarán simultáneamente */
+    max-width: 1200px; 
     width: 100%;
     overflow: hidden;
   }
