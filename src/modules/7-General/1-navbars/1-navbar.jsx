@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import IconCarrito from '../../../components/icons/carritoIcon';
 import IconUser from '../../../components/icons/userIcon';
-import {fontFamilySelect} from '../../../config/0-Cliente-Configuracion/configuracion';
 import { Transition, Dialog } from '@headlessui/react';
 import {
   logoUrl,
@@ -64,7 +63,7 @@ const Navbar = () => {
 
   return (
     <nav 
-      className={`${fontFamilySelect} ${colorNavbar} p-4 fixed top-0 left-0 w-full z-50 transition-shadow duration-300 
+      className={` ${colorNavbar} p-4 fixed top-0 left-0 w-full z-50 transition-shadow duration-300 
         ${isScrolled ? 'shadow-lg' : 'shadow-sm'}`}
     >
       <div className="container mx-auto flex justify-between items-center">
