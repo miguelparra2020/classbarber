@@ -5,7 +5,15 @@ export default {
     "./public/**/*.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        customColor1: '#060606',
+        customColor2: '#292c30',
+        customColor3: '#535a61',
+        customColor4: '#889496',
+        customColor5: '#c3d0d5',
+      },
+    },
   },
   plugins: [],
 }
