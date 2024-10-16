@@ -69,8 +69,8 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         {activenameStoreLogo && <>
-          <a href={linknameStoreLogo} className={`${colorNameStoreLogo} text-xl font-bold flex items-center`}>
-            <img src={logoUrl} alt="" width={40} height={40}/>
+          <a href={linknameStoreLogo} className={`${colorNameStoreLogo}  text-xl font-bold flex items-center`}>
+            <img src={logoUrl} alt="" width={40} height={40} style={{borderRadius: '50%'}} className='shadow-lg'/>
             &nbsp; &nbsp;
             {nameStoreLogo}</a>
         </>}       
