@@ -1,0 +1,23 @@
+---
+import Facebook from '../icons/Facebook.astro';
+import GitHub from '../icons/GitHub.astro';
+import Instagram from '../icons/Instagram.astro';
+import LinkedIn from '../icons/LinkedIn.astro';
+import Tiktok from '../icons/TikTok.astro';
+import XTwitter from '../icons/XTwitter.astro';
+
+const iconMap: { [key: string]: any } = {
+    facebook: Facebook,
+    github: GitHub,
+    instagram: Instagram,
+    linkedin: LinkedIn,
+    tiktok: Tiktok,
+    'x-twitter': XTwitter
+};
+
+const { icon, class: className } = Astro.props;
+
+const IconComponent = icon ? iconMap[icon] : null;
+---
+
+{IconComponent && <IconComponent class={className} />}
