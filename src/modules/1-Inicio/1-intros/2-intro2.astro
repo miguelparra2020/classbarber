@@ -1,5 +1,28 @@
 ---
-
+import SocialLink from '../../../components/ui/SocialLink.astro';
+const socialLinks = [
+        {
+            text: 'Go to GitHub repo',
+            href: 'https://github.com/JustGoodUI/ovidius-astro-theme',
+            icon: 'facebook'
+        },
+        {
+            text: 'Follow on Instagram',
+            href: 'https://instagram.com/',
+            icon: 'instagram'
+        },
+        {
+            text: 'Follow on X',
+            href: 'https://twitter.com/justgoodui',
+            icon: 'x-twitter'
+        },
+        {
+            text: 'Follow on Instagram',
+            href: 'https://instagram.com/',
+            icon: 'tiktok'
+        }
+        
+    ]
 ---
 
 <style>
@@ -26,13 +49,13 @@
               cejas, barba y más, brindamos una atención personalizada que asegura cada detalle. 
               Ven y vive un servicio clásico diseñado para ti."</p>
         )}
-        <!-- {socialLinks.length > 0 && (
-            <div class:list={['flex flex-wrap gap-x-4 gap-y-3 justify-center', { 'mt-7': hero?.avatar?.src || hero?.title || hero?.text }]}>
-                {(siteConfig.socialLinks || []).map((link) => (
-                    <SocialLink {...link} class="bg-white text-slate-700 hover:bg-primary hover:text-white hover:shadow-button" />
+        {socialLinks.length > 0 && (
+            <div class:list={['flex flex-wrap gap-x-4 gap-y-3 justify-center mt-7']}>
+                {(socialLinks || []).map((link) => (
+                    <SocialLink {...link} class="bg-customColor5 text-slate-700 hover:bg-primary hover:text-white hover:shadow-button" />
                 ))}
             </div>
-        )}  -->
+        )} 
     </div>
 </section>
 </div>
