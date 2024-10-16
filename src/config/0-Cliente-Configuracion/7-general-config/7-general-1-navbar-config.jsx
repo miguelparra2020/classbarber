@@ -1,5 +1,5 @@
 //Configuración del navbar
-export const logoUrl = "https://imagenes.elpais.com/resizer/v2/Y3W6QUFBBZLLTALRW6NBRPZ2RA.jpg?auth=d68f18251117888479d8fdc3210796bc86d9d3f41719da72c2877bcafc3504ea&width=414"
+export const logoUrl = "./logo.png"
 export const nameStoreLogo = "Class Barber"
 export const inicioNavbar = "Inicio"
 export const productosNavbar = "Productos"
@@ -26,7 +26,7 @@ export const activecarritoNavbar = true
 export const activeusuarioNavbar = false
 
 // configuración de colores del navbar https://tailwindcss.com/docs/background-color
-export const colorNavbar = "bg-customColor5"
+export const colorNavbar = "bg-customColor6"
 export const colorNameStoreLogo = "text-customColor1"
 export const colorLinkNavbar = "text-text-customColor2"
 export const colorLinkNavbarHover = " hover:text-customColor3"
