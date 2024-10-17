@@ -1,21 +1,20 @@
 ---
 import SocialLink from '../../../components/ui/SocialLink.astro';
 import {
-  titleIntro,
-  textIntro,
-  socialLinks,
-  colorTitleIntro,
-  colorTextIntro,
-  colorSocialIconBg,
-  colorSocialIconText,
-  colorSocialIconHoverBg,
-  colorSocialIconHoverText
+    urlImagenIntro,
+    imgProperties,
+    titleIntro,
+    textIntro,
+    socialLinks,
+    colorTitleIntro,
+    colorTextIntro,
+    colorSocialIconBg,
+    colorSocialIconText,
+    colorSocialIconHoverBg,
+    colorSocialIconHoverText,
+    cardProperties
 } from '../../../config/0-Cliente-Configuracion/1-intros-config/2-intros-intro2-config.jsx';
 ---
-
-<style>
-  /* Aquí puedes agregar estilos adicionales si es necesario */
-</style>
 
 <div>
   <section class="px-4 py-12 relative sm:px-8 sm:py-16">
@@ -23,22 +22,25 @@ import {
         { (
             <div class="p-4">
                 <img
-                    src={"./logo.png"}
-                    alt={"Logotipo de la empresa"}
-                    class="w-32 aspect-square object-cover rounded-full border-2 border-customColor4 shadow-2xl"
+                    src={urlImagenIntro}
+                    alt={"Logotipo de la empresa o imagen representativa"}
+                    class={imgProperties}
                 />
             </div>
         )}
-        <div class="bg-black p-4 md:px-10 md:py-10 mt-5 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center shadow-2xl">
-         <h1 class={`${colorTitleIntro} font-bold`}>{titleIntro}</h1>
-         <p class={`${colorTextIntro} mt-4`}>{textIntro}</p>
+        <div class={cardProperties ? cardProperties : ''}>
+         <h1 class={`${colorTitleIntro ? colorTitleIntro : ''} font-bold`}>{titleIntro ? titleIntro : ''}</h1>
+         <p class={`${colorTextIntro ? colorTextIntro : ''} mt-4`}>{textIntro ? textIntro : ''}</p>
 
          {socialLinks.length > 0 && (
             <div class="flex flex-wrap gap-x-4 gap-y-3 justify-center mt-4">
                 {(socialLinks || []).map((link) => (
                     <SocialLink
                       {...link}
-                      class={`${colorSocialIconBg} ${colorSocialIconText} ${colorSocialIconHoverBg} ${colorSocialIconHoverText} shadow-button`}
+                      class={`${colorSocialIconBg ? colorSocialIconBg : ''} 
+                      ${colorSocialIconText ? colorSocialIconText : ''} 
+                      ${colorSocialIconHoverBg ? colorSocialIconHoverBg : ''} 
+                      ${colorSocialIconHoverText ? colorSocialIconHoverText : ''} shadow-button`}
                     />
                 ))}
             </div>
