@@ -33,7 +33,7 @@ const socialLinks = [
   <section class="px-4 py-12 relative sm:px-8 sm:py-16">
     <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center">
         { (
-            <div class="p-6">
+            <div class="p-4">
                 <img
                     src={"./logo.png"}
                     alt={"Logotipo de la empresa"}
@@ -41,21 +41,23 @@ const socialLinks = [
                 />
             </div>
         )}
-         { <h1 class:list={['text-4xl font-bold text-slate-900 sm:text-5xl']}>Class Barber</h1>}
+        <div  class="bg-black p-4 md:px-10 md:py-10 mt-5 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center shadow-2xl">
+         { <h1 class:list={['text-4xl font-bold text-customColor6 sm:text-5xl']}>Class Barber</h1>}
         {(
-            <p class:list={['text-slate-700 sm:text-lg mt-6']}>
+            <p class:list={['text-customColor5 sm:text-lg mt-4']}>
               "No es solo una barbería, es una experiencia exclusiva para el caballero moderno 
               que busca calidad y estilo en un ambiente elegante. Ofrecemos servicios de cortes de cabello, 
               cejas, barba y más, brindamos una atención personalizada que asegura cada detalle. 
               Ven y vive un servicio clásico diseñado para ti."</p>
         )}
         {socialLinks.length > 0 && (
-            <div class:list={['flex flex-wrap gap-x-4 gap-y-3 justify-center mt-7']}>
+            <div class:list={['flex flex-wrap gap-x-4 gap-y-3 justify-center mt-4 ']}>
                 {(socialLinks || []).map((link) => (
-                    <SocialLink {...link} class="bg-customColor5 text-slate-700 hover:bg-primary hover:text-white hover:shadow-button" />
+                    <SocialLink {...link} class="bg-customColor6 text-slate-700 hover:bg-primary hover:text-customColor4 hover:shadow-button" />
                 ))}
             </div>
         )} 
+        </div>
     </div>
 </section>
 </div>
