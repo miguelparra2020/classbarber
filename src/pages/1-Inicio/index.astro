@@ -1,6 +1,17 @@
 ---
 import MainLayout from '../../layout/MainLayout.astro';
 import SesionLayout from '../../layout/SesionLayout.astro';
+
+// configuración del inicio
+// ¿Tiene intro?
+const intro = true
+// ¿Tiene categorias?
+const categories = false
+// ¿Tiene Servicios?
+const services = true
+// ¿Tiene Personal a escoger?
+const personalChooser = true
+
 import IntroSelect1 from '../../modules/1-Inicio/1-intros/1-intro1.astro';
 import IntroSelect2 from '../../modules/1-Inicio/1-intros/2-intro2.astro';
 import IntroSelect3 from '../../modules/1-Inicio/1-intros/3-intro3.astro';
@@ -46,110 +57,200 @@ const catego9 = false
 const catego10 = false
 // Color de fondo de la sesión Categorias
 const colorCatego = "#f2f7f9";
+
+import ServiSelect1 from '../../modules/1-Inicio/3-servicios/1-servicios1.astro';
+import ServiSelect2 from '../../modules/1-Inicio/3-servicios/2-servicios2.astro';
+import ServiSelect3 from '../../modules/1-Inicio/3-servicios/3-servicios3.astro';
+import ServiSelect4 from '../../modules/1-Inicio/3-servicios/4-servicios4.astro';
+import ServiSelect5 from '../../modules/1-Inicio/3-servicios/5-servicios5.astro';
+import ServiSelect6 from '../../modules/1-Inicio/3-servicios/6-servicios6.astro';
+import ServiSelect7 from '../../modules/1-Inicio/3-servicios/7-servicios7.astro';
+import ServiSelect8 from '../../modules/1-Inicio/3-servicios/8-servicios8.astro';
+import ServiSelect9 from '../../modules/1-Inicio/3-servicios/9-servicios9.astro';
+import ServiSelect10 from '../../modules/1-Inicio/3-servicios/10-servicios10.astro';
+const servi1 = true
+const servi2 = false
+const servi3 = false
+const servi4 = false
+const servi5 = false
+const servi6 = false
+const servi7 = false
+const servi8 = false
+const servi9 = false
+const servi10 = false
+// Color de fondo de la sesión Servicios
+const colorServi = "#f2f7f9";
 ---
 
 <MainLayout>
 	<!-- Intros estaticas -->
-	{intro1 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect1/>
-	</SesionLayout>
-	}
-	{intro2 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect2/>
-	</SesionLayout>
-	}
-	{intro3 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect3/>
-	</SesionLayout>
-	}
-	{intro4 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect4/>
-	</SesionLayout>
-	}
-	{intro5 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect5/>
-	</SesionLayout>
-	}
-	{intro6 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect6/>
-	</SesionLayout>
-	}
-	{intro7 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect7/>
-	</SesionLayout>
-	}
-	{intro8 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect8/>
-	</SesionLayout>
-	}
-	{intro9 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect9/>
-	</SesionLayout>
-	}
-	{intro10 && 
-	<SesionLayout backgroundColor={colorIntro}>
-		<IntroSelect10/>
-	</SesionLayout>
-	}
+	 {intro && 
+	 <div>
+		{intro1 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect1/>
+		</SesionLayout>
+		}
+		{intro2 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect2/>
+		</SesionLayout>
+		}
+		{intro3 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect3/>
+		</SesionLayout>
+		}
+		{intro4 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect4/>
+		</SesionLayout>
+		}
+		{intro5 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect5/>
+		</SesionLayout>
+		}
+		{intro6 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect6/>
+		</SesionLayout>
+		}
+		{intro7 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect7/>
+		</SesionLayout>
+		}
+		{intro8 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect8/>
+		</SesionLayout>
+		}
+		{intro9 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect9/>
+		</SesionLayout>
+		}
+		{intro10 && 
+		<SesionLayout backgroundColor={colorIntro}>
+			<IntroSelect10/>
+		</SesionLayout>
+		}
+	 </div>}	
 	<!-- Intros dinamicas -->
+
 	<!-- Categorias Dinamicas -->
-	 {catego1 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect1/>
-		</SesionLayout>
+	{categories && 
+	<div>
+		{catego1 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect1/>
+			</SesionLayout>
+		}
+		{catego2 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect2/>
+			</SesionLayout>
+		}
+		{catego3 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect3/>
+			</SesionLayout>
+		}
+		{catego4 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect4/>
+			</SesionLayout>
+		}
+		{catego5 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect5/>
+			</SesionLayout>
+		}
+		{catego6 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect6/>
+			</SesionLayout>
+		}
+		{catego7 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect7/>
+			</SesionLayout>
+		}
+		{catego8 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect8/>
+			</SesionLayout>
+		}
+		{catego9 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect9/>
+			</SesionLayout>
+		}
+		{catego10 && 
+			<SesionLayout backgroundColor={colorCatego}>
+				<CategoSelect10/>
+			</SesionLayout>
+		}
+
+	</div>}
+	<!-- Categorias Dinamicas -->
+
+	<!-- Servicios Dinamicas -->
+	{services &&
+	<div>	
+		{servi1 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect1/>
+			</SesionLayout>
+		}
+		{servi2 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect2/>
+			</SesionLayout>
+		}
+		{servi3 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect3/>
+			</SesionLayout>
+		}
+		{servi4 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect4/>
+			</SesionLayout>
+		}
+		{servi5 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect5/>
+			</SesionLayout>
+		}
+		{servi6 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect6/>
+			</SesionLayout>
+		}
+		{servi7 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect7/>
+			</SesionLayout>
+		}
+		{servi8 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect8/>
+			</SesionLayout>
+		}
+		{servi9 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect9/>
+			</SesionLayout>
+		}
+		{servi10 && 
+			<SesionLayout backgroundColor={colorServi}>
+				<ServiSelect10/>
+			</SesionLayout>
+		}
+	</div>
 	}
-	{catego2 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect2/>
-		</SesionLayout>
-	}
-	{catego3 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect3/>
-		</SesionLayout>
-	}
-	{catego4 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect4/>
-		</SesionLayout>
-	}
-	{catego5 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect5/>
-		</SesionLayout>
-	}
-	{catego6 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect6/>
-		</SesionLayout>
-	}
-	{catego7 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect7/>
-		</SesionLayout>
-	}
-	{catego8 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect8/>
-		</SesionLayout>
-	}
-	{catego9 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect9/>
-		</SesionLayout>
-	}
-	{catego10 && 
-		<SesionLayout backgroundColor={colorCatego}>
-			<CategoSelect10/>
-		</SesionLayout>
-	}
+	<!-- Servicios Dinamicas -->
+	 
 </MainLayout>
