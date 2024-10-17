@@ -1,32 +1,20 @@
 ---
 import SocialLink from '../../../components/ui/SocialLink.astro';
-const socialLinks = [
-        {
-            text: 'Go to GitHub repo',
-            href: 'https://github.com/JustGoodUI/ovidius-astro-theme',
-            icon: 'facebook'
-        },
-        {
-            text: 'Follow on Instagram',
-            href: 'https://instagram.com/',
-            icon: 'instagram'
-        },
-        {
-            text: 'Follow on X',
-            href: 'https://twitter.com/justgoodui',
-            icon: 'x-twitter'
-        },
-        {
-            text: 'Follow on Instagram',
-            href: 'https://instagram.com/',
-            icon: 'tiktok'
-        }
-        
-    ]
+import {
+  titleIntro,
+  textIntro,
+  socialLinks,
+  colorTitleIntro,
+  colorTextIntro,
+  colorSocialIconBg,
+  colorSocialIconText,
+  colorSocialIconHoverBg,
+  colorSocialIconHoverText
+} from '../../../config/0-Cliente-Configuracion/1-intros-config/2-intros-intro2-config.jsx';
 ---
 
 <style>
-  
+  /* Aquí puedes agregar estilos adicionales si es necesario */
 </style>
 
 <div>
@@ -41,23 +29,21 @@ const socialLinks = [
                 />
             </div>
         )}
-        <div  class="bg-black p-4 md:px-10 md:py-10 mt-5 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center shadow-2xl">
-         { <h1 class:list={['text-4xl font-bold text-customColor6 sm:text-5xl']}>Class Barber</h1>}
-        {(
-            <p class:list={['text-customColor5 sm:text-lg mt-4']}>
-              "No es solo una barbería, es una experiencia exclusiva para el caballero moderno 
-              que busca calidad y estilo en un ambiente elegante. Ofrecemos servicios de cortes de cabello, 
-              cejas, barba y más, brindamos una atención personalizada que asegura cada detalle. 
-              Ven y vive un servicio clásico diseñado para ti."</p>
-        )}
-        {socialLinks.length > 0 && (
-            <div class:list={['flex flex-wrap gap-x-4 gap-y-3 justify-center mt-4 ']}>
+        <div class="bg-black p-4 md:px-10 md:py-10 mt-5 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center shadow-2xl">
+         <h1 class={`${colorTitleIntro} font-bold`}>{titleIntro}</h1>
+         <p class={`${colorTextIntro} mt-4`}>{textIntro}</p>
+
+         {socialLinks.length > 0 && (
+            <div class="flex flex-wrap gap-x-4 gap-y-3 justify-center mt-4">
                 {(socialLinks || []).map((link) => (
-                    <SocialLink {...link} class="bg-customColor6 text-slate-700 hover:bg-primary hover:text-customColor4 hover:shadow-button" />
+                    <SocialLink
+                      {...link}
+                      class={`${colorSocialIconBg} ${colorSocialIconText} ${colorSocialIconHoverBg} ${colorSocialIconHoverText} shadow-button`}
+                    />
                 ))}
             </div>
-        )} 
+         )}
         </div>
     </div>
-</section>
+  </section>
 </div>
