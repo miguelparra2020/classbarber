@@ -10,7 +10,7 @@ const categories = false
 // ¿Tiene Servicios?
 const services = true
 // ¿Tiene Personal a escoger?
-const personalChooser = true
+const personal= true
 
 import IntroSelect1 from '../../modules/1-Inicio/1-intros/1-intro1.astro';
 import IntroSelect2 from '../../modules/1-Inicio/1-intros/2-intro2.astro';
@@ -80,6 +80,30 @@ const servi9 = false
 const servi10 = false
 // Color de fondo de la sesión Servicios
 const colorServi = "#f2f7f9";
+
+import PersonalSelect1 from '../../modules/1-Inicio/4-Personal/1-personal1.astro';
+import PersonalSelect2 from '../../modules/1-Inicio/4-Personal/2-personal2.astro';
+import PersonalSelect3 from '../../modules/1-Inicio/4-Personal/3-personal3.astro';
+import PersonalSelect4 from '../../modules/1-Inicio/4-Personal/4-personal4.astro';
+import PersonalSelect5 from '../../modules/1-Inicio/4-Personal/5-personal5.astro';
+import PersonalSelect6 from '../../modules/1-Inicio/4-Personal/6-personal6.astro';
+import PersonalSelect7 from '../../modules/1-Inicio/4-Personal/7-personal7.astro';
+import PersonalSelect8 from '../../modules/1-Inicio/4-Personal/8-personal8.astro';
+import PersonalSelect9 from '../../modules/1-Inicio/4-Personal/9-personal9.astro';
+import PersonalSelect10 from '../../modules/1-Inicio/4-Personal/10-personal10.astro';
+const personal1 = true
+const personal2 = false
+const personal3 = false
+const personal4 = false
+const personal5 = false
+const personal6 = false
+const personal7 = false	
+const personal8 = false
+const personal9 = false
+const personal10 = false
+// Color de fondo de la sesión Personal
+const colorPersonal = "#h2h7h9";
+
 ---
 
 <MainLayout>
@@ -253,4 +277,59 @@ const colorServi = "#f2f7f9";
 	}
 	<!-- Servicios Dinamicas -->
 	 
+	<!-- Personal Dinamicas -->
+	{personal && 
+	<div>
+		{personal1 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect1/>
+			</SesionLayout>
+		}
+		{personal2 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect2/>
+			</SesionLayout>
+		}
+		{personal3 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect3/>
+			</SesionLayout>
+		}
+		{personal4 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect4/>
+			</SesionLayout>
+		}
+		{personal5 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect5/>
+			</SesionLayout>
+		}
+		{personal6 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect6/>
+			</SesionLayout>
+		}
+		{personal7 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect7/>
+			</SesionLayout>
+		}
+		{personal8 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect8/>
+			</SesionLayout>
+		}
+		{personal9 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect9/>
+			</SesionLayout>
+		}
+		{personal10 && 
+			<SesionLayout backgroundColor={colorPersonal}>
+				<PersonalSelect10/>
+			</SesionLayout>
+		}
+	</div>
+	}
 </MainLayout>
