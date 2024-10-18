@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import IconCarrito from '../../../components/icons/carritoIcon';
 import IconUser from '../../../components/icons/userIcon';
+import IconCitas from '../../../components/icons/IconCitas';
 import { Transition, Dialog } from '@headlessui/react';
 import {
   logoUrl,
@@ -11,6 +12,7 @@ import {
   nosotrosNavbar, 
   carritoNavbar, 
   usuarioNavbar,
+  citasNavbar,
   linknameStoreLogo,
   linkinicioNavbar,
   linkproductosNavbar,
@@ -18,6 +20,7 @@ import {
   linknosotrosNavbar,
   linkcarritoNavbar,
   linkusuarioNavbar,
+  linkCitasNavbar,
   activenameStoreLogo,
   activeinicioNavbar,
   activeproductosNavbar,
@@ -25,6 +28,7 @@ import {
   activenosotrosNavbar,
   activecarritoNavbar,
   activeusuarioNavbar,
+  activeCitasNavbar,
   colorNavbar,
   colorNameStoreLogo,
   colorLinkNavbar,
@@ -105,6 +109,10 @@ const Navbar = () => {
               <IconUser />
               <span className="ml-1">{usuarioNavbar}</span>
             </a>}
+          {activeCitasNavbar && <a href={linkCitasNavbar} className={`${colorLinkNavbar}  ${colorLinkNavbarHover} hover:underline flex items-center`}>
+            <IconCitas />
+            <span className="ml-1">{citasNavbar}</span>
+          </a>}
         </div>
       </div>
 
