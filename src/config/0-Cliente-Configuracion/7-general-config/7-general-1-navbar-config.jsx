@@ -7,6 +7,7 @@ export const mediaNavbar = "Publicaciones"
 export const nosotrosNavbar = "Nosotros"
 export const carritoNavbar = "Carrito"
 export const usuarioNavbar = "Usuario"
+export const citasNavbar = "Citas"
 //Configuración del navbar Links
 export const linknameStoreLogo = "/1-Inicio"
 export const linkinicioNavbar = "/1-Inicio"
@@ -15,15 +16,17 @@ export const linkmediaNavbar = "/3-Media"
 export const linknosotrosNavbar = "/4-Nosotros"
 export const linkcarritoNavbar = "/5-Carrito"
 export const linkusuarioNavbar = "/6-Usuario" 
+export const linkCitasNavbar = "/7-Citas"
 //Configuración del navbar Activos  
 //Configuración del navbar Links
 export const activenameStoreLogo = true //Default
 export const activeinicioNavbar = true //Default
-export const activeproductosNavbar = true
+export const activeproductosNavbar = false
 export const activemediaNavbar = true
-export const activenosotrosNavbar = true
-export const activecarritoNavbar = true
+export const activenosotrosNavbar = false
+export const activecarritoNavbar = false
 export const activeusuarioNavbar = false
+export const activeCitasNavbar = true
 
 // configuración de colores del navbar https://tailwindcss.com/docs/background-color
 export const colorNavbar = "bg-customColor6"
