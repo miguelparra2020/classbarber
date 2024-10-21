@@ -1,9 +1,16 @@
-<div class="flex justify-center items-center flex-col md:flex-row w-full gap-8">
+<div class="text-center w-full flex flex-col items-center justify-center">
+  <h3 class="text-2xl text-foreground font-bold col-span-3 xl:col-span-1 mx-4">
+    Conoce nuestro equipo de trabajo
+  </h3> 
+</div>  
+
+<div class="flex justify-center items-center flex-col md:flex-row w-full gap-8">  
+  
     <!-- Primera Card -->
-    <div class="flex justify-center items-center w-full md:w-1/2">
+    <div class="flex justify-center items-center w-full md:w-1/2 card" style={`animation-delay: 5s`}>
       <div class="p-6 w-full">
         <div x-show="activeCategory === 'all' || activeCategory === 'cardiology'">
-          <div class="relative rounded-lg border border-muted-200 dark:border-muted-800 bg-white dark:bg-muted-900 transition-all duration-300">
+          <div class="relative rounded-lg border border-muted-200 dark:border-muted-800 bg-white dark:bg-muted-900 transition-all duration-300 shadow-lg hover:shadow-2xl">
             <div class="relative w-full h-80 rounded-lg overflow-hidden bg-muted-200 dark:bg-muted-800">
               <img
                 class="absolute inset-0 w-full h-full object-cover"
@@ -22,8 +29,13 @@
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ergo illi intellegunt quid
               </p>
             </div>
-            <div class="mt-2 px-3">
-
+            <div class="mt-2 mb-2 px-3">
+              <button class="btn bg-customColor3 text-white p-2 rounded-lg hover:bg-customColor2 hover:text-customColor6 transition-colors duration-300 flex items-center">
+                <span>Solicitar cita</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
+                  <path d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -31,10 +43,10 @@
     </div>
   
     <!-- Segunda Card -->
-    <div class="flex justify-center items-center w-full md:w-1/2">
+    <div class="flex justify-center items-center w-full md:w-1/2 card" style={`animation-delay: 5s`}>
       <div class="p-6 w-full">
         <div x-show="activeCategory === 'all' || activeCategory === 'cardiology'">
-          <div class="relative rounded-lg border border-muted-200 dark:border-muted-800 bg-white dark:bg-muted-900 transition-all duration-300">
+          <div class="relative rounded-lg border border-muted-200 dark:border-muted-800 bg-white dark:bg-muted-900 transition-all duration-300 shadow-lg hover:shadow-2xl">
             <div class="relative w-full h-80 rounded-lg overflow-hidden bg-muted-200 dark:bg-muted-800">
               <img
                 class="absolute inset-0 w-full h-full object-cover"
@@ -53,8 +65,13 @@
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ergo illi intellegunt quid
               </p>
             </div>
-            <div class="mt-2 px-3">
-                
+            <div class="mt-2 mb-2 px-3">
+              <button class="btn bg-customColor3 text-white p-2 rounded-lg hover:bg-customColor2 hover:text-customColor6 transition-colors duration-300 flex items-center">
+                <span>Solicitar cita</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
+                  <path d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -62,3 +79,34 @@
     </div>
   </div>
   
+
+  <script >
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target); // Deja de observar cuando la animación se activa
+            }
+        });
+    });
+
+    const handleIntersection = () => {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => observer.observe(card));
+    };
+
+    setTimeout(handleIntersection, 100); // Asegura que se ejecuta después del renderizado
+</script>
+
+<style>
+  .card {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .card.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

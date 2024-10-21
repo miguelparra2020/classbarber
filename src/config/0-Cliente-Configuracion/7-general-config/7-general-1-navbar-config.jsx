@@ -29,7 +29,7 @@ export const activeusuarioNavbar = false
 export const activeCitasNavbar = true
 
 // configuración de colores del navbar https://tailwindcss.com/docs/background-color
-export const colorNavbar = "bg-customColor6"
+export const colorNavbar = "bg-customColor7"
 export const colorNameStoreLogo = "text-customColor1"
 export const colorLinkNavbar = "text-text-customColor2"
 export const colorLinkNavbarHover = " hover:text-customColor3"
