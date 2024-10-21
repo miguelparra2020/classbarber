@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from "react";
-import IconTijeras from "../../../../components/icons/tijerasIcon.jsx"
-import IconNext from "../../../../components/icons/nextIcon.jsx"
-import PrevNext from "../../../../components/icons/prevIcon.jsx"
+import IconTijeras from "../icons/tijerasIcon.jsx"
+import IconNext from "../icons/nextIcon.jsx"
+import PrevNext from "../icons/prevIcon.jsx"
 const items = [
   {
     title: "Corte 1",
@@ -47,12 +47,19 @@ const items = [
 }
 ];
 
-const Carrusel = () => {
-  const [startIndex, setStartIndex] = useState(0);
-  const [visibleItems, setVisibleItems] = useState(3); 
-  const [changeWithTime, setChangeWithTime] = useState(false);
+const Carrusel = ({ params: { 
+  timeSlider = 5000, 
+  visibleItemsDefault = 3,
+  title = "Titulo del carrusel",
+  colorTitle = "black",
+  colorButtonPrevNext = "black",
+  sizeButtosPrevNext = "40",
 
-  
+
+} }) => {
+  const [startIndex, setStartIndex] = useState(0);
+  const [visibleItems, setVisibleItems] = useState(visibleItemsDefault); 
+  const [changeWithTime, setChangeWithTime] = useState(false);
 
   // Ajustar la cantidad de items visibles dependiendo del tamaño de la pantalla
   useEffect(() => {
@@ -61,8 +68,8 @@ const Carrusel = () => {
         // Pantallas pequeñas (móviles), mostramos solo 1
         setVisibleItems(1);
       } else {
-        // Pantallas más grandes, mostramos 3
-        setVisibleItems(3);
+        // Pantallas más grandes, mostramos el número predeterminado o el que se pase como prop
+        setVisibleItems(visibleItemsDefault);
       }
     };
 
@@ -74,7 +81,7 @@ const Carrusel = () => {
 
     // Limpiar el listener cuando el componente se desmonte
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [visibleItemsDefault]);
 
   const handleNext = () => {
     setStartIndex((prevIndex) =>
@@ -82,12 +89,16 @@ const Carrusel = () => {
     );
   };
 
+  // Cambiar automáticamente con el tiempo usando el parámetro `timeSlider`
   useEffect(() => {
-    setTimeout(() => {
-      handleNext()
-      setChangeWithTime(!changeWithTime)
-    }, 3000);
-  }, [changeWithTime]);
+    const interval = setTimeout(() => {
+      handleNext();
+      setChangeWithTime(!changeWithTime);
+    }, timeSlider);
+
+    // Limpiar el timeout al desmontar
+    return () => clearTimeout(interval);
+  }, [changeWithTime, timeSlider]);
 
   const handlePrev = () => {
     setStartIndex((prevIndex) =>
@@ -97,18 +108,15 @@ const Carrusel = () => {
 
   return (
     <div className="py-8">
-      <h3 className="text-2xl text-foreground font-bold text-center mb-2">
-        Cortes en tendencia
+      <h3 className={`text-2xl ${colorTitle} font-bold text-center mb-2`}>
+        {title}
       </h3>
 
       {/* Contenedor del carrusel */}
       <div className="flex items-center justify-center mb-8">
         {/* Botón Prev */}
-        <button
-          onClick={handlePrev}
-          className="mx-2"
-        >
-          <PrevNext/>
+        <button onClick={handlePrev} className="mx-2">
+          <PrevNext   params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext}}/>
         </button>
 
         {/* Carrusel de items */}
@@ -142,11 +150,8 @@ const Carrusel = () => {
         </div>
 
         {/* Botón Next */}
-        <button
-          onClick={handleNext}
-          className="mx-2"
-        >
-          <IconNext  />
+        <button onClick={handleNext} className="mx-2">
+          <IconNext  params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext}}/>
         </button>
       </div>
     </div>
