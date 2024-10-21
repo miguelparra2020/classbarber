@@ -1,0 +1,156 @@
+import React, { useState, useEffect  } from "react";
+import IconTijeras from "../../../../components/icons/tijerasIcon.jsx"
+import IconNext from "../../../../components/icons/nextIcon.jsx"
+import PrevNext from "../../../../components/icons/prevIcon.jsx"
+const items = [
+  {
+    title: "Corte 1",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2022/05/19/16529550110272.jpg",
+    href: "/7-Citas"
+},
+{
+    title: "Corte 2",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631837896.jpg",
+    href: "/7-Citas"
+},
+{
+    title: "Corte 3",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947632993565.jpg",
+    href: "/7-Citas"
+},
+{
+    title: "Cortes con grecas o líneas",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631376861.jpg",
+    href: "/7-Citas"
+},
+{
+    title: "Corte Samurai Bun",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631837896.jpg",
+    href: "/7-Citas"
+},
+{
+    title: "Corte Crop con flequillo",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947632993565.jpg",
+    href: "/7-Citas"
+},
+{
+    title: "Cortes con grecas o líneas",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631376861.jpg",
+    href: "/7-Citas"
+}
+];
+
+const Carrusel = () => {
+  const [startIndex, setStartIndex] = useState(0);
+  const [visibleItems, setVisibleItems] = useState(3); 
+  const [changeWithTime, setChangeWithTime] = useState(false);
+
+  
+
+  // Ajustar la cantidad de items visibles dependiendo del tamaño de la pantalla
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        // Pantallas pequeñas (móviles), mostramos solo 1
+        setVisibleItems(1);
+      } else {
+        // Pantallas más grandes, mostramos 3
+        setVisibleItems(3);
+      }
+    };
+
+    // Ejecutar la función de redimensionamiento al cargar la página
+    handleResize();
+
+    // Agregar un listener para detectar cambios en el tamaño de la pantalla
+    window.addEventListener("resize", handleResize);
+
+    // Limpiar el listener cuando el componente se desmonte
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleNext = () => {
+    setStartIndex((prevIndex) =>
+      prevIndex + visibleItems >= items.length ? 0 : prevIndex + visibleItems
+    );
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      handleNext()
+      setChangeWithTime(!changeWithTime)
+    }, 3000);
+  }, [changeWithTime]);
+
+  const handlePrev = () => {
+    setStartIndex((prevIndex) =>
+      prevIndex - visibleItems < 0 ? items.length - visibleItems : prevIndex - visibleItems
+    );
+  };
+
+  return (
+    <div className="py-8">
+      <h3 className="text-2xl text-foreground font-bold text-center mb-2">
+        Cortes en tendencia
+      </h3>
+
+      {/* Contenedor del carrusel */}
+      <div className="flex items-center justify-center mb-8">
+        {/* Botón Prev */}
+        <button
+          onClick={handlePrev}
+          className="mx-2"
+        >
+          <PrevNext/>
+        </button>
+
+        {/* Carrusel de items */}
+        <div className={`grid grid-cols-${visibleItems} gap-4 flex-1 max-w-4xl`}>
+          {items.slice(startIndex, startIndex + visibleItems).map((item, index) => (
+            <a
+              href={item.href}
+              className="group bg-customColor6 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-customColor4 transition-shadow duration-300 translate-y-10 card"
+              style={{ animationDelay: `${index * 0.5}s` }}
+              key={index}
+            >
+              <div className="relative aspect-[4/4]">
+                <img
+                  loading="eager"
+                  width="700"
+                  height="700"
+                  src={item.image}
+                  alt="placeholder"
+                  className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="py-4 px-5 border-t">
+                <p className="font-semibold text-lg text-foreground mb-2">{item.title}</p>
+                <p className="text-sm text-muted-foreground/85 mb-4">{item.description}</p>
+                <button className="bg-customColor8 hover:bg-customColor5 hover:text-black text-white font-bold py-2 px-4 rounded flex items-center flex-row content-center">
+                  <span>Solicitar cita</span> &nbsp;<IconTijeras />
+                </button>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        {/* Botón Next */}
+        <button
+          onClick={handleNext}
+          className="mx-2"
+        >
+          <IconNext  />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Carrusel;
