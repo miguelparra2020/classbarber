@@ -54,7 +54,12 @@ const Carrusel = ({ params: {
   colorTitle = "black",
   colorButtonPrevNext = "black",
   sizeButtosPrevNext = "40",
-
+  backgroundColorCard = "bg-customColor6",
+  borderRadiusCard = "rounded-lg",
+  shadowCard = "shadow-lg",
+  shadowCardHover = "shadow-2xl",
+  shadowCardColor = "shadow-customColor6",
+  shadowCardColorHover = "shadow-customColor5",
 
 } }) => {
   const [startIndex, setStartIndex] = useState(0);
@@ -124,7 +129,14 @@ const Carrusel = ({ params: {
           {items.slice(startIndex, startIndex + visibleItems).map((item, index) => (
             <a
               href={item.href}
-              className="group max-w-xs bg-customColor6  rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-customColor4 transition-shadow duration-300 translate-y-10 card"
+              className={`group max-w-xs 
+                ${backgroundColorCard}  
+                ${borderRadiusCard}  
+                overflow-hidden 
+                ${shadowCard}
+                ${shadowCardHover}
+                ${shadowCardColor}
+                ${shadowCardColorHover} transition-shadow duration-300 translate-y-10 card`}
               style={{ animationDelay: `${index * 0.5}s` }}
               key={index}
             >
