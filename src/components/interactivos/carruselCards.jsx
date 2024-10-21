@@ -60,7 +60,18 @@ const Carrusel = ({ params: {
   shadowCardHover = "shadow-2xl",
   shadowCardColor = "shadow-customColor6",
   shadowCardColorHover = "shadow-customColor5",
-
+  colorTitleCard = "text-gray-800",
+  sizeTitleCard = "text-2xl",
+  colorDescriptionCard = "text-gray-600",
+  sizeDescriptionCard = "text-sm",
+  colorButtonCard = "text-gray-800",
+  colorButtonCardHover = "text-gray-800",
+  colorButtonCardIcon = "text-gray-800",
+  colorButtonCardIconHover = "text-gray-800",
+  
+  
+  sizeButtonCard = "text-lg",
+  sizeButtonCardIcon = "text-lg",
 } }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [visibleItems, setVisibleItems] = useState(visibleItemsDefault); 
@@ -125,7 +136,7 @@ const Carrusel = ({ params: {
         </button>
 
         {/* Carrusel de items */}
-        <div className={` gap-4 flex-1 max-w-4xl flex flex-row`}>
+        <div className={` gap-4 flex-1 max-w-4xl flex flex-row items-center justify-center  `}>
           {items.slice(startIndex, startIndex + visibleItems).map((item, index) => (
             <a
               href={item.href}
@@ -134,9 +145,9 @@ const Carrusel = ({ params: {
                 ${borderRadiusCard}  
                 overflow-hidden 
                 ${shadowCard}
-                ${shadowCardHover}
+                hover:${shadowCardHover}
                 ${shadowCardColor}
-                ${shadowCardColorHover} transition-shadow duration-300 translate-y-10 card`}
+                hover:${shadowCardColorHover} transition-shadow duration-300 translate-y-10 card`}
               style={{ animationDelay: `${index * 0.5}s` }}
               key={index}
             >
@@ -151,8 +162,14 @@ const Carrusel = ({ params: {
                 />
               </div>
               <div className="py-4 px-5 border-t">
-                <p className="font-semibold text-lg text-foreground mb-2">{item.title}</p>
-                <p className="text-sm text-muted-foreground/85 mb-4">{item.description}</p>
+                <p className={`font-semibold text-foreground mb-2 
+                ${sizeTitleCard} 
+                ${colorTitleCard}                
+               `}>{item.title}</p>
+                <p className={`text-muted-foreground/85 mb-4
+                ${sizeDescriptionCard}
+                ${colorDescriptionCard}
+                `}>{item.description}</p>
                 <button className="bg-customColor8 hover:bg-customColor5 hover:text-black text-white font-bold py-2 px-4 rounded flex items-center flex-row content-center">
                   <span>Solicitar cita</span> &nbsp;<IconTijeras />
                 </button>
