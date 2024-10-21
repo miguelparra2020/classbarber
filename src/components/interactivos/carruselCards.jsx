@@ -120,11 +120,11 @@ const Carrusel = ({ params: {
         </button>
 
         {/* Carrusel de items */}
-        <div className={`grid grid-cols-${visibleItems} gap-4 flex-1 max-w-4xl`}>
+        <div className={` gap-4 flex-1 max-w-4xl flex flex-row`}>
           {items.slice(startIndex, startIndex + visibleItems).map((item, index) => (
             <a
               href={item.href}
-              className="group bg-customColor6 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-customColor4 transition-shadow duration-300 translate-y-10 card"
+              className="group max-w-xs bg-customColor6  rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-customColor4 transition-shadow duration-300 translate-y-10 card"
               style={{ animationDelay: `${index * 0.5}s` }}
               key={index}
             >
