@@ -1,29 +1,88 @@
 ---
 import CarruselCards from "../../../components/interactivos/carruselCards";
+
+const itemsCards = [
+  {
+    title: "Corte 1",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2022/05/19/16529550110272.jpg",
+    href: "/7-Citas",
+    textButton: "Solicitar cita"
+},
+{
+    title: "Corte 2",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631837896.jpg",
+    href: "/7-Citas",
+    textButton: "Solicitar cita"
+},
+{
+    title: "Corte 3",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947632993565.jpg",
+    href: "/7-Citas",
+    textButton: "Solicitar cita"
+},
+{
+    title: "Cortes con grecas o líneas",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631376861.jpg",
+    href: "/7-Citas",
+    textButton: "Solicitar cita"
+},
+{
+    title: "Corte Samurai Bun",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631837896.jpg",
+    href: "/7-Citas",
+    textButton: "Solicitar cita"
+},
+{
+    title: "Corte Crop con flequillo",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947632993565.jpg",
+    href: "/7-Citas",
+    textButton: "Solicitar cita"
+},
+{
+    title: "Cortes con grecas o líneas",
+    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
+    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631376861.jpg",
+    href: "/7-Citas",
+    textButton: "Solicitar cita"
+}
+];
 ---
 
 <data>
   <CarruselCards client:idle params={{ 
     timeSlider: 3000,
     visibleItemsDefault: 3,
-    title: "Corte en tendencia",
+    title: "Cortes en tendencia",
     colorTitle: "text-gray-800",
     colorButtonPrevNext: "gray",
     sizeButtosPrevNext: "40",
     backgroundColorCard: "bg-customColor6",
     borderRadiusCard: "rounded-lg",
     shadowCard: "shadow-lg",
-    shadowCardHover:"hover:shadow-2xl",
+    shadowCardHover:"hover:shadow-2xl", // Iniciar con hover:
     shadowCardColor: "shadow-customColor5",
-    shadowCardColorHover: "hover:shadow-customColor5",
+    shadowCardColorHover: "hover:shadow-customColor5", // Iniciar con hover:
     colorTitleCard: "text-gray-800",
     sizeTitleCard: "text-lg",
     colorDescriptionCard: "text-gray-600",
     sizeDescriptionCard: "text-sm",
     colorButtonCard: "bg-customColor8",
-    colorButtonCardHover: "hover:bg-customColor5",
+    colorButtonCardHover: "hover:bg-customColor5", // Iniciar con hover:
     colorButtonCardText: "text-white",
-    colorButtonCardTextHover: "hover:text-gray-800",
+    colorButtonCardTextHover: "hover:text-gray-800", // Iniciar con hover:
     borderRadiusCardButton: "rounded",
+    colorIcon: "currentColor", 
+    sizeIcon:"16", 
+    classNameIcon: "bi bi-scissors", 
+    viewBoxIcon: "0 0 16 16",  
+    pathIcon: "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0",
+    itemsCardsProps: itemsCards
+
     }} />
 </data>
