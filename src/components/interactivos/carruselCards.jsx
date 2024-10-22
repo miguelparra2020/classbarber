@@ -64,52 +64,47 @@ const Carrusel = ({ params: {
 
 
 } }) => {
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
   const [startIndex, setStartIndex] = useState(0);
   const [visibleItems, setVisibleItems] = useState(visibleItemsDefault); 
   const [changeWithTime, setChangeWithTime] = useState(false);
+  const [itemsCards, setItemsCards] = useState(shuffleArray(itemsCardsProps));
 
   // Ajustar la cantidad de items visibles dependiendo del tamaño de la pantalla
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 640) {
-        // Pantallas pequeñas (móviles), mostramos solo 1
         setVisibleItems(1);
       } else {
-        // Pantallas más grandes, mostramos el número predeterminado o el que se pase como prop
         setVisibleItems(visibleItemsDefault);
       }
     };
 
-    // Ejecutar la función de redimensionamiento al cargar la página
     handleResize();
-
-    // Agregar un listener para detectar cambios en el tamaño de la pantalla
     window.addEventListener("resize", handleResize);
-
-    // Limpiar el listener cuando el componente se desmonte
     return () => window.removeEventListener("resize", handleResize);
   }, [visibleItemsDefault]);
 
   const handleNext = () => {
     setStartIndex((prevIndex) =>
-      prevIndex + visibleItems >= itemsCardsProps.length ? 0 : prevIndex + visibleItems
+      prevIndex + visibleItems >= itemsCards.length ? 0 : prevIndex + visibleItems
     );
   };
 
-  // Cambiar automáticamente con el tiempo usando el parámetro `timeSlider`
   useEffect(() => {
     const interval = setTimeout(() => {
       handleNext();
       setChangeWithTime(!changeWithTime);
     }, timeSlider);
-
-    // Limpiar el timeout al desmontar
     return () => clearTimeout(interval);
   }, [changeWithTime, timeSlider]);
 
   const handlePrev = () => {
     setStartIndex((prevIndex) =>
-      prevIndex - visibleItems < 0 ? itemsCardsProps.length - visibleItems : prevIndex - visibleItems
+      prevIndex - visibleItems < 0 ? itemsCards.length - visibleItems : prevIndex - visibleItems
     );
   };
 
@@ -118,71 +113,61 @@ const Carrusel = ({ params: {
       <h3 className={`text-2xl ${colorTitle} font-bold text-center mb-2`}>
         {title}
       </h3>
-
-      {/* Contenedor del carrusel */}
       <div className="flex items-center justify-center mb-8">
-        {/* Botón Prev */}
         <button onClick={handlePrev} className="mx-2">
-          <PrevNext   params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext}}/>
+          <PrevNext params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext }} />
         </button>
-
-        {/* Carrusel de items */}
-        <div className={` gap-4 flex-1 max-w-4xl flex flex-row items-center justify-center  `}>
-          {itemsCardsProps.slice(startIndex, startIndex + visibleItems).map((item, index) => (
+        <div className="gap-4 flex-1 max-w-4xl flex flex-row items-center justify-center">
+          {itemsCards.slice(startIndex, startIndex + visibleItems).map((item, index) => (
             <a
               href={item.href ? item.href : "1-Inicio"}
-              className={`group max-w-xs 
+              className={`group w-80 h-full 
                 ${backgroundColorCard}  
                 ${borderRadiusCard}  
                 overflow-hidden 
                 ${shadowCard}
                 ${shadowCardHover}
                 ${shadowCardColor}
-                ${shadowCardColorHover} transition-shadow duration-300 translate-y-10 card`}
-              style={{ animationDelay: `${index * 0.5}s` }}
+                ${shadowCardColorHover} transition-shadow duration-300 card`}
               key={index}
             >
-              <div className="relative aspect-[4/4]">
+              <div className="relative aspect-[1/1] ">
                 <img
                   loading="eager"
-                  width="700"
-                  height="700"
                   src={item.image ? item.image : "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png"}
                   alt="Imagen Card"
-                  className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
               <div className="py-4 px-5 border-t">
                 <p className={`font-semibold text-foreground mb-2 
                 ${sizeTitleCard} 
-                ${colorTitleCard}                
-               `}>{item.title ? item.title : "Titulo Card"}</p>
+                ${colorTitleCard}`}>{item.title ? item.title : "Titulo Card"}</p>
                 <p className={`text-muted-foreground/85 mb-4
                 ${sizeDescriptionCard}
-                ${colorDescriptionCard}
-                `}>{item.description ? item.description : "Descripción Card"}</p>
+                ${colorDescriptionCard}`}>{item.description ? item.description : "Descripción Card"}</p>
                 <button className={`
                   ${colorButtonCard}
                   ${colorButtonCardHover}
                   ${colorButtonCardText}
                   ${colorButtonCardTextHover}
                   ${borderRadiusCardButton}
-                   font-bold py-2 px-4 flex items-center flex-row content-center`}>
-                  <span>{item.textButton ? item.textButton : "Botón Card" }</span> &nbsp;<IconGeneral
-                    params={{ color: colorIcon, 
-                      size: sizeIcon, 
-                      className: classNameIcon, 
-                      viewBox: viewBoxIcon,  
-                      path: pathIcon }}/>
+                  font-bold py-2 px-4 flex items-center flex-row content-center`}>
+                  <span>{item.textButton ? item.textButton : "Botón Card"}</span> &nbsp;
+                  <IconGeneral params={{ 
+                    color: colorIcon, 
+                    size: sizeIcon, 
+                    className: classNameIcon, 
+                    viewBox: viewBoxIcon, 
+                    path: pathIcon 
+                  }}/>
                 </button>
               </div>
             </a>
           ))}
         </div>
-
-        {/* Botón Next */}
         <button onClick={handleNext} className="mx-2">
-          <IconNext  params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext}}/>
+          <IconNext params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext }} />
         </button>
       </div>
     </div>
