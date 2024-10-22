@@ -1,51 +1,8 @@
 import React, { useState, useEffect  } from "react";
-import IconTijeras from "../icons/tijerasIcon.jsx"
+import IconGeneral from "../icons/IconGeneral.jsx"
 import IconNext from "../icons/nextIcon.jsx"
 import PrevNext from "../icons/prevIcon.jsx"
-const items = [
-  {
-    title: "Corte 1",
-    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
-    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2022/05/19/16529550110272.jpg",
-    href: "/7-Citas"
-},
-{
-    title: "Corte 2",
-    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
-    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631837896.jpg",
-    href: "/7-Citas"
-},
-{
-    title: "Corte 3",
-    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
-    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947632993565.jpg",
-    href: "/7-Citas"
-},
-{
-    title: "Cortes con grecas o líneas",
-    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
-    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631376861.jpg",
-    href: "/7-Citas"
-},
-{
-    title: "Corte Samurai Bun",
-    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
-    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631837896.jpg",
-    href: "/7-Citas"
-},
-{
-    title: "Corte Crop con flequillo",
-    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
-    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947632993565.jpg",
-    href: "/7-Citas"
-},
-{
-    title: "Cortes con grecas o líneas",
-    description: "Tiene un desvanecido en los laterales y con pelo pronunciado",
-    image: "https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2023/09/15/16947631376861.jpg",
-    href: "/7-Citas"
-}
-];
+
 
 const Carrusel = ({ params: { 
   timeSlider = 5000, 
@@ -69,6 +26,43 @@ const Carrusel = ({ params: {
   colorButtonCardText= "text-white",
   colorButtonCardTextHover = "hover:text-gray-800",
   borderRadiusCardButton = "rounded",
+  colorIcon = "black", 
+  sizeIcon = "40", 
+  classNameIcon = "bi bi-arrow-right-circle-fill", 
+  viewBoxIcon ="0 0 16 16",  
+  pathIcon = "M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z",
+  itemsCardsProps = [
+    {
+      title: "Card 1",
+      description: "Descripcion 1",
+      image: "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png",
+      href: "/1-Inicio",
+      textButton: "Acción boton"
+  },
+  {
+    title: "Card 2",
+    description: "Descripcion 2",
+    image: "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png",
+    href: "/1-Inicio",
+    textButton: "Acción boton"
+},
+{
+  title: "Card 3",
+  description: "Descripcion 3",
+  image: "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png",
+  href: "/1-Inicio",
+  textButton: "Acción boton"
+},
+{
+  title: "Card 4",
+  description: "Descripcion 4",
+  image: "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png",
+  href: "/1-Inicio",
+  textButton: "Acción boton"
+},
+  ]
+
+
 } }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [visibleItems, setVisibleItems] = useState(visibleItemsDefault); 
@@ -98,7 +92,7 @@ const Carrusel = ({ params: {
 
   const handleNext = () => {
     setStartIndex((prevIndex) =>
-      prevIndex + visibleItems >= items.length ? 0 : prevIndex + visibleItems
+      prevIndex + visibleItems >= itemsCardsProps.length ? 0 : prevIndex + visibleItems
     );
   };
 
@@ -115,7 +109,7 @@ const Carrusel = ({ params: {
 
   const handlePrev = () => {
     setStartIndex((prevIndex) =>
-      prevIndex - visibleItems < 0 ? items.length - visibleItems : prevIndex - visibleItems
+      prevIndex - visibleItems < 0 ? itemsCardsProps.length - visibleItems : prevIndex - visibleItems
     );
   };
 
@@ -134,7 +128,7 @@ const Carrusel = ({ params: {
 
         {/* Carrusel de items */}
         <div className={` gap-4 flex-1 max-w-4xl flex flex-row items-center justify-center  `}>
-          {items.slice(startIndex, startIndex + visibleItems).map((item, index) => (
+          {itemsCardsProps.slice(startIndex, startIndex + visibleItems).map((item, index) => (
             <a
               href={item.href}
               className={`group max-w-xs 
@@ -174,7 +168,12 @@ const Carrusel = ({ params: {
                   ${colorButtonCardTextHover}
                   ${borderRadiusCardButton}
                    font-bold py-2 px-4 flex items-center flex-row content-center`}>
-                  <span>Solicitar cita</span> &nbsp;<IconTijeras />
+                  <span>{item.textButton}</span> &nbsp;<IconGeneral
+                    params={{ color: colorIcon, 
+                      size: sizeIcon, 
+                      className: classNameIcon, 
+                      viewBox: viewBoxIcon,  
+                      path: pathIcon }}/>
                 </button>
               </div>
             </a>
