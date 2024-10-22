@@ -57,17 +57,17 @@ const Carrusel = ({ params: {
   backgroundColorCard = "bg-customColor6",
   borderRadiusCard = "rounded-lg",
   shadowCard = "shadow-lg",
-  shadowCardHover = "shadow-2xl",
+  shadowCardHover = "hover:shadow-2xl",
   shadowCardColor = "shadow-customColor6",
-  shadowCardColorHover = "shadow-customColor5",
+  shadowCardColorHover = "hover:shadow-customColor5",
   colorTitleCard = "text-gray-800",
   sizeTitleCard = "text-2xl",
   colorDescriptionCard = "text-gray-600",
   sizeDescriptionCard = "text-sm",
   colorButtonCard= "bg-customColor8",
-  colorButtonCardHover= "bg-customColor5",
+  colorButtonCardHover= "hover:bg-customColor5",
   colorButtonCardText= "text-white",
-  colorButtonCardTextHover = "text-gray-800",
+  colorButtonCardTextHover = "hover:text-gray-800",
   borderRadiusCardButton = "rounded",
 } }) => {
   const [startIndex, setStartIndex] = useState(0);
@@ -142,9 +142,9 @@ const Carrusel = ({ params: {
                 ${borderRadiusCard}  
                 overflow-hidden 
                 ${shadowCard}
-                hover:${shadowCardHover}
+                ${shadowCardHover}
                 ${shadowCardColor}
-                hover:${shadowCardColorHover} transition-shadow duration-300 translate-y-10 card`}
+                ${shadowCardColorHover} transition-shadow duration-300 translate-y-10 card`}
               style={{ animationDelay: `${index * 0.5}s` }}
               key={index}
             >
@@ -169,9 +169,9 @@ const Carrusel = ({ params: {
                 `}>{item.description}</p>
                 <button className={`
                   ${colorButtonCard}
-                  hover:${colorButtonCardHover}
+                  ${colorButtonCardHover}
                   ${colorButtonCardText}
-                  hover:${colorButtonCardTextHover}
+                  ${colorButtonCardTextHover}
                   ${borderRadiusCardButton}
                    font-bold py-2 px-4 flex items-center flex-row content-center`}>
                   <span>Solicitar cita</span> &nbsp;<IconTijeras />
