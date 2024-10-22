@@ -114,14 +114,14 @@ const Carrusel = ({ params: {
         {title}
       </h3>
       <div className="flex items-center justify-center mb-8 ">
-        <button onClick={handlePrev} className="mx-2">
+        <button onClick={handlePrev} className="mx-1">
           <PrevNext params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext }} />
         </button>
-        <div className="gap-4 flex-1 max-w-4xl flex flex-row items-center justify-center">
+        <div className="gap-2 flex-1 max-w-4xl flex flex-row items-center justify-center">
           {itemsCards.slice(startIndex, startIndex + visibleItems).map((item, index) => (
             <a
               href={item.href ? item.href : "1-Inicio"}
-              className={`group w-60  h-full
+              className={`group w-full sm:w-60 md:w-80  h-full
                 ${backgroundColorCard}  
                 ${borderRadiusCard}  
                 overflow-hidden 
@@ -166,7 +166,7 @@ const Carrusel = ({ params: {
             </a>
           ))}
         </div>
-        <button onClick={handleNext} className="mx-2">
+        <button onClick={handleNext} className="mx-1">
           <IconNext params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext }} />
         </button>
       </div>
