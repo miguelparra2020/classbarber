@@ -64,14 +64,11 @@ const Carrusel = ({ params: {
   sizeTitleCard = "text-2xl",
   colorDescriptionCard = "text-gray-600",
   sizeDescriptionCard = "text-sm",
-  colorButtonCard = "text-gray-800",
-  colorButtonCardHover = "text-gray-800",
-  colorButtonCardIcon = "text-gray-800",
-  colorButtonCardIconHover = "text-gray-800",
-  
-  
-  sizeButtonCard = "text-lg",
-  sizeButtonCardIcon = "text-lg",
+  colorButtonCard= "bg-customColor8",
+  colorButtonCardHover= "bg-customColor5",
+  colorButtonCardText= "text-white",
+  colorButtonCardTextHover = "text-gray-800",
+  borderRadiusCardButton = "rounded",
 } }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [visibleItems, setVisibleItems] = useState(visibleItemsDefault); 
@@ -170,7 +167,13 @@ const Carrusel = ({ params: {
                 ${sizeDescriptionCard}
                 ${colorDescriptionCard}
                 `}>{item.description}</p>
-                <button className="bg-customColor8 hover:bg-customColor5 hover:text-black text-white font-bold py-2 px-4 rounded flex items-center flex-row content-center">
+                <button className={`
+                  ${colorButtonCard}
+                  hover:${colorButtonCardHover}
+                  ${colorButtonCardText}
+                  hover:${colorButtonCardTextHover}
+                  ${borderRadiusCardButton}
+                   font-bold py-2 px-4 flex items-center flex-row content-center`}>
                   <span>Solicitar cita</span> &nbsp;<IconTijeras />
                 </button>
               </div>
