@@ -130,7 +130,7 @@ const Carrusel = ({ params: {
         <div className={` gap-4 flex-1 max-w-4xl flex flex-row items-center justify-center  `}>
           {itemsCardsProps.slice(startIndex, startIndex + visibleItems).map((item, index) => (
             <a
-              href={item.href}
+              href={item.href ? item.href : "1-Inicio"}
               className={`group max-w-xs 
                 ${backgroundColorCard}  
                 ${borderRadiusCard}  
@@ -147,8 +147,8 @@ const Carrusel = ({ params: {
                   loading="eager"
                   width="700"
                   height="700"
-                  src={item.image}
-                  alt="placeholder"
+                  src={item.image ? item.image : "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png"}
+                  alt="Imagen Card"
                   className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
@@ -156,11 +156,11 @@ const Carrusel = ({ params: {
                 <p className={`font-semibold text-foreground mb-2 
                 ${sizeTitleCard} 
                 ${colorTitleCard}                
-               `}>{item.title}</p>
+               `}>{item.title ? item.title : "Titulo Card"}</p>
                 <p className={`text-muted-foreground/85 mb-4
                 ${sizeDescriptionCard}
                 ${colorDescriptionCard}
-                `}>{item.description}</p>
+                `}>{item.description ? item.description : "Descripción Card"}</p>
                 <button className={`
                   ${colorButtonCard}
                   ${colorButtonCardHover}
@@ -168,7 +168,7 @@ const Carrusel = ({ params: {
                   ${colorButtonCardTextHover}
                   ${borderRadiusCardButton}
                    font-bold py-2 px-4 flex items-center flex-row content-center`}>
-                  <span>{item.textButton}</span> &nbsp;<IconGeneral
+                  <span>{item.textButton ? item.textButton : "Botón Card" }</span> &nbsp;<IconGeneral
                     params={{ color: colorIcon, 
                       size: sizeIcon, 
                       className: classNameIcon, 
