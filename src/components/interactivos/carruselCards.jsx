@@ -64,14 +64,14 @@ const Carrusel = ({ params: {
 
 
 } }) => {
-  const shuffleArray = (array) => {
+   const shuffleArray = (array) => {
     return array.sort(() => Math.random() - 0.5);
   };
 
   const [startIndex, setStartIndex] = useState(0);
   const [visibleItems, setVisibleItems] = useState(visibleItemsDefault); 
   const [changeWithTime, setChangeWithTime] = useState(false);
-  const [itemsCards, setItemsCards] = useState(shuffleArray(itemsCardsProps));
+  const [itemsCards] = useState(shuffleArray(itemsCardsProps));
 
   // Ajustar la cantidad de items visibles dependiendo del tamaño de la pantalla
   useEffect(() => {
@@ -113,7 +113,7 @@ const Carrusel = ({ params: {
       <h3 className={`text-2xl ${colorTitle} font-bold text-center mb-2`}>
         {title}
       </h3>
-      <div className="flex items-center justify-center mb-8">
+      <div className="flex items-center justify-center mb-8 ">
         <button onClick={handlePrev} className="mx-2">
           <PrevNext params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext }} />
         </button>
@@ -121,7 +121,7 @@ const Carrusel = ({ params: {
           {itemsCards.slice(startIndex, startIndex + visibleItems).map((item, index) => (
             <a
               href={item.href ? item.href : "1-Inicio"}
-              className={`group w-80 h-full 
+              className={`group w-60  h-full
                 ${backgroundColorCard}  
                 ${borderRadiusCard}  
                 overflow-hidden 
@@ -131,7 +131,7 @@ const Carrusel = ({ params: {
                 ${shadowCardColorHover} transition-shadow duration-300 card`}
               key={index}
             >
-              <div className="relative aspect-[1/1] ">
+              <div className="relative w-full aspect-[1/1]">
                 <img
                   loading="eager"
                   src={item.image ? item.image : "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png"}
