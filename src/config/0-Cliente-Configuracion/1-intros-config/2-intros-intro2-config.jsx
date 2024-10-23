@@ -4,9 +4,11 @@ export const urlImagenIntro = "./logo.png";
 export const imgProperties = "w-32 aspect-square object-cover rounded-full border-2 border-customColor4 shadow-2xl"
 
 // Propiedades del card
-export const cardProperties = " p-4 md:px-10 md:py-10 mt-5 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center shadow-2xl"
+export const cardProperties = "bg-transparent p-4 md:px-10 md:py-10 mt-5 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center shadow-2xl"
 // export const cardProperties = ""
 
+// background universes
+export const universeBackground = true
 
 // Configuraciones de estilo
 export const colorTitleIntro = "text-customColor6 sm:text-5xl";
