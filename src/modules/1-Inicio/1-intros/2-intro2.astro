@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import SocialLink from '../../../components/ui/SocialLink.astro';
 import {
     urlImagenIntro,
@@ -30,11 +31,15 @@ import {
         
         { (
             <div class="p-4">
-                <img
-                    src={urlImagenIntro}
-                    alt={"Logotipo de la empresa o imagen representativa"}
-                    class={imgProperties}
-                />
+                <Picture
+                  src={urlImagenIntro}
+                  alt="Logotipo de la empresa o imagen representativa"
+                  widths={[260, 420, 780]}  
+                  sizes="(max-width: 600px) 100vw, 620px"
+                  loading="eager"
+                  formats={['avif', 'webp', 'jpeg']}
+                  class={imgProperties}
+                />    
             </div>
         )}
         <div class={cardProperties ? cardProperties : ''}>

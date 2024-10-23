@@ -1,6 +1,7 @@
 // Imagen representativa
+import imgImport from "../../../assets/images/logo.png";
 
-export const urlImagenIntro = "./logo.png";
+export const urlImagenIntro = imgImport;
 export const imgProperties = "w-32 aspect-square object-cover rounded-full border-2 border-customColor4 shadow-2xl"
 
 // Propiedades del card
