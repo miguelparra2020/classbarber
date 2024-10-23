@@ -80,11 +80,15 @@ const Navbar = () => {
         </>}       
 
          {/* Hamburger Menu (visible solo en móviles) */}
+         
          <button
           className={`lg:hidden flex items-center ${colorIconMenuMobile} p-2`}
           aria-label="Abrir menú de navegación"
           onClick={toggleMenu}
-        >
+        ><span class="relative flex h-3 w-3">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+      </span>&nbsp; &nbsp;
           <span className="sr-only">Menú</span>
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -131,7 +135,7 @@ const Navbar = () => {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 className={`absolute top-4 right-4 ${colorIconMenuMobile}`}
-              >
+              > 
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>  
@@ -152,7 +156,7 @@ const Navbar = () => {
                 </a>}
                 {activeCitasNavbar && <a href={linkCitasNavbar} className={`${colorLinksCard} hover:text-white flex items-center`}>
                   <span class="relative flex h-3 w-3">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
                   </span>&nbsp; &nbsp;
                   <IconCitas />
