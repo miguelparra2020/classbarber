@@ -154,13 +154,15 @@ const Carrusel = ({ params: {
                   ${borderRadiusCardButton}
                   font-bold py-2 px-4 flex items-center flex-row content-center`}>
                   <span>{item.textButton ? item.textButton : "Botón Card"}</span> &nbsp;
-                  <IconGeneral params={{ 
+                  <div className={'animate-bounce'}>
+                  <IconGeneral  params={{ 
                     color: colorIcon, 
                     size: sizeIcon, 
                     className: classNameIcon, 
                     viewBox: viewBoxIcon, 
                     path: pathIcon 
                   }}/>
+                  </div>
                 </button>
               </div>
             </a>
