@@ -12,19 +12,22 @@ import {
     colorSocialIconText,
     colorSocialIconHoverBg,
     colorSocialIconHoverText,
-    cardProperties
+    cardProperties,
+    universeBackground
 } from '../../../config/0-Cliente-Configuracion/1-intros-config/2-intros-intro2-config.jsx';
+
 ---
 
 <div>
   <section class="px-4 py-12 relative sm:px-8 sm:py-16">
     <div class="w-full max-w-3xl mx-auto flex flex-col items-center text-center relative">
 
-        <!-- Canvas para la animación del universo -->
-        <div id="starfield" class="absolute inset-0 -z-10">
+        {universeBackground && (
+           <div id="starfield" class="absolute inset-0 -z-10">
           <canvas id="starfield-canvas"></canvas>
-        </div>
-
+        </div> 
+        )}
+        
         { (
             <div class="p-4">
                 <img
