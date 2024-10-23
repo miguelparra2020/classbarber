@@ -122,33 +122,42 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu (visible solo cuando está abierto) */}
-      <Transition appear show={isOpen} >
+      <Transition appear show={isOpen}>
         <Dialog as="div" open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 overflow-hidden">
-          <div className={`absolute inset-0 ${colorEntorno} bg-opacity-75" aria-hidden="true" `}/>
+          <div className={`absolute inset-0 ${colorEntorno} bg-opacity-75`} aria-hidden="true"></div>
           <div className="fixed inset-0 flex items-center justify-center p-4">
-            <div className={`mx-auto max-w-sm rounded ${colorCard} p-6 shadow-lg" `}>
+            <div className={`mx-auto w-full rounded ${colorCard} p-6 shadow-lg`}>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className={`absolute top-4 right-4 ${colorIconMenuMobile} `}
+                className={`absolute top-4 right-4 ${colorIconMenuMobile}`}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>  
               </button>
               <div className="flex flex-col space-y-4">
-                <a href={linkinicioNavbar} className={`${colorLinksCard} hover:text-white `}>{inicioNavbar}</a>
-                <a href={linkproductosNavbar} className={`${colorLinksCard} hover:text-white `}>{productosNavbar}</a>
-                <a href={linkmediaNavbar} className={`${colorLinksCard} hover:text-white `}>{mediaNavbar}</a>
-                <a href={linknosotrosNavbar} className={`${colorLinksCard} hover:text-white `}>{nosotrosNavbar}</a>
-                <a href={linkcarritoNavbar} className={`${colorLinksCard} hover:text-white flex items-center `}>
+                {/* Añadimos los mismos ítems del navbar de escritorio */}
+                {activeinicioNavbar && <a href={linkinicioNavbar} className={`${colorLinksCard} hover:text-white `}>{inicioNavbar}</a>}
+                {activeproductosNavbar && <a href={linkproductosNavbar} className={`${colorLinksCard} hover:text-white `}>{productosNavbar}</a>}
+                {activemediaNavbar && <a href={linkmediaNavbar} className={`${colorLinksCard} hover:text-white `}>{mediaNavbar}</a>}
+                {activenosotrosNavbar && <a href={linknosotrosNavbar} className={`${colorLinksCard} hover:text-white `}>{nosotrosNavbar}</a>}
+                {activecarritoNavbar && <a href={linkcarritoNavbar} className={`${colorLinksCard} hover:text-white flex items-center `}>
                   <IconCarrito />
                   <span className="ml-1">{carritoNavbar}</span>
-                </a>
-                <a href={linkusuarioNavbar} className={`${colorLinksCard} hover:text-white flex items-center `} >
+                </a>}
+                {activeusuarioNavbar && <a href={linkusuarioNavbar} className={`${colorLinksCard} hover:text-white flex items-center `}>
                   <IconUser />
                   <span className="ml-1">{usuarioNavbar}</span>
-                </a>
+                </a>}
+                {activeCitasNavbar && <a href={linkCitasNavbar} className={`${colorLinksCard} hover:text-white flex items-center`}>
+                  <span class="relative flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                  </span>&nbsp; &nbsp;
+                  <IconCitas />
+                  <span className="ml-1">{citasNavbar}</span>
+                </a>}
               </div>
             </div>
           </div>
