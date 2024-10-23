@@ -1,5 +1,7 @@
 //Configuración del navbar
 export const logoUrl = "./logo.png"
+export const logoWebp = "./logo.webp"
+export const logoJpg = "./logo.jpg"
 export const nameStoreLogo = "Class Barber"
 export const inicioNavbar = "Inicio"
 export const productosNavbar = "Productos"
