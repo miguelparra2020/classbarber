@@ -148,9 +148,9 @@ const Carrusel = ({ params: {
                     {item.imageJpg && (
                       <source srcSet={item.imageJpg} type="image/jpeg" />
                     )}
-                    <img
+                    <img  
                       loading="lazy"
-                      src={item.imageJpg}  
+                      src={item.image ? item.image : "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.jpg"}
                       alt="Imagen Card"
                       className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
                     />
