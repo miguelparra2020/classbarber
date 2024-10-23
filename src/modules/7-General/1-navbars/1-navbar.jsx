@@ -127,7 +127,7 @@ const Navbar = () => {
 
       {/* Mobile Menu (visible solo cuando está abierto) */}
       <Transition appear show={isOpen}>
-        <Dialog as="div" open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 overflow-hidden">
+        <Dialog as="div" open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 overflow-hidden z-10">
           <div className={`absolute inset-0 ${colorEntorno} bg-opacity-75`} aria-hidden="true"></div>
           <div className="fixed inset-0 flex items-center justify-center p-4">
             <div className={`mx-auto w-full rounded ${colorCard} p-6 shadow-lg`}>
@@ -162,6 +162,7 @@ const Navbar = () => {
                   <IconCitas />
                   <span className="ml-1">{citasNavbar}</span>
                 </a>}
+                <button onClick={() => setIsOpen(false)} className={`${colorLinksCard}`}>Cerrar</button>
               </div>
             </div>
           </div>
