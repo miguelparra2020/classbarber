@@ -142,17 +142,15 @@ const Carrusel = ({ params: {
             >
               <div className="relative w-full aspect-[1/1]">
                   <picture>
-                    <source 
-                      srcSet={item.imageWebP ? item.imageWebP : ""} 
-                      type="image/webp" 
-                    />
-                    <source 
-                      srcSet={item.image ? item.image : ""} 
-                      type="image/jpeg" 
-                    />
+                  {item.imageWebp && (
+                      <source srcSet={item.imageWebp} type="image/webp" />
+                    )}
+                    {item.imageJpg && (
+                      <source srcSet={item.imageJpg} type="image/jpeg" />
+                    )}
                     <img
                       loading="lazy"
-                      src={item.image ? item.image : "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.jpg"}
+                      src={item.imageJpg}  
                       alt="Imagen Card"
                       className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
                     />
