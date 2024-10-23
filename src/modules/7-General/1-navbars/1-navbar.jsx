@@ -90,8 +90,8 @@ const Navbar = () => {
           aria-label="Abrir menú de navegación"
           onClick={toggleMenu}
         ><span class="relative flex h-3 w-3">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3 w-3 bg-gray-500"></span>
       </span>&nbsp; &nbsp;
           <span className="sr-only">Menú</span>
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -120,8 +120,8 @@ const Navbar = () => {
             
           {activeCitasNavbar && <a href={linkCitasNavbar} className={`${colorLinkNavbar}  ${colorLinkNavbarHover} hover:underline flex items-center`}>
           <span class="relative flex h-3 w-3">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-gray-500"></span>
           </span>&nbsp; &nbsp;            
             <IconCitas />
             <span className="ml-1">{citasNavbar}</span>
@@ -160,8 +160,8 @@ const Navbar = () => {
                 </a>}
                 {activeCitasNavbar && <a href={linkCitasNavbar} className={`${colorLinksCard} hover:text-white flex items-center`}>
                   <span class="relative flex h-3 w-3">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-gray-500"></span>
                   </span>&nbsp; &nbsp;
                   <IconCitas />
                   <span className="ml-1">{citasNavbar}</span>
