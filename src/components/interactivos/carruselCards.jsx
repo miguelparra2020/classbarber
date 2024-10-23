@@ -110,9 +110,10 @@ const Carrusel = ({ params: {
 
   return (
     <div className="py-8">
-      <h3 className={`text-2xl ${colorTitle} font-bold text-center mb-2`}>
+      <h3 className={` ${colorTitle} font-bold text-center mb-2 text-3xl underline decoration-sky-500/80 hover:no-underline`}>
         {title}
       </h3>
+      <br />
       <div className="flex items-center justify-center mb-8 ">
         <button onClick={handlePrev} className="mx-1">
           <PrevNext params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext }} />
