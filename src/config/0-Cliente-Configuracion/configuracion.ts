@@ -1,7 +1,7 @@
 // Configuración del navegador de la tienda
 export const titlePageStore = "Class Barber"
-export const iconNavegadorStore = "./logo.png"
-export const descriptionStore = "La mejor tienda de productos de tecnologías. Encuentra todo lo que necesitas para tu aplicación. Convierte en el mejor. ¡Compre con seguridad!..."
-export const keywordsStore = "tienda online, productos, compras, envío gratis"
+export const iconNavegadorStore = "./logo.webp"
+export const descriptionStore = "La mejor barbería de españa, por que nuestros clientes quedan siempre satisfechos"
+export const keywordsStore = "barberia, peluqueria, compras, productos de barberia, barberia en españa, barberia en ibiza"
 export const urlStore = "https://classbarber.com/"
-export const imageStore = "https://imagenes.elpais.com/resizer/v2/Y3W6QUFBBZLLTALRW6NBRPZ2RA.jpg?auth=d68f18251117888479d8fdc3210796bc86d9d3f41719da72c2877bcafc3504ea&width=414"
+export const imageStore = "./logo.webp"

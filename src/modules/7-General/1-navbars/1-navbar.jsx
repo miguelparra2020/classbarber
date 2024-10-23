@@ -4,7 +4,8 @@ import IconUser from '../../../components/icons/userIcon';
 import IconCitas from '../../../components/icons/IconCitas';
 import { Transition, Dialog } from '@headlessui/react';
 import {
-  logoUrl,
+  logoWebp,
+  logoJpg,
   nameStoreLogo, 
   inicioNavbar, 
   productosNavbar, 
@@ -72,12 +73,15 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        {activenameStoreLogo && <>
-          <a href={linknameStoreLogo} className={`${colorNameStoreLogo}  text-xl font-bold flex items-center`}>
-            <img src={logoUrl} alt="" width={40} height={40} style={{borderRadius: '50%'}} className='shadow-lg'/>
-            &nbsp; &nbsp;
-            {nameStoreLogo}</a>
-        </>}       
+        {activenameStoreLogo && (
+            <a href={linknameStoreLogo} className={`${colorNameStoreLogo} text-xl font-bold flex items-center`}>
+              <picture>
+                <source srcSet={logoWebp ? logoWebp : ""} type="image/webp" />
+                <img src={logoJpg ? logoJpg : ""} alt={nameStoreLogo} width={40} height={40} style={{ borderRadius: '50%' }} className='shadow-lg' />
+              </picture>
+              &nbsp; &nbsp;{nameStoreLogo}
+            </a>
+          )}     
 
          {/* Hamburger Menu (visible solo en móviles) */}
          
