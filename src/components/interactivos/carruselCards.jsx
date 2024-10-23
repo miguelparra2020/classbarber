@@ -36,6 +36,8 @@ const Carrusel = ({ params: {
       title: "Card 1",
       description: "Descripcion 1",
       image: "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png",
+      imageWebp:"",
+      imageJpg:"",
       href: "/1-Inicio",
       textButton: "Acción boton"
   },
@@ -43,6 +45,8 @@ const Carrusel = ({ params: {
     title: "Card 2",
     description: "Descripcion 2",
     image: "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png",
+    imageWebp:"",
+    imageJpg:"",
     href: "/1-Inicio",
     textButton: "Acción boton"
 },
@@ -50,6 +54,8 @@ const Carrusel = ({ params: {
   title: "Card 3",
   description: "Descripcion 3",
   image: "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png",
+  imageWebp:"",
+  imageJpg:"",
   href: "/1-Inicio",
   textButton: "Acción boton"
 },
@@ -57,6 +63,8 @@ const Carrusel = ({ params: {
   title: "Card 4",
   description: "Descripcion 4",
   image: "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png",
+  imageWebp:"",
+  imageJpg:"",
   href: "/1-Inicio",
   textButton: "Acción boton"
 },
@@ -110,7 +118,7 @@ const Carrusel = ({ params: {
 
   return (
     <div className="py-8">
-      <h3 className={` ${colorTitle} font-bold text-center mb-2 text-3xl underline decoration-sky-500/80 hover:no-underline`}>
+      <h3 className={` ${colorTitle} font-bold text-center mb-2 text-3xl underline decoration-gray-500/80 hover:no-underline`}>
         {title}
       </h3>
       <br />
@@ -133,13 +141,24 @@ const Carrusel = ({ params: {
               key={index}
             >
               <div className="relative w-full aspect-[1/1]">
-                <img
-                  loading="eager"
-                  src={item.image ? item.image : "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.png"}
-                  alt="Imagen Card"
-                  className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
+                  <picture>
+                    <source 
+                      srcSet={item.imageWebP ? item.imageWebP : ""} 
+                      type="image/webp" 
+                    />
+                    <source 
+                      srcSet={item.image ? item.image : ""} 
+                      type="image/jpeg" 
+                    />
+                    <img
+                      loading="lazy"
+                      src={item.image ? item.image : "https://cdn.pixabay.com/photo/2017/01/25/17/35/picture-2008484_1280.jpg"}
+                      alt="Imagen Card"
+                      className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </picture>
+                </div>
+
               <div className="py-4 px-5 border-t">
                 <p className={`font-semibold text-foreground mb-2 
                 ${sizeTitleCard} 
