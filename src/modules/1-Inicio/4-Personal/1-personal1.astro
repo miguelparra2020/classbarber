@@ -1,40 +1,76 @@
+---
+import IconGeneral from "../../../components/icons/IconGeneral"
+
+const colorButtonCard = "bg-customColor8"
+const colorButtonCardHover = "hover:bg-customColor5"
+const colorButtonCardText = "text-white"
+const colorButtonCardTextHover = "hover:text-gray-800"
+const borderRadiusCardButton = "rounded"
+const textButton = "Agendar cita"
+const colorIcon = "currentColor"
+const sizeIcon = "16"
+const classNameIcon = "bi bi-scissors animate-bounce"
+const viewBoxIcon = "0 0 16 16"
+const pathIcon = "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"
+
+---
+
 <div class="text-center w-full flex flex-col items-center justify-center">
-  <h3 class="text-3xl underline decoration-red-500/80 hover:no-underline text-foreground font-bold col-span-3 xl:col-span-1 mx-4">
+  <h3 class="text-3xl text-center w-full underline decoration-gray-500/80 hover:no-underline text-foreground font-bold col-span-3 xl:col-span-1 mx-4">
     Conoce nuestro equipo de trabajo
   </h3> 
 </div>  
+
 <div class="w-full flex flex-col items-center">
-<div class="flex justify-center items-center flex-col md:flex-row w-full gap-8 max-w-3xl ">  
+  <div class="flex justify-center items-center flex-col md:flex-row w-full gap-8 max-w-3xl">  
   
-    <!-- Primera Card -->
-    <div class="flex justify-center items-center w-full md:w-1/2 card" style={`animation-delay: 5s`}>
+    <!-- Card Única con dos imágenes -->
+    <div class="flex justify-center items-center w-full md:w-1/2 card" style="animation-delay: 5s">
       <div class="p-6 w-full">
         <div x-show="activeCategory === 'all' || activeCategory === 'cardiology'">
           <div class="relative rounded-lg border border-muted-200 dark:border-muted-800 bg-white dark:bg-muted-900 transition-all duration-300 shadow-lg hover:shadow-2xl">
-            <div class="relative w-full h-80 rounded-lg overflow-hidden bg-muted-200 dark:bg-muted-800">
-              <img
-                class="absolute inset-0 w-full h-full object-cover"
-                src="https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg"
-                alt="Doctor"
-              />
+            <div class="grid grid-cols-2 gap-2 m-4"> <!-- Cambiado a una cuadrícula de 2 columnas -->
+              <div class="relative w-full h-80 rounded-lg overflow-hidden bg-muted-200 dark:bg-muted-800">
+                <img
+                  class="absolute inset-0 w-full h-full object-cover"
+                  src="https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg"
+                  alt="Barbero 1"
+                />
+              </div>
+              <div class="relative w-full h-80 rounded-lg overflow-hidden bg-muted-200 dark:bg-muted-800">
+                <img
+                  class="absolute inset-0 w-full h-full object-cover"
+                  src="https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg"
+                  alt="Barbero 2"
+                />
+              </div>
             </div>
-            <div class="font-sans mt-3 px-3">
-              <h4 class="font-semibold text-muted-800 dark:text-muted-100 ">
-                Luis Herrera
+            <div class="font-sans mt-3 px-3 text-center w-full">
+              <h4 class="font-semibold text-muted-800 dark:text-muted-100">
+                Luis Herrera y Carlos García
               </h4>
-              <p class="text-sm text-muted-400">Barbero</p>
+              <p class="text-sm text-muted-400">Barberos</p>
             </div>
-            <div class="mt-2 px-3">
+            <div class="mt-2 px-3 text-center w-full">
               <p class="text-sm ptablet:text-xs text-muted-500 dark:text-muted-400">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ergo illi intellegunt quid
+                Somos un equipo de profesionales con amplia experiencia en el mundo de la barbería, dedicamos
+                el mayor esfuerzo para brindarle el mejor servicio a nuestros clientes.
               </p>
             </div>
-            <div class="mt-2 mb-2 px-3">
-              <button class="btn bg-customColor3 text-white p-2 rounded-lg hover:bg-customColor2 hover:text-customColor6 transition-colors duration-300 flex items-center">
-                <span>Solicitar cita</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
-                  <path d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
-                </svg>
+            <div class="w-full flex justify-center ">
+              <button class={`${colorButtonCard} m-4 ${colorButtonCardHover} ${colorButtonCardText} ${colorButtonCardTextHover} ${borderRadiusCardButton} font-bold py-2 px-4 flex items-center`}>
+                <span>{textButton ? textButton : "Botón Card"}</span> &nbsp;
+                <div class='animate-bounce'>
+                  <IconGeneral 
+                    params={{ 
+                      color: colorIcon, 
+                      size: sizeIcon, 
+                      className: classNameIcon, 
+                      viewBox: viewBoxIcon, 
+                      path: pathIcon 
+                    }} 
+                  />
+                </div>
               </button>
             </div>
           </div>
@@ -42,60 +78,25 @@
       </div>
     </div>
   
-    <!-- Segunda Card -->
-    <div class="flex justify-center items-center w-full md:w-1/2 card" style={`animation-delay: 5s`}>
-      <div class="p-6 w-full">
-        <div x-show="activeCategory === 'all' || activeCategory === 'cardiology'">
-          <div class="relative rounded-lg border border-muted-200 dark:border-muted-800 bg-white dark:bg-muted-900 transition-all duration-300 shadow-lg hover:shadow-2xl">
-            <div class="relative w-full h-80 rounded-lg overflow-hidden bg-muted-200 dark:bg-muted-800">
-              <img
-                class="absolute inset-0 w-full h-full object-cover"
-                src="https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg"
-                alt="Doctor"
-              />
-            </div>
-            <div class="font-sans mt-3 px-3">
-              <h4 class="font-semibold text-muted-800 dark:text-muted-100 ">
-                Luis Herrera
-              </h4>
-              <p class="text-sm text-muted-400">Barbero</p>
-            </div>
-            <div class="mt-2 px-3">
-              <p class="text-sm ptablet:text-xs text-muted-500 dark:text-muted-400">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ergo illi intellegunt quid
-              </p>
-            </div>
-            <div class="mt-2 mb-2 px-3">
-              <button class="btn bg-customColor3 text-white p-2 rounded-lg hover:bg-customColor2 hover:text-customColor6 transition-colors duration-300 flex items-center">
-                <span>Solicitar cita</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-2" viewBox="0 0 16 16">
-                  <path d="M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>  
 
-  <script >
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('show');
-                observer.unobserve(entry.target); // Deja de observar cuando la animación se activa
-            }
-        });
-    });
+<script>
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              entry.target.classList.add('show');
+              observer.unobserve(entry.target); // Deja de observar cuando la animación se activa
+          }
+      });
+  });
 
-    const handleIntersection = () => {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => observer.observe(card));
-    };
+  const handleIntersection = () => {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => observer.observe(card));
+  };
 
-    setTimeout(handleIntersection, 100); // Asegura que se ejecuta después del renderizado
+  setTimeout(handleIntersection, 100); // Asegura que se ejecuta después del renderizado
 </script>
 
 <style>
@@ -108,5 +109,11 @@
   .card.show {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .grid-cols-2 {
+      grid-template-columns: repeat(2, 1fr); /* Dos columnas para móviles */
+    }
   }
 </style>
