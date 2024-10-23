@@ -115,7 +115,7 @@ const Carrusel = ({ params: {
       </h3>
       <br />
       <div className="flex items-center justify-center mb-8 ">
-        <button onClick={handlePrev} className="mx-1">
+        <button onClick={handlePrev} className="mx-1" aria-label="Mover a la izquierda">
           <PrevNext params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext }} />
         </button>
         <div className="gap-2 flex-1 max-w-4xl flex flex-row items-center justify-center">
@@ -169,7 +169,7 @@ const Carrusel = ({ params: {
             </a>
           ))}
         </div>
-        <button onClick={handleNext} className="mx-1">
+        <button onClick={handleNext} className="mx-1" aria-label="Mover a la derecha">
           <IconNext params={{ color: colorButtonPrevNext, size: sizeButtosPrevNext }} />
         </button>
       </div>
