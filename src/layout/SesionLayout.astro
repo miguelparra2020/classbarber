@@ -1,14 +1,32 @@
 ---
 interface Props {
   backgroundColor: string;
+  backgroundImage?: string;
+  heightCustom?: string;
 }
 
-const { backgroundColor } = Astro.props;
+const { backgroundColor, backgroundImage, heightCustom } = Astro.props;
 ---
 
-<div style={`background-color: ${backgroundColor}; width: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column`}>
-  <div style="width: 100%; height: 12vh"></div>
-  <div style="width: 100%">
+<div style={`position: relative; background-color: ${backgroundColor}; 
+${heightCustom ? `height: ${heightCustom};` : ''}; width: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column`}>
+  <!-- Pseudo-elemento para la imagen con opacidad -->
+  <div style={`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(${backgroundImage});
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+    z-index: 1;
+  `}></div>
+
+  <!-- Contenido -->
+  <div style="width: 100%; height: 12vh; z-index: 2;"></div>
+  <div style="width: 100%; z-index: 2;">
     <slot />
   </div>
 </div>

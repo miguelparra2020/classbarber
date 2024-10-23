@@ -1,11 +1,105 @@
 ---
+import IconGeneral from "../../../components/icons/IconGeneral"
 
+const colorButtonCard = "bg-customColor8"
+const colorButtonCardHover = "hover:bg-customColor5"
+const colorButtonCardText = "text-white"
+const colorButtonCardTextHover = "hover:text-gray-800"
+const borderRadiusCardButton = "rounded"
+const textButton = "Agendar cita"
+const colorIcon = "currentColor"
+const sizeIcon = "16"
+const classNameIcon = "bi bi-scissors animate-bounce"
+const viewBoxIcon = "0 0 16 16"
+const pathIcon = "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"
 ---
 
 <style>
-  
+  .text-gradient {
+    background-image: linear-gradient(90deg, #000000, #ff0000, #ffffff, #0000ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+    animation: gradient-animation 3s ease infinite;
+  }
+
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 100%;
+    }
+  }
+
+  .carrusel {
+    width: 100%;
+    height: 56vh;
+    position: relative;
+  }
+
+  .imagenCarrusel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.375rem /* 6px */;
+  }
+
+  @media (max-width: 600px) {
+    .carrusel {
+      width: 94%;
+      height: 20vh;
+    }
+  }
 </style>
 
-<div>
-  Soy Intro 3
-</div>
+<section class="relative md:-mt-[76px]">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+  <div class="relative max-w-7xl mx-auto px-1 sm:px-1">
+    <div class="pt-0 md:pt-[20px] pointer-events-none"></div>
+    <div class="py-8 md:py-10">
+      <div class="text-center pb-10 md:pb-16 max-w-screen-lg mx-auto">
+       
+        <!-- Titulo de Bienvenida ******************* -->
+        <h1 class="text-3xl md:text-3xl font-bold leading-tighter tracking-tighter mb-3 font-heading dark:text-gray-200">
+          <div class="mt-5">
+            <span class="text-gradient">BIENVENIDOS</span> A CLASS BARBER
+          </div>
+        </h1>
+
+        <div style="display:flex; justify-content: center;">
+          <div class="bg-gray-500 shadow-lg shadow-gray-500/50 hover:shadow-red-300 rounded-md carrusel">
+            <img 
+            src={"./imgs/bienvenida.jpg"}
+            alt={"Imagen de bienvenida"}  
+            decoding="auto" 
+            class="imagenCarrusel"
+            />        
+          </div>            
+        </div>
+        
+        <br/>
+        <div class="w-full flex justify-center">
+          <button class={`${colorButtonCard} ${colorButtonCardHover} ${colorButtonCardText} ${colorButtonCardTextHover} ${borderRadiusCardButton} font-bold py-2 px-4 flex items-center`}>
+            <span>{textButton ? textButton : "Botón Card"}</span> &nbsp;
+            <div class='animate-bounce'>
+              <IconGeneral 
+                params={{ 
+                  color: colorIcon, 
+                  size: sizeIcon, 
+                  className: classNameIcon, 
+                  viewBox: viewBoxIcon, 
+                  path: pathIcon 
+                }} 
+              />
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>            
+</section>

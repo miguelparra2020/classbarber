@@ -24,7 +24,7 @@ import IntroSelect9 from '../../modules/1-Inicio/1-intros/9-intro9.astro';
 import IntroSelect10 from '../../modules/1-Inicio/1-intros/10-intro10.astro';
 const intro1 = false
 const intro2 = true
-const intro3 = false
+const intro3 = true	
 const intro4 = false
 const intro5 = false
 const intro6 = false
@@ -110,21 +110,22 @@ const colorPersonal = "#h2h7h9";
 	<!-- Intros estaticas -->
 	 {intro && 
 	 <div>
+		{intro3 && 
+		<SesionLayout backgroundColor={colorIntro} backgroundImage='./carruselCards/fondobarber.svg' >
+				<IntroSelect3/>
+		</SesionLayout>
+		}
 		{intro1 && 
-		<SesionLayout backgroundColor={colorIntro}>
+		<SesionLayout backgroundColor={colorIntro} backgroundImage='./carruselCards/fondobarber.svg'>
 			<IntroSelect1/>
 		</SesionLayout>
 		}
 		{intro2 && 
-		<SesionLayout backgroundColor={colorIntro}>
+		<SesionLayout backgroundColor={colorIntro} backgroundImage='./carruselCards/fondobarber.svg'>
 			<IntroSelect2/>
 		</SesionLayout>
 		}
-		{intro3 && 
-		<SesionLayout backgroundColor={colorIntro}>
-			<IntroSelect3/>
-		</SesionLayout>
-		}
+		
 		{intro4 && 
 		<SesionLayout backgroundColor={colorIntro}>
 			<IntroSelect4/>
