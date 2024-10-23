@@ -1,4 +1,7 @@
 ---
+import { Picture } from "astro:assets"
+import imageSrc from '../../../assets/images/bienvenida.jpg';
+
 import IconGeneral from "../../../components/icons/IconGeneral"
 
 const colorButtonCard = "bg-customColor8"
@@ -73,12 +76,15 @@ const pathIcon = "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.5
 
         <div style="display:flex; justify-content: center;">
           <div class="bg-gray-500 shadow-lg shadow-gray-500/50 hover:shadow-red-300 rounded-md carrusel">
-            <img 
-            src={"./imgs/bienvenida.jpg"}
-            alt={"Imagen de bienvenida"}  
-            decoding="auto" 
+            <Picture
+            src={imageSrc}
+            alt="Imagen de bienvenida"
+            widths={[360, 720, 1080]}  
+            sizes="(max-width: 600px) 100vw, 620px"
+            loading="eager"
+            formats={['avif', 'webp', 'jpeg']}
             class="imagenCarrusel"
-            />        
+          />       
           </div>            
         </div>
         
