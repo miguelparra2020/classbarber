@@ -1,0 +1,28 @@
+---
+import type { ImageMetadata } from 'astro'
+import { Picture } from 'astro:assets'
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/galery/*')
+const imagePaths = Object.keys(images).filter((imagePath) => {
+  return imagePath.startsWith(`/src/assets/galery/`)
+})
+---
+
+<div id="main" class="w-full flex flex-row flex-wrap justify-center">
+  {
+    imagePaths.map(async (imagePath) => {
+      const image = images[imagePath]()
+      return (
+        <article class="thumb max-w-sm">
+            <Picture alt="Galeria de fotos"
+            src={image}
+        widths={[200, 400, 600]}
+        sizes="(max-width: 600px) 100vw, 620px"
+        loading="lazy"
+        formats={['avif', 'webp', 'jpeg']}  
+         />
+        </article>
+      )
+    })
+  }
+</div>
