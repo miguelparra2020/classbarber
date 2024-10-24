@@ -1,0 +1,32 @@
+---
+// Importa el componente Picture
+import Picture from 'astro/components/Picture.astro';
+import ImagenDefault from '@/assets/images/default.png'; 
+
+// Desestructuración de las propiedades
+const { 
+  src = ImagenDefault,       
+  alt = 'Imagen por defecto',            
+  widths = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 2000],             
+  sizes = '(max-width: 600px) 100vw, 50vw',
+  loading = 'lazy',                     
+  formats = ['avif', 'webp', 'jpeg', 'png'], 
+  quality = 85,
+  width ,
+  height,
+  class: className = '',  
+} = Astro.props;
+---
+
+<Picture
+  src={src}        
+  alt={alt}      
+  widths={widths}  
+  sizes={sizes} 
+  loading={loading}
+  formats={formats} 
+  width={width} 
+  height={height}
+  quality={quality}
+  class={className} 
+/>

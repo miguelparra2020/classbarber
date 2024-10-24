@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "module": "ESNext",
+    "target": "ESNext",
+    "baseUrl": ".",  // Establece la base de resolución a la raíz del proyecto
+    "jsx": "react",  
+    "strict": true,  
+    "esModuleInterop": true,  
+    "skipLibCheck": true,  
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@/*": ["src/*"]  // Define el alias @ para la carpeta src
+    }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "astro.d.ts"],
   "exclude": ["node_modules", "build"]
 }
