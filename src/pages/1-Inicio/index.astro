@@ -11,6 +11,8 @@ const categories = false
 const services = true
 // ¿Tiene Personal a escoger?
 const personal= true
+// ¿Tiene publicaciones?
+const publicaciones = true
 
 import IntroSelect1 from '../../modules/1-Inicio/1-intros/1-intro1.astro';
 import IntroSelect2 from '../../modules/1-Inicio/1-intros/2-intro2.astro';
@@ -104,6 +106,10 @@ const personal10 = false
 // Color de fondo de la sesión Personal
 const colorPersonal = "#h2h7h9";
 
+// Publicaciones
+
+import PublicaSelect1 from '../../modules/1-Inicio/5-publicaciones/1-publicaciones1.astro';
+const publicaciones1 = true
 ---
 
 <MainLayout>
@@ -329,6 +335,17 @@ const colorPersonal = "#h2h7h9";
 		{personal10 && 
 			<SesionLayout backgroundColor={colorPersonal}>
 				<PersonalSelect10/>
+			</SesionLayout>
+		}
+	</div>
+	}
+
+	<!-- publicaciones -->
+	{publicaciones && 
+	<div>
+		{publicaciones1 && 
+			<SesionLayout backgroundColor={"#h2h7h9"}>
+				<PublicaSelect1/>
 			</SesionLayout>
 		}
 	</div>
