@@ -7,7 +7,12 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
   return imagePath.startsWith(`/src/assets/galery/`)
 })
 ---
-
+<div class="text-center w-full flex flex-col items-center justify-center">
+  <h3 class="text-3xl text-center w-full underline decoration-gray-500/80 hover:no-underline text-foreground font-bold col-span-3 xl:col-span-1 mx-4">
+    Publicaciones 
+  </h3> 
+</div>  
+<br>
 <div id="main" class="w-full flex flex-row flex-wrap justify-center">
   {
     imagePaths.map(async (imagePath) => {
