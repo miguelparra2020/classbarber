@@ -4,5 +4,10 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react()]
+  integrations: [react()],
+  resolve: {
+    alias: {
+      '@': '/src', // Asegúrate de que apunte a la carpeta src
+    },
+  },
 });
