@@ -1,5 +1,6 @@
 ---
 import imageSrc from '../../../assets/images/bienvenida.jpg';
+import imageLogo from '../../../assets/images/logo.jpg';
 import Logo from '../../../components/ui/CustomImagen.astro';
 import ImgBienvenida from '../../../components/ui/CustomImagen.astro';
 import IconGeneral from "../../../components/icons/IconGeneral"
@@ -16,18 +17,6 @@ const classNameIcon = "bi bi-scissors animate-bounce"
 const viewBoxIcon = "0 0 16 16"
 const pathIcon = "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"
 
-const getDeviceType = () => {
-  const userAgent = typeof window !== 'undefined' ? window.navigator.userAgent : '';
-  if (/mobile/i.test(userAgent)) {
-    return 'mobile';
-  } else if (/tablet/i.test(userAgent)) {
-    return 'tablet';
-  } else {
-    return 'desktop';
-  }
-};
-
-const device = getDeviceType();
 
 ---
 
@@ -95,16 +84,16 @@ const device = getDeviceType();
             widths={[360, 720, 1080]}  
             sizes="(max-width: 600px) 100vw, 620px"
             loading="eager"
-            class="imagenCarrusel bg-gray-500 shadow-lg shadow-gray-500 hover:shadow-gray-600 rounded-md carrusel"
-            width={500} 
-            height={300} 
+            class="imagenCarrusel bg-gray-500 shadow-lg shadow-gray-500 hover:shadow-gray-600 rounded-md carrusel  h-60 lg:h-80"
+            width={700} 
+            height={800} 
           />               
         </div>
         <br>
-        El dispositivo actual es: {device}
         <div class="flex justify-center items-center flex-col">
           <Logo 
-          class={`shadow-lg shadow-gray-500 hover:shadow-gray-600 `} 
+          src={imageLogo}
+          class={`shadow-lg shadow-gray-500 hover:shadow-gray-600 rounded-full w-20 h-20`} 
           width={200} 
           height={100} 
           loading="eager" 
