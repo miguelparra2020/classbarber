@@ -3,10 +3,10 @@ import { useState } from 'react';
 const CitasModule = () => {
     // Estados para controlar el paso actual y los datos seleccionados
     const [currentStep, setCurrentStep] = useState(1);
-    const [selectedBarbero, setSelectedBarbero] = useState("");
+    const [selectedBarbero, setSelectedBarbero] = useState();
     const [selectedServicios, setSelectedServicios] = useState([]);
-    const [selectedFecha, setSelectedFecha] = useState("");
-    const [selectedHorario, setSelectedHorario] = useState("");
+    const [selectedFecha, setSelectedFecha] = useState();
+    const [selectedHorario, setSelectedHorario] = useState();
 
     // Funciones para cambiar de paso
     const goToNextStep = () => {
@@ -19,12 +19,41 @@ const CitasModule = () => {
 
     return (
         <div>
+            <div className='flex flex-col items-center content-center'>
+        <h1 className="text-3xl md:text-3xl font-bold leading-tighter tracking-tighter mb-3 font-heading dark:text-gray-200">
+          <div className="mt-5">
+            <span>Agendar cita</span>
+          </div>
+        </h1>
+        </div>
             {/* Tabs para simular los pasos */}
-            <div className="tabs">
-                <button onClick={() => setCurrentStep(1)} className={currentStep === 1 ? "active" : ""}>Paso 1: Selecciona el Barbero</button>
-                <button onClick={() => setCurrentStep(2)} className={currentStep === 2 ? "active" : ""}>Paso 2: Selecciona los Servicios</button>
-                <button onClick={() => setCurrentStep(3)} className={currentStep === 3 ? "active" : ""}>Paso 3: Selecciona Fecha y Hora</button>
+            <div className="w-full flex flex-col items-center content-center ">
+                <div className="lg:w-3/4 sm:w-full sm:h-40 lg:h-auto flex flex-row items-center content-center ">
+                    <div className='w-1/3 sm:h-40 lg:h-auto text-center bg-gray-500 text-white p-4'>
+                    
+                    <button onClick={() => setCurrentStep(1)} className={currentStep === 1 ? "active" : ""}>
+                   {currentStep === 1 && <><span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>&nbsp; &nbsp;
+                   </>}  Paso 1: Selecciona el Barbero</button></div>
+                    <div className='w-1/3 sm:h-40 lg:h-auto text-center bg-gray-200 text-customColor2  p-4'>
+                    <button onClick={() => setCurrentStep(2)} className={currentStep === 2 ? "active" : ""}>
+                    {currentStep === 2 && <><span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>&nbsp; &nbsp;
+                   </>}Paso 2: Selecciona los Servicios</button></div>
+                    <div className='w-1/3 sm:h-40 lg:h-auto text-center bg-gray-500 text-white p-4'>
+                    <button onClick={() => setCurrentStep(3)} className={currentStep === 3 ? "active" : ""}>
+                    {currentStep === 3 && <><span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>&nbsp; &nbsp;
+                   </>}Paso 3: Selecciona Fecha </button></div>
+                </div>
             </div>
+           
 
             {/* Renderizado condicional de los pasos */}
             {currentStep === 1 && (
