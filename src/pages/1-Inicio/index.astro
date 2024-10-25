@@ -12,7 +12,9 @@ const services = true
 // ¿Tiene Personal a escoger?
 const personal= true
 // ¿Tiene publicaciones?
-const publicaciones = true
+const publicaciones = false
+// ¿Tiene ubicación?
+const ubicaciones = true
 
 import IntroSelect1 from '../../modules/1-Inicio/1-intros/1-intro1.astro';
 import IntroSelect2 from '../../modules/1-Inicio/1-intros/2-intro2.astro';
@@ -110,6 +112,12 @@ const colorPersonal = "#h2h7h9";
 
 import PublicaSelect1 from '../../modules/1-Inicio/5-publicaciones/1-publicaciones1.astro';
 const publicaciones1 = false
+
+// Ubicacion
+
+import UbicaSelect1 from '../8-Ubicacion/index.astro';
+const ubicacion1 = true
+
 ---
 
 <MainLayout>
@@ -346,6 +354,16 @@ const publicaciones1 = false
 		{publicaciones1 && 
 			<SesionLayout backgroundColor={"#h2h7h9"}>
 				<PublicaSelect1/>
+			</SesionLayout>
+		}
+	</div>
+	}
+	<!-- Ubicaciones -->
+	{ubicaciones && 
+	<div>
+		{ubicacion1 && 
+			<SesionLayout backgroundColor={"#h2h7h9"}>
+				<UbicaSelect1/>
 			</SesionLayout>
 		}
 	</div>
