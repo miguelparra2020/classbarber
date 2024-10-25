@@ -3,9 +3,10 @@ interface Props {
   backgroundColor: string;
   backgroundImage?: string;
   heightCustom?: string;
+  cabeceraHeight?: string;
 }
 
-const { backgroundColor, backgroundImage, heightCustom } = Astro.props;
+const { backgroundColor, backgroundImage, heightCustom, cabeceraHeight } = Astro.props;
 ---
 
 <div style={`position: relative; background-color: ${backgroundColor}; 
@@ -25,7 +26,7 @@ ${heightCustom ? `height: ${heightCustom};` : ''}; width: 100%; display: flex; a
   `}></div>
 
   <!-- Contenido -->
-  <div style="width: 100%; height: 12vh; z-index: 2;"></div>
+  <div style={`width: 100%; height: ${cabeceraHeight ? cabeceraHeight : '12vh'}; z-index: 2;`}></div>
   <div style="width: 100%; z-index: 2;">
     <slot />
   </div>
