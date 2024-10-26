@@ -20,7 +20,7 @@ const CitasModule = () => {
     return (
         <div>
             <div className='flex flex-col items-center content-center'>
-        <h1 className="text-3xl md:text-3xl font-bold leading-tighter tracking-tighter mb-3 font-heading dark:text-gray-200">
+        <h1 className="text-3xl md:text-3xl font-bold leading-tighter tracking-tighter mb-3 font-heading">
           <div className="mt-5">
             <span>Agendar cita</span>
           </div>

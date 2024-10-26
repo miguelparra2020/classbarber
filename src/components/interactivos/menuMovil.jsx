@@ -22,9 +22,9 @@ const MenuMovil = () => {
 
     const currentPath = window.location.pathname;
     return (
-        <div class="fixed bottom-0 z-50 w-full -translate-x-1/2 bg-white border-t border-gray-200 left-1/2 dark:bg-gray-700 dark:border-gray-600">
+        <div class="fixed bottom-0 z-50 w-full -translate-x-1/2 bg-white border-t border-gray-200 left-1/2">
              <div class="w-full">
-                <div class="grid max-w-xs grid-cols-4	 gap-1 p-1 mx-auto my-2 bg-gray-100 rounded-lg dark:bg-gray-600" role="group">
+                <div class="grid max-w-xs grid-cols-4	 gap-1 p-1 mx-auto my-2 bg-gray-100 rounded-lg " role="group">
                     <a href="/1-Inicio" type="button" class={`flex flex-row items-center content-center 
                         text-center px-3 py-1.5 text-xs font-medium
                          ${currentPath === "/1-Inicio" ? "text-white bg-gray-900" : "text-gray-900 bg- hover:bg-gray-200"}
