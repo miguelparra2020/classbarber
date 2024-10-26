@@ -116,6 +116,7 @@ const publicaciones1 = false
 // Ubicacion
 
 import UbicaSelect1 from '../8-Ubicacion/index.astro';
+import CardComercial from '@/components/ui/cardComercial.astro';
 const ubicacion1 = true
 
 ---
@@ -347,6 +348,10 @@ const ubicacion1 = true
 		}
 	</div>
 	}
+	<SesionLayout backgroundColor={"#f2f7f9"}>
+		<CardComercial />
+	</SesionLayout>
+	
 
 	<!-- publicaciones -->
 	{publicaciones && 
@@ -368,4 +373,6 @@ const ubicacion1 = true
 		}
 	</div>
 	}
+
+	
 </MainLayout>
