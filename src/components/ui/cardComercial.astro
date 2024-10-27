@@ -1,18 +1,15 @@
 ---
 import IconGeneral from "../../components/icons/IconGeneral"
-// import ImgServicio1 from '../../components/ui/CustomImagen.astro';
-import Img1 from "../../assets/galery/1.jpg";
-import Img6 from "../../assets/galery/6.jpg";
-import Img7 from "../../assets/galery/7.jpg";
-import Img20 from "../../assets/galery/20.jpg";
 
 const arrayCard = [
-  { imagen: Img7, nombre: "Corte de Cabello", minutos: 30 },
-  { imagen: Img6, nombre: "Corte de Cabello y Barba", minutos: 45 },
-  { imagen: Img6, nombre: "Arreglo de barba", minutos: 25 },
-  { imagen: Img1, nombre: "Cejas con navaja", minutos: 5 },
-  { imagen: Img20, nombre: "Colorimetria", minutos: 60 },
-];
+  { nombre: "Corte de cabello", minutos: 30, id: 1 },
+  { nombre: "Arreglo de barba ", minutos: 20, id: 2 },
+  { nombre: "Cejas con navaja", minutos: 5, id: 3 },
+  { nombre: "Corte + Barba", minutos: 45, id: 4 },
+  { nombre: "Corte + Cejas", minutos: 40, id: 5 },
+  { nombre: "Corte + Barba + Cejas", minutos: 50, id: 6 },
+  { nombre: "Colorimetria", minutos: 60, id: 7 },
+]
 
 const colorButtonCard = "bg-customColor8"
 const colorButtonCardHover = "hover:bg-customColor5"
