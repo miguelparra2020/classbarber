@@ -1,12 +1,23 @@
 import { useState } from 'react';
 import IconGeneral from "../../components/icons/IconGeneral.jsx";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const CitasModule = () => {
     // Estados para controlar el paso actual y los datos seleccionados
     const [currentStep, setCurrentStep] = useState(1);
     const [selectedBarbero, setSelectedBarbero] = useState();
-    const [selectedServicios, setSelectedServicios] = useState([]);
+    const [selectedServicio, setSelectedServicio] = useState();
     const [selectedFecha, setSelectedFecha] = useState();
     const [selectedHorario, setSelectedHorario] = useState();
+    const [disabledServices, setDisabledServices] = useState(false);
+    console.log("selectedServicio:", selectedServicio)
+    
+    const [citaProgramming] = useState({
+      servicio: selectedServicio,
+      barbero: selectedBarbero,
+      fecha: selectedFecha,
+      horario: selectedHorario
+    });
 
     const arrayServicios = [
         { nombre: "Corte de cabello", minutos: 30, id: 1 },
@@ -17,7 +28,7 @@ const CitasModule = () => {
         { nombre: "Corte + Barba + Cejas", minutos: 50, id: 6 },
         { nombre: "Colorimetria", minutos: 60, id: 7 },
       ]
-
+    
     // Funciones para cambiar de paso
     const goToNextStep = () => {
         if (currentStep < 3) setCurrentStep(currentStep + 1);
@@ -26,6 +37,19 @@ const CitasModule = () => {
     const goToPreviousStep = () => {
         if (currentStep > 1) setCurrentStep(currentStep - 1);
     };
+
+    const notifyServiceSelected = (serviceId, serviceName) => {
+      if (selectedServicio != serviceId) {
+        setDisabledServices(true)
+        toast.success("Ha seleccionado el servicio: " + serviceName)
+        setTimeout(() => {
+          goToNextStep()
+          setDisabledServices(false)
+        }, 3000)
+
+      }
+      
+    }
 
     return (
         <div>
@@ -87,7 +111,11 @@ const CitasModule = () => {
             <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
   {arrayServicios.map((servicio, index) => (
     <li key={index} className="py-3 sm:py-4">
-      <label htmlFor={servicio.id} className="flex items-center cursor-pointer">
+      <label htmlFor={servicio.id || selectedServicio} onClick={() => {if(!disabledServices){
+        setSelectedServicio(servicio.id)
+        notifyServiceSelected(servicio.id, servicio.nombre)
+      }        
+      }} className="flex items-center cursor-pointer">
         <div className="flex-shrink-0">
           <IconGeneral
             params={{
@@ -116,11 +144,14 @@ const CitasModule = () => {
           </p>
         </div>
         <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-          <input
+        <input
             id={servicio.id}
             type="radio"
-            name="servicio" // Este atributo agrupa los radios, permitiendo solo una selección
+            name="servicio"
             className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            checked={selectedServicio === servicio.id} // Esto mantiene el input marcado si coincide con el servicio seleccionado
+            onChange={() => setSelectedServicio(servicio.id)}
+            disabled={disabledServices}
           />
         </div>
       </label>
@@ -182,6 +213,8 @@ const CitasModule = () => {
                     </div>
                 </div>
             )}
+            
+            <ToastContainer autoClose={3000} style={{marginTop: "12vh"}}/>
         </div>
     );
 };
