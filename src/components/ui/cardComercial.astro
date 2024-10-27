@@ -1,6 +1,6 @@
 ---
 import IconGeneral from "../../components/icons/IconGeneral"
-import ImgServicio1 from '../../components/ui/CustomImagen.astro';
+// import ImgServicio1 from '../../components/ui/CustomImagen.astro';
 import Img1 from "../../assets/galery/1.jpg";
 import Img6 from "../../assets/galery/6.jpg";
 import Img7 from "../../assets/galery/7.jpg";
@@ -38,7 +38,7 @@ const pathIcon = "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.5
 {arrayCard.map((card) => (
   <div class="w-full max-w-xs bg-white border border-gray-200 rounded-lg shadow mx-auto">
     <div class="w-full flex flex-row items-center gap-2 m-4">
-      <a href="/7-Citas">
+      {/* <a href="/7-Citas">
         <ImgServicio1
           src={card.imagen}
           alt={`Imagen de ${card.nombre}`}
@@ -49,7 +49,7 @@ const pathIcon = "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.5
           width={70} 
           height={70} 
         />
-      </a>
+      </a> */}
       <h5 class="text-xl font-semibold tracking-tight text-gray-900 ">{card.nombre}</h5>
     </div>
     <div class="px-5 pb-5">
