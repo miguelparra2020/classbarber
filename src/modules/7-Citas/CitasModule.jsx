@@ -100,15 +100,15 @@ const CitasModule = () => {
             {/* Renderizado condicional de los pasos */}
             {currentStep === 1 && (
     <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-full max-w-sm p-1 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full max-w-sm p-1 bg-white border border-gray-200 rounded-lg shadow sm:p-8 ">
             <div className="flex items-center justify-between mb-1">
-                <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Servicios</h5>
-                <span className="text-sm font-medium text-gray-600 hover:underline dark:text-gray-500">
+                <h5 className="text-xl font-bold leading-none text-gray-900 ">Servicios</h5>
+                <span className="text-sm font-medium text-gray-600 hover:underline ">
                     Seleccionar servicio
                 </span>
             </div>
             <div className="flow-root">
-            <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+            <ul role="list" className="divide-y divide-gray-200 ">
   {arrayServicios.map((servicio, index) => (
     <li key={index} className="py-3 sm:py-4">
       <label htmlFor={servicio.id || selectedServicio} onClick={() => {if(!disabledServices){
@@ -128,10 +128,10 @@ const CitasModule = () => {
           />
         </div>
         <div className="flex-1 min-w-0 ms-4">
-          <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+          <p className="text-sm font-medium text-gray-900 truncate ">
             {servicio.nombre}
           </p>
-          <p className="text-sm text-gray-500 truncate dark:text-gray-400 flex flex-row">
+          <p className="text-sm text-gray-500 truncate ">
             <IconGeneral
               params={{
                 color: "currentColor",
@@ -143,12 +143,12 @@ const CitasModule = () => {
             /> &nbsp; {servicio.minutos} min
           </p>
         </div>
-        <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+        <div className="inline-flex items-center text-base font-semibold text-gray-900 ">
         <input
             id={servicio.id}
             type="radio"
             name="servicio"
-            className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 "
             checked={selectedServicio === servicio.id} // Esto mantiene el input marcado si coincide con el servicio seleccionado
             onChange={() => setSelectedServicio(servicio.id)}
             disabled={disabledServices}
