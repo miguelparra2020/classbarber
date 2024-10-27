@@ -13,6 +13,7 @@ import {
   nosotrosNavbar, 
   carritoNavbar, 
   usuarioNavbar,
+  ubicacionNavbar,
   citasNavbar,
   linknameStoreLogo,
   linkinicioNavbar,
@@ -21,6 +22,7 @@ import {
   linknosotrosNavbar,
   linkcarritoNavbar,
   linkusuarioNavbar,
+  linkubicacionNavbar,
   linkCitasNavbar,
   activenameStoreLogo,
   activeinicioNavbar,
@@ -29,6 +31,7 @@ import {
   activenosotrosNavbar,
   activecarritoNavbar,
   activeusuarioNavbar,
+  activeubicacionNavbar,
   activeCitasNavbar,
   colorNavbar,
   colorNameStoreLogo,
@@ -105,6 +108,8 @@ const Navbar = () => {
           {activeproductosNavbar && <a href={linkproductosNavbar} className={`${colorLinkNavbar}  ${colorLinkNavbarHover} hover:underline`}>{productosNavbar}</a>}
           {activemediaNavbar && <a href={linkmediaNavbar} className={`${colorLinkNavbar}  ${colorLinkNavbarHover} hover:underline`}>{mediaNavbar}</a>}
           {activenosotrosNavbar && <a href={linknosotrosNavbar} className={`${colorLinkNavbar}  ${colorLinkNavbarHover} hover:underline`}>{nosotrosNavbar}</a>}
+          {activeubicacionNavbar && <a href={linkubicacionNavbar} className={`${colorLinkNavbar}  ${colorLinkNavbarHover} hover:underline`}>{ubicacionNavbar}</a>}
+        
         </div>
 
         {/* Right Side Menu (visible en pantallas grandes) */}
@@ -158,6 +163,13 @@ const Navbar = () => {
                   <IconUser />
                   <span className="ml-1">{usuarioNavbar}</span>
                 </a>}
+                {activeubicacionNavbar && 
+                <a href={linkubicacionNavbar} className={`${colorLinksCard} hover:text-white flex 
+                items-center `}>
+                  <span className="ml-1">{ubicacionNavbar}</span>
+                </a>
+                  
+                  }
                 {activeCitasNavbar && <a href={linkCitasNavbar} className={`${colorLinksCard} hover:text-white flex items-center`}>
                   <span class="relative flex h-3 w-3">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-400 opacity-75"></span>

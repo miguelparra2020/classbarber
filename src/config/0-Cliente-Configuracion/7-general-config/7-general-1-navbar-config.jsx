@@ -2,13 +2,14 @@
 export const logoUrl = "./logo.png"
 export const logoWebp = "./logo.webp"
 export const logoJpg = "./logo.jpg"
-export const nameStoreLogo = "Class Barber"
+export const nameStoreLogo = "Class Barber Shop"
 export const inicioNavbar = "Inicio"
 export const productosNavbar = "Productos"
-export const mediaNavbar = "Publicaciones"
+export const mediaNavbar = "Fotos"
 export const nosotrosNavbar = "Nosotros"
 export const carritoNavbar = "Carrito"
 export const usuarioNavbar = "Usuario"
+export const ubicacionNavbar = "Ubicación"
 export const citasNavbar = "Citas"
 //Configuración del navbar Links
 export const linknameStoreLogo = "/1-Inicio"
@@ -18,6 +19,7 @@ export const linkmediaNavbar = "/3-Media"
 export const linknosotrosNavbar = "/4-Nosotros"
 export const linkcarritoNavbar = "/5-Carrito"
 export const linkusuarioNavbar = "/6-Usuario" 
+export const linkubicacionNavbar = "/8-Ubicacion"
 export const linkCitasNavbar = "/7-Citas"
 //Configuración del navbar Activos  
 //Configuración del navbar Links
@@ -28,6 +30,7 @@ export const activemediaNavbar = true
 export const activenosotrosNavbar = false
 export const activecarritoNavbar = false
 export const activeusuarioNavbar = false
+export const activeubicacionNavbar = true
 export const activeCitasNavbar = true
 
 // configuración de colores del navbar https://tailwindcss.com/docs/background-color

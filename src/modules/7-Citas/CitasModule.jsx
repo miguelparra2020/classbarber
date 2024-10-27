@@ -26,7 +26,8 @@ const CitasModule = () => {
         { nombre: "Corte + Barba", minutos: 45, id: 4 },
         { nombre: "Corte + Cejas", minutos: 40, id: 5 },
         { nombre: "Corte + Barba + Cejas", minutos: 50, id: 6 },
-        { nombre: "Colorimetria", minutos: 60, id: 7 },
+        { nombre: "Colorimetria", minutos: 90, id: 7 },
+        { nombre: "Delineado", minutos: 10, id: 8 },
       ]
     
     // Funciones para cambiar de paso
