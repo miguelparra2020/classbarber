@@ -10,6 +10,8 @@ const CitasModule = () => {
     const [selectedFecha, setSelectedFecha] = useState();
     const [selectedHorario, setSelectedHorario] = useState();
     const [disabledServices, setDisabledServices] = useState(false);
+    const [disabledBarbero, setDisabledBarbero] = useState(false);
+    // Funciones para manejar los cambios en los estados de seleccion
     console.log("selectedServicio:", selectedServicio)
     
     const [citaProgramming] = useState({
@@ -29,6 +31,13 @@ const CitasModule = () => {
         { nombre: "Colorimetria", minutos: 90, id: 7 },
         { nombre: "Delineado", minutos: 10, id: 8 },
       ]
+
+    const arrayBarberos = [
+        { img : "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
+           nombre: "Barbero 1", id: 1 },
+        { img: "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
+          nombre: "Barbero 2", id: 2 },
+    ]
     
     // Funciones para cambiar de paso
     const goToNextStep = () => {
@@ -46,6 +55,19 @@ const CitasModule = () => {
         setTimeout(() => {
           goToNextStep()
           setDisabledServices(false)
+        }, 3000)
+
+      }
+      
+    }
+
+    const notifyBarberoSelected = (barberoId, barberoName) => {
+      if (selectedBarbero != barberoId) {
+        setDisabledBarbero(true)
+        toast.success("Ha seleccionado el barbero: " + barberoName)
+        setTimeout(() => {
+          goToNextStep()
+          setDisabledBarbero(false)
         }, 3000)
 
       }
@@ -75,7 +97,7 @@ const CitasModule = () => {
                             Seleccionar Servicios 
                         
                     </button>
-                    <button onClick={() => setCurrentStep(2)}  type="button" class={`flex flex-row items-center content-center text-center px-1 py-1.5 text-xs 
+                    <button onClick={() => setCurrentStep(2)} disabled={!selectedServicio} type="button" class={`flex flex-row items-center content-center text-center px-1 py-1.5 text-xs 
                     font-medium  ${currentStep === 2 ? "text-white bg-gray-900" : "text-gray-900 bg- hover:bg-gray-200"} 
                     rounded-lg`}>
                         {currentStep === 2 && <><span class="relative flex h-3 w-3">
@@ -84,7 +106,7 @@ const CitasModule = () => {
                     </span>&nbsp; &nbsp;
                    </>} &nbsp; Seleccionar Barbero
                     </button>
-                    <button onClick={() => setCurrentStep(3)}  type="button" class={`flex flex-row items-center content-center text-center px-1 py-1.5 
+                    <button onClick={() => setCurrentStep(3)}  disabled={!selectedServicio || !selectedBarbero} type="button" class={`flex flex-row items-center content-center text-center px-1 py-1.5 
                     text-xs font-medium ${currentStep === 3 ? "text-white bg-gray-900" : "text-gray-900 bg- hover:bg-gray-200"} 
                     rounded-lg`}>
                         {currentStep === 3 && <><span class="relative flex h-3 w-3">
@@ -132,7 +154,7 @@ const CitasModule = () => {
           <p className="text-sm font-medium text-gray-900 truncate ">
             {servicio.nombre}
           </p>
-          <p className="text-sm text-gray-500 truncate ">
+          <p className="text-sm text-gray-500 truncate flex flex-row">
             <IconGeneral
               params={{
                 color: "currentColor",
@@ -165,7 +187,7 @@ const CitasModule = () => {
         </div>
         <br />
         <div class="w-screen gap-4 flex flex-row justify-center  items-center content-center">
-                        <button onClick={goToNextStep} class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
+                        <button onClick={goToNextStep} disabled={!selectedServicio}  class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
                     </div>
 
                     <br />
@@ -180,19 +202,70 @@ const CitasModule = () => {
 
 
             {currentStep === 2 && (
-                <div>
-                    <h2>Selecciona el Barbero</h2>
-                    <select value={selectedBarbero} onChange={(e) => setSelectedBarbero(e.target.value)}>
-                        <option value="">Selecciona un barbero</option>
-                        <option value="barbero1">Barbero 1</option>
-                        <option value="barbero2">Barbero 2</option>
-                        <option value="barbero3">Barbero 3</option>
-                    </select>
-                    <div class="w-screen gap-4 flex flex-row justify-center  items-center content-center">
-                        <button onClick={goToPreviousStep} class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Anterior</button>
-                        <button onClick={goToNextStep} class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
+                <div className="w-full flex flex-col items-center justify-center">
+                <div className="w-full max-w-sm p-1 bg-white border border-gray-200 rounded-lg shadow sm:p-8 ">
+                    <div className="flex items-center justify-between mb-1">
+                        <h5 className="text-xl font-bold leading-none text-gray-900 ">Barberos  </h5>
+                        <span className="text-sm font-medium text-gray-600 hover:underline ">
+                            Seleccionar barbero
+                        </span>
+                    </div>
+                    <div className="flow-root">
+                    <ul role="list" className="divide-y divide-gray-200 ">
+          {arrayBarberos.map((barbero, index) => (
+            <li key={index} className="py-3 sm:py-4">
+              <label htmlFor={barbero.id || selectedBarbero} onClick={() => {if(!disabledBarbero){
+                setSelectedBarbero(barbero.id)
+                notifyBarberoSelected(barbero.id, barbero.nombre)
+              }        
+              }} className="flex items-center cursor-pointer">
+                <div className="flex-shrink-0">
+                  foto
+                </div>
+                <div className="flex-1 min-w-0 ms-4">
+                  <p className="text-sm font-medium text-gray-900 truncate flex flex-row">
+                    {barbero.nombre} <IconGeneral
+            params={{
+              color: "currentColor",
+              size: "16",
+              className: "bi bi-scissors",
+              viewBox: "0 0 16 16",
+              path: "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"
+            }}
+                    /> 
+                  </p>
+                </div>
+                <div className="inline-flex items-center text-base font-semibold text-gray-900 ">
+                <input
+                    id={barbero.id}
+                    type="radio"
+                    name="barbero"
+                    className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 "
+                    checked={selectedBarbero === barbero.id} // Esto mantiene el input marcado si coincide con el servicio seleccionado
+                    onChange={() => setSelectedBarbero(barbero.id)}
+                    disabled={disabledBarbero}
+                  />
+                </div>
+              </label>
+            </li>
+          ))}
+        </ul>
+        
+        
                     </div>
                 </div>
+                <br />
+                <div class="w-screen gap-4 flex flex-row justify-center  items-center content-center">
+                                <button onClick={goToNextStep} disabled={!selectedServicio || !selectedBarbero} class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
+                            </div>
+        
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+            </div>
             )}            
 
             {currentStep === 3 && (
