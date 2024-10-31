@@ -2,6 +2,7 @@ import { useState } from 'react';
 import IconGeneral from "../../components/icons/IconGeneral.jsx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Datepicker } from 'flowbite-react';
 const CitasModule = () => {
     // Estados para controlar el paso actual y los datos seleccionados
     const [currentStep, setCurrentStep] = useState(1);
@@ -34,9 +35,9 @@ const CitasModule = () => {
 
     const arrayBarberos = [
         { img : "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
-           nombre: "Barbero 1", id: 1 },
+           nombre: "Carlos Garcia", id: 1 },
         { img: "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
-          nombre: "Barbero 2", id: 2 },
+          nombre: "Juan Gomez", id: 2 },
     ]
     
     // Funciones para cambiar de paso
@@ -94,7 +95,7 @@ const CitasModule = () => {
                         <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                     </span>&nbsp; &nbsp;
                    </>} &nbsp;
-                            Seleccionar Servicios 
+                            Seleccionar Servicio
                         
                     </button>
                     <button onClick={() => setCurrentStep(2)} disabled={!selectedServicio} type="button" class={`flex flex-row items-center content-center text-center px-1 py-1.5 text-xs 
@@ -270,17 +271,38 @@ const CitasModule = () => {
 
             {currentStep === 3 && (
                 <div>
-                    <h2>Selecciona Fecha y Hora</h2>
-                    <input
-                        type="date"
-                        value={selectedFecha}
-                        onChange={(e) => setSelectedFecha(e.target.value)}
-                    />
-                    <input
+                  <div className='w-full text-center'>
+                  <h1>Servicio seleccionado: <strong>{arrayServicios[selectedServicio-1].nombre}</strong></h1></div>
+                    <div className='w-full text-center'>
+                      <h1>Barbero seleccionado  : <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></h1></div>
+                      <br />
+                      <div className='w-full text-center'>
+                        <strong>Agenda disponible</strong>
+                      </div>
+                      <div className='w-full text-center'>
+                        <strong>Seleccionar fecha:</strong>
+                      </div>   
+                    
+<br />
+                      {/* Datepicker */}
+     <div className="max-w-96 flex flex-row justify-center items-center">
+       <Datepicker
+         value={selectedFecha}
+         onChange={(date) => setSelectedFecha(date)}
+         placeholder="  Seleccione una fecha"
+         format="yyyy-MM-dd"
+         minDate={new Date()}
+       />
+     </div>
+     <br />
+     <br />
+
+
+                    {/* <input
                         type="time"
                         value={selectedHorario}
                         onChange={(e) => setSelectedHorario(e.target.value)}
-                    />
+                    /> */}
                     <div class="w-full gap-4 flex flex-row justify-center items-center content-center">
                         <button onClick={goToPreviousStep} class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Anterior</button>
                         <button onClick={() => alert("Cita Agendada")} class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Confirmar Cita</button>
