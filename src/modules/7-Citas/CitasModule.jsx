@@ -225,15 +225,10 @@ const CitasModule = () => {
                 </div>
                 <div className="flex-1 min-w-0 ms-4">
                   <p className="text-sm font-medium text-gray-900 truncate flex flex-row">
-                    {barbero.nombre} <IconGeneral
-            params={{
-              color: "currentColor",
-              size: "16",
-              className: "bi bi-scissors",
-              viewBox: "0 0 16 16",
-              path: "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"
-            }}
-                    /> 
+                    {barbero.nombre} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+  <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+</svg>
                   </p>
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-gray-900 ">
@@ -271,32 +266,51 @@ const CitasModule = () => {
 
             {currentStep === 3 && (
                 <div>
-                  <div className='w-full text-center'>
-                  <h1>Servicio seleccionado: <strong>{arrayServicios[selectedServicio-1].nombre}</strong></h1></div>
-                    <div className='w-full text-center'>
-                      <h1>Barbero seleccionado  : <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></h1></div>
-                      <br />
-                      <div className='w-full text-center'>
-                        <strong>Agenda disponible</strong>
-                      </div>
-                      <div className='w-full text-center'>
-                        <strong>Seleccionar fecha:</strong>
-                      </div>   
-                    
+                  <div className='w-full text-center flex flex-col justify-center items-center mb-2'>
+                    <div className='w-[96%] sm:max-w-lg  flex flex-row justify-center items-center bg-gray-200 p-4 rounded-lg border-2 border-customColor5'>
+                     <span className='flex flex-row justify-center items-center'><IconGeneral
+                        params={{
+                          color: "currentColor",
+                          size: "16",
+                          className: "bi bi-scissors",
+                          viewBox: "0 0 16 16",
+                          path: "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"
+                        }}
+                    /> &nbsp; Servicio seleccionado: &nbsp;<strong>{arrayServicios[selectedServicio-1].nombre}</strong></span>
+                    </div>
+                  </div>
+                  <div className='w-full text-center flex flex-col justify-center items-center mb-2'>
+                    <div className='w-[96%] sm:max-w-lg  flex flex-row justify-center items-center bg-gray-200 p-4 rounded-lg border-2 border-customColor5'>
+                     <span className='flex flex-row justify-center items-center'>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-check" viewBox="0 0 16 16">
+  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+  <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+</svg> &nbsp; Barbero seleccionado: &nbsp; <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></span>
+                    </div>
+                  </div>
+                  <div className='w-full text-center flex flex-col justify-center items-center'>
+                    <div className='w-[96%] sm:max-w-lg  flex flex-col justify-center items-center bg-gray-50 p-4 rounded-lg border-2 border-customColor5'>
+                     <div>
+                     <span className='flex flex-row justify-center items-center'>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-check-fill" viewBox="0 0 16 16">
+  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5m9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5m-2.6 5.854a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+</svg>&nbsp; Agenda disponible de : &nbsp; <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></span>
+ 
+                     </div>
+                   
 <br />
-                      {/* Datepicker */}
-     <div className="max-w-96 flex flex-row justify-center items-center">
-       <Datepicker
-         value={selectedFecha}
-         onChange={(date) => setSelectedFecha(date)}
-         placeholder="  Seleccione una fecha"
-         format="yyyy-MM-dd"
-         minDate={new Date()}
-       />
-     </div>
-     <br />
-     <br />
+                    <div>
+                      Fechas disponibles:
+                    </div>
+                    <div>
+                      Horarios disponibles:
+                    </div>
+                    </div>
+                    
 
+                  </div>
+                        <br />
+                        <br />
 
                     {/* <input
                         type="time"
