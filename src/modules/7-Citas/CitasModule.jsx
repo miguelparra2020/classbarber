@@ -2,8 +2,8 @@ import { useState } from 'react';
 import IconGeneral from "../../components/icons/IconGeneral.jsx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Logo from "../../components/ui/hola.astro"
-import imageLogo from '../../assets/images/logopublicitario.jpeg';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 const CitasModule = () => {
     // Estados para controlar el paso actual y los datos seleccionados
     const [currentStep, setCurrentStep] = useState(1);
@@ -75,6 +75,25 @@ const CitasModule = () => {
       }
       
     }
+
+    const [dates, setDates] = useState(generateDates());
+
+  // Función para generar los próximos días a partir de hoy
+  function generateDates(days = 90) {
+    const today = new Date();
+    const result = [];
+
+    for (let i = 0; i < days; i++) {
+      const currentDate = new Date(today);
+      currentDate.setDate(today.getDate() + i);
+      result.push({
+        month: format(currentDate, 'MMM', { locale: es }).toUpperCase(),
+        day: format(currentDate, 'dd'),
+        weekday: format(currentDate, 'EEE', { locale: es }).toUpperCase()
+      });
+    }
+    return result;
+  }
 
     return (
         <div>
@@ -302,47 +321,31 @@ const CitasModule = () => {
                      </div>
                    
 <br />
-                    <div className='w-screen flex flex-col justify-center items-center'>
-                      <div>
-                        Fechas disponibles:
-                      </div>
-                      <div className='w-[96%]  flex flex-row justify-center items-center gap-2'>
-                        <div className='bg-gray-800 text-white p-2 rounded-md flex flex-col justify-center items-center'>    
-                          <div>                     
-                          <strong>NOV</strong>
-                          </div> 
-                          <div>
-                          <strong>04</strong>
-                          </div>
-                          <div>
-                          <strong> LUN</strong>
-                          </div>
-
-                        </div>
-                        <div className='bg-gray-200 text-gray-800 p-2 rounded-md flex flex-col justify-center items-center'>    
-                          <div>                     
-                          <strong>NOV</strong>
-                          </div> 
-                          <div>
-                          <strong>05</strong>
-                          </div>
-                          <div>
-                          <strong> MAR</strong>
-                          </div>
-                        </div>
-                        <div className='bg-gray-200 text-gray-800 p-2 rounded-md flex flex-col justify-center items-center'>    
-                          <div>  
-                          <strong> NOV</strong>
-                          </div> 
-                          <div>
-                            <strong>06</strong>
-                          </div>
-                          <div>
-                          <strong> MIE</strong>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+<div className='w-[94%] flex flex-col justify-start items-start'>
+      <div>Fechas disponibles:</div>
+      <div className='w-full flex flex-row justify-start items-center gap-2 overflow-x-auto'>
+        {dates.map((date, index) => (
+          <button
+            key={index}
+            className={`p-2 rounded-md min-w-[80px] flex flex-col justify-center items-center ${
+              index === 0
+                ? 'bg-gray-800 text-white'
+                : 'bg-gray-200 text-gray-800 hover:bg-gray-800 hover:text-white'
+            }`}
+          >
+            <div>
+              <strong>{date.month}</strong>
+            </div>
+            <div>
+              <strong>{date.day}</strong>
+            </div>
+            <div>
+              <strong>{date.weekday}</strong>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
                     <br />
                     <div>
                       Horarios disponibles:
