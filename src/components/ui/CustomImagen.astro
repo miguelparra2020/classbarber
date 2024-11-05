@@ -12,11 +12,11 @@ const {
   loading = 'lazy',                     
   formats = ['avif', 'webp', 'jpeg', 'png'], 
   quality = 85,
-  width ,
-  height,
+  width = 100,
+  height = 100,
   class: className = '',  
 } = Astro.props;
----
+--- 
 
 <Picture
   src={src}        

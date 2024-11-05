@@ -2,7 +2,8 @@ import { useState } from 'react';
 import IconGeneral from "../../components/icons/IconGeneral.jsx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Datepicker } from 'flowbite-react';
+import Logo from "../../components/ui/hola.astro"
+import imageLogo from '../../assets/images/logopublicitario.jpeg';
 const CitasModule = () => {
     // Estados para controlar el paso actual y los datos seleccionados
     const [currentStep, setCurrentStep] = useState(1);
@@ -84,35 +85,35 @@ const CitasModule = () => {
           </div>
         </h1>
         </div>
-        <div class="w-full">
-                <div class="grid max-w-xs grid-cols-3	 gap-1 p-1 mx-auto my-2 bg-gray-100 rounded-lg " role="group">
-                    <button onClick={() => setCurrentStep(1)}  type="button" class={`flex flex-row items-center content-center 
+        <div className="w-full">
+                <div className="grid max-w-xs grid-cols-3	 gap-1 p-1 mx-auto my-2 bg-gray-100 rounded-lg " role="group">
+                    <button onClick={() => setCurrentStep(1)}  type="button" className={`flex flex-row items-center content-center 
                         text-center px-1 py-1.5 text-xs font-medium
                          ${currentStep === 1 ? "text-white bg-gray-900" : "text-gray-900 bg- hover:bg-gray-200"}
                         rounded-lg`}>
-                            {currentStep === 1 && <><span class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            {currentStep === 1 && <><span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                     </span>&nbsp; &nbsp;
                    </>} &nbsp;
                             Seleccionar Servicio
                         
                     </button>
-                    <button onClick={() => setCurrentStep(2)} disabled={!selectedServicio} type="button" class={`flex flex-row items-center content-center text-center px-1 py-1.5 text-xs 
+                    <button onClick={() => setCurrentStep(2)} disabled={!selectedServicio} type="button" className={`flex flex-row items-center content-center text-center px-1 py-1.5 text-xs 
                     font-medium  ${currentStep === 2 ? "text-white bg-gray-900" : "text-gray-900 bg- hover:bg-gray-200"} 
                     rounded-lg`}>
-                        {currentStep === 2 && <><span class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                        {currentStep === 2 && <><span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                     </span>&nbsp; &nbsp;
                    </>} &nbsp; Seleccionar Barbero
                     </button>
-                    <button onClick={() => setCurrentStep(3)}  disabled={!selectedServicio || !selectedBarbero} type="button" class={`flex flex-row items-center content-center text-center px-1 py-1.5 
+                    <button onClick={() => setCurrentStep(3)}  disabled={!selectedServicio || !selectedBarbero} type="button" className={`flex flex-row items-center content-center text-center px-1 py-1.5 
                     text-xs font-medium ${currentStep === 3 ? "text-white bg-gray-900" : "text-gray-900 bg- hover:bg-gray-200"} 
                     rounded-lg`}>
-                        {currentStep === 3 && <><span class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                        {currentStep === 3 && <><span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                     </span>&nbsp; &nbsp;
                    </>} &nbsp; Seleccionar fecha
                     </button>
@@ -187,8 +188,8 @@ const CitasModule = () => {
             </div>
         </div>
         <br />
-        <div class="w-screen gap-4 flex flex-row justify-center  items-center content-center">
-                        <button onClick={goToNextStep} disabled={!selectedServicio}  class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
+        <div className="w-screen gap-4 flex flex-row justify-center  items-center content-center">
+                        <button onClick={goToNextStep} disabled={!selectedServicio}  className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
                     </div>
 
                     <br />
@@ -221,11 +222,13 @@ const CitasModule = () => {
               }        
               }} className="flex items-center cursor-pointer">
                 <div className="flex-shrink-0">
-                  foto
+                  <img src={barbero.img} alt="fotografía del barbero" 
+                  className="w-20 h-20 rounded-md"
+                  />
                 </div>
                 <div className="flex-1 min-w-0 ms-4">
                   <p className="text-sm font-medium text-gray-900 truncate flex flex-row">
-                    {barbero.nombre} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                    {barbero.nombre} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill-add" viewBox="0 0 16 16">
   <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
   <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
 </svg>
@@ -251,8 +254,8 @@ const CitasModule = () => {
                     </div>
                 </div>
                 <br />
-                <div class="w-screen gap-4 flex flex-row justify-center  items-center content-center">
-                                <button onClick={goToNextStep} disabled={!selectedServicio || !selectedBarbero} class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
+                <div className="w-screen gap-4 flex flex-row justify-center  items-center content-center">
+                                <button onClick={goToNextStep} disabled={!selectedServicio || !selectedBarbero} className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
                             </div>
         
                             <br />
@@ -282,7 +285,7 @@ const CitasModule = () => {
                   <div className='w-full text-center flex flex-col justify-center items-center mb-2'>
                     <div className='w-[96%] sm:max-w-lg  flex flex-row justify-center items-center bg-gray-200 p-4 rounded-lg border-2 border-customColor5'>
                      <span className='flex flex-row justify-center items-center'>
-                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-check" viewBox="0 0 16 16">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill-check" viewBox="0 0 16 16">
   <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
   <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
 </svg> &nbsp; Barbero seleccionado: &nbsp; <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></span>
@@ -292,24 +295,63 @@ const CitasModule = () => {
                     <div className='w-[96%] sm:max-w-lg  flex flex-col justify-center items-center bg-gray-50 p-4 rounded-lg border-2 border-customColor5'>
                      <div>
                      <span className='flex flex-row justify-center items-center'>
-                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-check-fill" viewBox="0 0 16 16">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-calendar2-check-fill" viewBox="0 0 16 16">
   <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5m9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5m-2.6 5.854a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
 </svg>&nbsp; Agenda disponible de : &nbsp; <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></span>
  
                      </div>
                    
 <br />
-                    <div>
-                      Fechas disponibles:
+                    <div className='w-screen flex flex-col justify-center items-center'>
+                      <div>
+                        Fechas disponibles:
+                      </div>
+                      <div className='w-[96%]  flex flex-row justify-center items-center gap-2'>
+                        <div className='bg-gray-800 text-white p-2 rounded-md flex flex-col justify-center items-center'>    
+                          <div>                     
+                          <strong>NOV</strong>
+                          </div> 
+                          <div>
+                          <strong>04</strong>
+                          </div>
+                          <div>
+                          <strong> LUN</strong>
+                          </div>
+
+                        </div>
+                        <div className='bg-gray-200 text-gray-800 p-2 rounded-md flex flex-col justify-center items-center'>    
+                          <div>                     
+                          <strong>NOV</strong>
+                          </div> 
+                          <div>
+                          <strong>05</strong>
+                          </div>
+                          <div>
+                          <strong> MAR</strong>
+                          </div>
+                        </div>
+                        <div className='bg-gray-200 text-gray-800 p-2 rounded-md flex flex-col justify-center items-center'>    
+                          <div>  
+                          <strong> NOV</strong>
+                          </div> 
+                          <div>
+                            <strong>06</strong>
+                          </div>
+                          <div>
+                          <strong> MIE</strong>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    <br />
                     <div>
                       Horarios disponibles:
                     </div>
+                    <br />
                     </div>
                     
 
                   </div>
-                        <br />
                         <br />
 
                     {/* <input
@@ -317,9 +359,9 @@ const CitasModule = () => {
                         value={selectedHorario}
                         onChange={(e) => setSelectedHorario(e.target.value)}
                     /> */}
-                    <div class="w-full gap-4 flex flex-row justify-center items-center content-center">
-                        <button onClick={goToPreviousStep} class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Anterior</button>
-                        <button onClick={() => alert("Cita Agendada")} class="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Confirmar Cita</button>
+                    <div className="w-full gap-4 flex flex-row justify-center items-center content-center">
+                        <button onClick={goToPreviousStep} className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Anterior</button>
+                        <button onClick={() => alert("Cita Agendada")} className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Confirmar Cita</button>
                     </div>
                 </div>
             )}
