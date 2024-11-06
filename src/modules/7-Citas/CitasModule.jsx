@@ -15,6 +15,7 @@ const CitasModule = () => {
     const [disabledBarbero, setDisabledBarbero] = useState(false);
     // Funciones para manejar los cambios en los estados de seleccion
     console.log("selectedServicio:", selectedServicio)
+    console.log("selectedFecha", selectedFecha)
     
     const [citaProgramming] = useState({
       servicio: selectedServicio,
@@ -328,10 +329,11 @@ const CitasModule = () => {
           <button
             key={index}
             className={`p-2 rounded-md min-w-[80px] flex flex-col justify-center items-center ${
-              index === 0
+              selectedFecha === date
                 ? 'bg-gray-800 text-white'
                 : 'bg-gray-200 text-gray-800 hover:bg-gray-800 hover:text-white'
             }`}
+            onClick={() => setSelectedFecha(date)}
           >
             <div>
               <strong>{date.month}</strong>
