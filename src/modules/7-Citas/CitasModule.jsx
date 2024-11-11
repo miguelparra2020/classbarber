@@ -371,7 +371,7 @@ const CitasModule = () => {
                 </div>
             )}
             
-            <ToastContainer autoClose={3000} style={{marginTop: "12vh"}}/>
+            <ToastContainer autoClose={1000} style={{marginTop: "12vh"}}/>
         </div>
     );
 };
