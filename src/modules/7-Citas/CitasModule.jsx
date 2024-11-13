@@ -156,7 +156,7 @@ const CitasModule = () => {
                 <br />
                 <div className='text-center'><strong>Agenda del barbero: {arrayBarberos.find(barbero => barbero.id === selectedBarbero).nombre}</strong></div>
                 <br />
-                {selectedBarbero === 1 && <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2JQuGcxtBRd6KlgDsjCLAeyBLN-BRH4we7Wf0JbRFyF3bdyqPmIU1FTV8Tl1KteFPqcKvK9G0i?gv=true" style={{"border": "0"}} width="100%" height="600" frameborder="0"></iframe>}
+                {selectedBarbero === 1 && <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2JQuGcxtBRd6KlgDsjCLAeyBLN-BRH4we7Wf0JbRFyF3bdyqPmIU1FTV8Tl1KteFPqcKvK9G0i?gv=true" style={{"border": "0"}} width="100%" height="2000" frameborder="0"></iframe>}
                 
                 <br />
                           <div className="w-screen gap-4 flex flex-row justify-center  items-center content-center">
