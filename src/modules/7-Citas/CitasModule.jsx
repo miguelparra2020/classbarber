@@ -9,22 +9,12 @@ const CitasModule = () => {
 
       const arrayBarberos = [
           { img : "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
-            nombre: "Carlos Garcia", 
+            nombre: "Oscar Rodríguez", 
             id: 1, 
-            diaNoDisponible: "DOM", 
-            Horario1: "10:00",  
-            Horario2: "14:00",
-            Horario3: "16:00",
-            Horario4: "21:00"
           },
           { img: "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
-            nombre: "Juan Gomez", 
+            nombre: "Daniel Stiven Cano", 
             id: 2, 
-            diaNoDisponible: "MAR",
-            Horario1: "10:00",  
-            Horario2: "14:00",
-            Horario3: "16:00",
-            Horario4: "21:00"
           },
       ]
     
