@@ -34,7 +34,7 @@ const CitasModule = () => {
         setTimeout(() => {
           goToNextStep()
           setDisabledBarbero(false)
-        }, 3000)
+        }, 1000)
 
       }
       
