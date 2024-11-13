@@ -73,7 +73,7 @@ const CitasModule = () => {
                             Seleccionar Barbero
                         
                     </button>
-                    <button onClick={() => setCurrentStep(2)} disabled={!selectedServicio} type="button" className={`flex flex-row items-center content-center text-center px-1 py-1.5 text-xs 
+                    <button onClick={() => setCurrentStep(2)} type="button" className={`flex flex-row items-center content-center text-center px-1 py-1.5 text-xs 
                     font-medium  ${currentStep === 2 ? "text-white bg-gray-900" : "text-gray-900 bg- hover:bg-gray-200"} 
                     rounded-lg`}>
                         {currentStep === 2 && <><span className="relative flex h-3 w-3">
@@ -139,7 +139,7 @@ const CitasModule = () => {
               </div>
               <br />
               <div className="w-screen gap-4 flex flex-row justify-center  items-center content-center">
-                              <button onClick={goToNextStep} disabled={!selectedServicio || !selectedBarbero} className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
+                              <button onClick={goToNextStep} disabled={ !selectedBarbero} className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Siguiente</button>
                           </div>
       
                           <br />
@@ -153,7 +153,22 @@ const CitasModule = () => {
 
             {currentStep === 2 && (
                 <>
-                <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2JQuGcxtBRd6KlgDsjCLAeyBLN-BRH4we7Wf0JbRFyF3bdyqPmIU1FTV8Tl1KteFPqcKvK9G0i?gv=true" style={{"border": "0"}} width="100%" height="600" frameborder="0"></iframe>
+                <br />
+                <div className='text-center'><strong>Agenda del barbero: {arrayBarberos.find(barbero => barbero.id === selectedBarbero).nombre}</strong></div>
+                <br />
+                {selectedBarbero === 1 && <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2JQuGcxtBRd6KlgDsjCLAeyBLN-BRH4we7Wf0JbRFyF3bdyqPmIU1FTV8Tl1KteFPqcKvK9G0i?gv=true" style={{"border": "0"}} width="100%" height="600" frameborder="0"></iframe>}
+                
+                <br />
+                          <div className="w-screen gap-4 flex flex-row justify-center  items-center content-center">
+                              <button onClick={goToPreviousStep} disabled={ !selectedBarbero} className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Atrás</button>
+                          </div>
+      
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+                          <br />
                 </>
             )}     
             
