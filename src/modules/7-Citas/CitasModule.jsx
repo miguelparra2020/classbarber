@@ -34,22 +34,14 @@ const CitasModule = () => {
 
       const arrayBarberos = [
           { img : "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
-            nombre: "Carlos Garcia", 
+            nombre: "Oscar Rodríguez", 
             id: 1, 
-            diaNoDisponible: "DOM", 
-            Horario1: "10:00",  
-            Horario2: "14:00",
-            Horario3: "16:00",
-            Horario4: "21:00"
+            diaNoDisponible: "DOM"
           },
           { img: "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
             nombre: "Juan Gomez", 
             id: 2, 
-            diaNoDisponible: "MAR",
-            Horario1: "10:00",  
-            Horario2: "14:00",
-            Horario3: "16:00",
-            Horario4: "21:00"
+            diaNoDisponible: "MAR"
           },
       ]
     
@@ -71,7 +63,7 @@ const CitasModule = () => {
         setTimeout(() => {
           goToNextStep()
           setDisabledServices(false)
-        }, 3000)
+        }, 1000)
 
       }
       
@@ -84,8 +76,15 @@ const CitasModule = () => {
         setTimeout(() => {
           goToNextStep()
           setDisabledBarbero(false)
-        }, 3000)
+        }, 1000)
 
+      }
+      
+    }
+
+    const notifyDaySelected = (date) => {
+      if (selectedFecha != date) {
+        toast.success("Ha seleccionado el día: " + date.day + " de " + date.month)
       }
       
     }
@@ -344,6 +343,7 @@ const CitasModule = () => {
             }`}
             onClick={() => {
               setSelectedFecha(date)
+              notifyDaySelected(date)
               setSelectDay(date.weekday)
             }}
           >
@@ -361,8 +361,9 @@ const CitasModule = () => {
       </div>
     </div>
                     <br />
-                    <div>
-                      Horarios disponibles:
+                    {selectedFecha && <>
+                      <div>
+                      Horarios disponibles del <strong>{selectedFecha.day}</strong>  de <strong>{selectedFecha.month}</strong>:
                     </div>
                     <br />
                     <div>
@@ -370,16 +371,20 @@ const CitasModule = () => {
                         selectDay === arrayBarberos[selectedBarbero-1].diaNoDisponible ? <>
                          <strong>Día no disponible, barbero se encuentra en día de descanso.</strong> 
                         </> : <>
-  <div>
-    {
-      opcionesHorarias.map((item, index) => (
-        <button key={index} className='bg-slate-200 rounded-sm p-2 m-2 hover:bg-slate-800 hover:text-slate-100'>{item}</button> 
-      ))
-    }
-  </div>
+                    <div>
+                      {
+                        opcionesHorarias.map((item, index) => (
+                          <button key={index} className='bg-slate-200 rounded-sm p-2 m-2 hover:bg-slate-800 hover:text-slate-100'>{item}</button> 
+                        ))
+                      }
+                    </div>
 </>
                       }
                     </div>
+                    </>}
+                    
+                    
+                    
                     </div>
                     
 
