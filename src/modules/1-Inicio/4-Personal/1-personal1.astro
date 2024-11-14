@@ -1,5 +1,10 @@
 ---
 import IconGeneral from "../../../components/icons/IconGeneral"
+import ImgBarbero from "../../../components/ui/CustomImagen.astro"
+
+import imgBarberoOscar from "../../../assets/images/BarberoOscar.jpg"
+import imgBarberoDaniel from "../../../assets/images/BarberoDaniel.jpg"
+
 
 const colorButtonCard = "bg-customColor8"
 const colorButtonCardHover = "hover:bg-customColor5"
@@ -31,23 +36,23 @@ const pathIcon = "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.5
           <div class="relative rounded-lg border border-muted-200 bg-white transition-all duration-300 shadow-lg hover:shadow-2xl">
             <div class="grid grid-cols-2 gap-2 m-4"> <!-- Cambiado a una cuadrícula de 2 columnas -->
               <div class="relative w-full h-80 rounded-lg overflow-hidden bg-muted-200 ">
-                <img
+                <ImgBarbero
+                  src={imgBarberoOscar}
+                  alt="Barbero Oscar Rodríguez"
                   class="absolute inset-0 w-full h-full object-cover"
-                  src="https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg"
-                  alt="Barbero 1"
                 />
               </div>
               <div class="relative w-full h-80 rounded-lg overflow-hidden bg-muted-200">
-                <img
+                <ImgBarbero
+                  src={imgBarberoDaniel}
+                  alt="Barbero Daniel Stiven Cano"
                   class="absolute inset-0 w-full h-full object-cover"
-                  src="https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg"
-                  alt="Barbero 2"
                 />
               </div>
             </div>
             <div class="font-sans mt-3 px-3 text-center w-full">
               <h4 class="font-semibold text-muted-800">
-                Luis Herrera y Carlos García
+                Oscar Rodríguez y Daniel Stiven Cano
               </h4>
               <p class="text-sm text-muted-400">Barberos</p>
             </div>

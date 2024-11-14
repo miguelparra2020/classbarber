@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import IconGeneral from "../../components/icons/IconGeneral.jsx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,7 +39,7 @@ const CitasModule = () => {
             diaNoDisponible: "DOM"
           },
           { img: "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
-            nombre: "Juan Gomez", 
+            nombre: "Daniel Stiven Cano", 
             id: 2, 
             diaNoDisponible: "MAR"
           },
@@ -107,6 +107,15 @@ const CitasModule = () => {
       }
       return result;
     }
+
+    // Cuando escogemos el día, validar en google calendar su disponibilidad
+
+    useEffect(() => {
+      if(selectedFecha){
+        console.log("cambio fecha:", selectedFecha)
+      }
+      
+    }, [selectedFecha])
 
     return (
         <div>
@@ -300,23 +309,23 @@ const CitasModule = () => {
                   <div className='w-full text-center flex flex-col justify-center items-center mb-2'>
                     <div className='w-[96%] sm:max-w-lg  flex flex-row justify-center items-center bg-gray-200 p-4 rounded-lg border-2 border-customColor5'>
                      <span className='flex flex-row justify-center items-center'><IconGeneral
-                        params={{
-                          color: "currentColor",
-                          size: "16",
-                          className: "bi bi-scissors",
-                          viewBox: "0 0 16 16",
-                          path: "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"
-                        }}
-                    /> &nbsp; Servicio seleccionado: &nbsp;<strong>{arrayServicios[selectedServicio-1].nombre}</strong></span>
+                          params={{
+                            color: "currentColor",
+                            size: "16",
+                            className: "bi bi-scissors",
+                            viewBox: "0 0 16 16",
+                            path: "M3.5 3.5c-.614-.884-.074-1.962.858-2.5L8 7.226 11.642 1c.932.538 1.472 1.616.858 2.5L8.81 8.61l1.556 2.661a2.5 2.5 0 1 1-.794.637L8 9.73l-1.572 2.177a2.5 2.5 0 1 1-.794-.637L7.19 8.61zm2.5 10a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0m7 0a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"
+                          }}
+                      /> &nbsp; Servicio seleccionado: &nbsp; <strong>{arrayServicios[selectedServicio-1].nombre} - {arrayServicios[selectedServicio-1].minutos} min</strong></span>
                     </div>
                   </div>
                   <div className='w-full text-center flex flex-col justify-center items-center mb-2'>
                     <div className='w-[96%] sm:max-w-lg  flex flex-row justify-center items-center bg-gray-200 p-4 rounded-lg border-2 border-customColor5'>
                      <span className='flex flex-row justify-center items-center'>
                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill-check" viewBox="0 0 16 16">
-  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-  <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-</svg> &nbsp; Barbero seleccionado: &nbsp; <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></span>
+                      <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                      <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                    </svg> &nbsp; Barbero seleccionado: &nbsp; <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></span>
                     </div>
                   </div>
                   <div className='w-full text-center flex flex-col justify-center items-center'>
