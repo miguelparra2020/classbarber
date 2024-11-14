@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+
 const CitasModule = () => {
     // Estados para controlar el paso actual y los datos seleccionados
     const [currentStep, setCurrentStep] = useState(1);
@@ -33,12 +34,12 @@ const CitasModule = () => {
       ]
 
       const arrayBarberos = [
-          { img : "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
+          { img : "./imgs/BarberoOscar.jpg",
             nombre: "Oscar Rodríguez", 
             id: 1, 
             diaNoDisponible: "DOM"
           },
-          { img: "https://www.carloscondepeluqueros.com/wp-content/uploads/2019/01/cabecera-barbero-profesional.jpg",
+          { img: "./imgs/BarberoDaniel.jpg",
             nombre: "Daniel Stiven Cano", 
             id: 2, 
             diaNoDisponible: "MAR"
@@ -59,7 +60,7 @@ const CitasModule = () => {
     const notifyServiceSelected = (serviceId, serviceName) => {
       if (selectedServicio != serviceId) {
         setDisabledServices(true)
-        toast.success("Ha seleccionado el servicio: " + serviceName)
+        if(serviceId != 0){toast.success("Ha seleccionado el servicio: " + serviceName)}
         setTimeout(() => {
           goToNextStep()
           setDisabledServices(false)
@@ -72,14 +73,13 @@ const CitasModule = () => {
     const notifyBarberoSelected = (barberoId, barberoName) => {
       if (selectedBarbero != barberoId) {
         setDisabledBarbero(true)
-        toast.success("Ha seleccionado el barbero: " + barberoName)
+        if(barberoId != 0){toast.success("Ha seleccionado el barbero: " + barberoName)} 
         setTimeout(() => {
           goToNextStep()
           setDisabledBarbero(false)
         }, 1000)
 
-      }
-      
+      }      
     }
 
     const notifyDaySelected = (date) => {
@@ -177,6 +177,7 @@ const CitasModule = () => {
               <li key={index} className="py-3 sm:py-4">
                 <label htmlFor={servicio.id || selectedServicio} onClick={() => {if(!disabledServices){
                   setSelectedServicio(servicio.id)
+                  notifyServiceSelected(0, servicio.nombre)
                   notifyServiceSelected(servicio.id, servicio.nombre)
                 }        
                 }} className="flex items-center cursor-pointer">
@@ -215,7 +216,6 @@ const CitasModule = () => {
                       className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 "
                       checked={selectedServicio === servicio.id} // Esto mantiene el input marcado si coincide con el servicio seleccionado
                       onChange={() => setSelectedServicio(servicio.id)}
-                      disabled={disabledServices}
                     />
                   </div>
                 </label>
@@ -255,6 +255,7 @@ const CitasModule = () => {
             <li key={index} className="py-3 sm:py-4">
               <label htmlFor={barbero.id || selectedBarbero} onClick={() => {if(!disabledBarbero){
                 setSelectedBarbero(barbero.id)
+                notifyBarberoSelected(0, barbero.nombre)
                 notifyBarberoSelected(barbero.id, barbero.nombre)
               }        
               }} className="flex items-center cursor-pointer">
@@ -279,7 +280,6 @@ const CitasModule = () => {
                     className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 "
                     checked={selectedBarbero === barbero.id} // Esto mantiene el input marcado si coincide con el servicio seleccionado
                     onChange={() => setSelectedBarbero(barbero.id)}
-                    disabled={disabledBarbero}
                   />
                 </div>
               </label>
