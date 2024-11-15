@@ -80,7 +80,7 @@ const Navbar = () => {
             <a href={linknameStoreLogo} className={`${colorNameStoreLogo} text-xl font-bold flex items-center`}>
               <picture>
                 <source srcSet={logoWebp ? logoWebp : ""} type="image/webp" />
-                <img src={logoJpg ? logoJpg : ""} alt={nameStoreLogo} width={40} height={40} style={{ borderRadius: '50%' }} className='shadow-lg' />
+                <img src={logoJpg ? logoJpg : ""} alt={nameStoreLogo}  style={{ borderRadius: '50%' }} className=' w-12 border-2 border-gray-200' />
               </picture>
               &nbsp; &nbsp;{nameStoreLogo}
             </a>
