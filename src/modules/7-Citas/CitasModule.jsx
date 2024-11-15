@@ -15,12 +15,24 @@ const CitasModule = () => {
     const [selectedHorario, setSelectedHorario] = useState();
     const [disabledServices, setDisabledServices] = useState(false);
     const [disabledBarbero, setDisabledBarbero] = useState(false);
-    const [citaProgramming] = useState({
-      servicio: selectedServicio,
-      barbero: selectedBarbero,
-      fecha: selectedFecha,
-      horario: selectedHorario 
-    });
+    const [citaProgramming, setCitaProgramming] = useState({
+      servicio: null,
+      barbero: null,
+      fecha: null,
+      horario: null
+  });
+
+  // Sincroniza el estado de citaProgramming con los valores seleccionados
+  useEffect(() => {
+      setCitaProgramming({
+          servicio: selectedServicio,
+          barbero: selectedBarbero,
+          fecha: selectedFecha,
+          horario: selectedHorario
+      });
+  }, [selectedServicio, selectedBarbero, selectedFecha, selectedHorario]);
+
+  console.log("citaProgramming", citaProgramming)
 
       const arrayServicios = [    
           { nombre: "Corte de cabello", minutos: 30, id: 1 },
@@ -37,12 +49,14 @@ const CitasModule = () => {
           { img : "./imgs/BarberoOscar.jpg",
             nombre: "Oscar Rodríguez", 
             id: 1, 
-            diaNoDisponible: "DOM"
+            diaNoDisponible: "DOM",
+            agendaId:"3ef6bc19c90d18bb47063b03fa299dc1c9bb1f1238672084905fcaf8808bb611@group.calendar.google.com"
           },
           { img: "./imgs/BarberoDaniel.jpg",
             nombre: "Daniel Stiven Cano", 
             id: 2, 
-            diaNoDisponible: "MAR"
+            diaNoDisponible: "MAR",
+            agendaId:""
           },
       ]
     
@@ -73,7 +87,10 @@ const CitasModule = () => {
     const notifyBarberoSelected = (barberoId, barberoName) => {
       if (selectedBarbero != barberoId) {
         setDisabledBarbero(true)
-        if(barberoId != 0){toast.success("Ha seleccionado el barbero: " + barberoName)} 
+        if(barberoId != 0){
+          toast.success("Ha seleccionado el barbero: " + barberoName)
+          setSelectedFecha()
+        } 
         setTimeout(() => {
           goToNextStep()
           setDisabledBarbero(false)
@@ -116,6 +133,8 @@ const CitasModule = () => {
       }
       
     }, [selectedFecha])
+
+    
 
     return (
         <div>
@@ -279,7 +298,9 @@ const CitasModule = () => {
                     name="barbero"
                     className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 "
                     checked={selectedBarbero === barbero.id} // Esto mantiene el input marcado si coincide con el servicio seleccionado
-                    onChange={() => setSelectedBarbero(barbero.id)}
+                    onChange={() => {
+                      setSelectedBarbero(barbero.id)
+                    }}
                   />
                 </div>
               </label>
@@ -372,7 +393,7 @@ const CitasModule = () => {
       </div>
     </div>
                     <br />
-                    {selectedFecha && <>
+                    {selectedFecha  && <>
                       <div>
                       Horarios disponibles del <strong>{selectedFecha.day}</strong>  de <strong>{selectedFecha.month}</strong>:
                     </div>
