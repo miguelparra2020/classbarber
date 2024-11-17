@@ -1,13 +1,13 @@
----
-import MainLayout from '../../layout/MainLayout.astro';
-import SesionLayout from '../../layout/SesionLayout.astro';
-import CitasModule from '../../modules/7-Citas/CitasModule.jsx'; 
-import Footer from "../../components/ui/footer.astro";
----
+	---
+	import MainLayout from '../../layout/MainLayout.astro';
+	import SesionLayout from '../../layout/SesionLayout.astro';
+	import CitasModule from '../../modules/7-Citas/CitasModule.jsx'; 
+	import Footer from "../../components/ui/footer.astro";
+	---
 
-<MainLayout>
-	<SesionLayout backgroundColor={"#h2h7h9"}>
-		<CitasModule client:idle/>
-	</SesionLayout>
-	<Footer/>
-</MainLayout>
+	<MainLayout>
+		<SesionLayout backgroundColor={"#h2h7h9"}>
+			<CitasModule client:idle/>
+		</SesionLayout>
+		<Footer/>
+	</MainLayout>

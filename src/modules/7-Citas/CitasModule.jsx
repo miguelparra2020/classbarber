@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import axios from 'axios';
 
 const CitasModule = () => {
     // Estados para controlar el paso actual y los datos seleccionados
@@ -11,16 +12,215 @@ const CitasModule = () => {
     const [selectedBarbero, setSelectedBarbero] = useState();
     const [selectedServicio, setSelectedServicio] = useState();
     const [selectedFecha, setSelectedFecha] = useState();
+    const [disabledFecha, setDisabledFecha] = useState(false);
     const [selectDay, setSelectDay] = useState();
     const [selectedHorario, setSelectedHorario] = useState();
     const [disabledServices, setDisabledServices] = useState(false);
     const [disabledBarbero, setDisabledBarbero] = useState(false);
+    const [loadingToken, setLoadingToken] = useState(false);
+    const [responseToken, setResponseToken] = useState("");
+    const [horasDisponibles, setHorasDisponibles] = useState([]);
     const [citaProgramming, setCitaProgramming] = useState({
       servicio: null,
-      barbero: null,
+      barbero: null,  
       fecha: null,
       horario: null
   });
+
+  const arrayServicios = [    
+    { nombre: "Corte de cabello", minutos: 30, id: 1 },
+    { nombre: "Arreglo de barba ", minutos: 15, id: 2 },
+    { nombre: "Cejas con navaja", minutos: 15, id: 3 },
+    { nombre: "Corte + Barba", minutos: 45, id: 4 },
+    { nombre: "Corte + Cejas", minutos: 45, id: 5 },
+    { nombre: "Corte + Barba + Cejas", minutos: 60, id: 6 },
+    { nombre: "Colorimetria", minutos: 90, id: 7 },
+    { nombre: "Delineado", minutos: 15, id: 8 },
+]
+
+const arrayBarberos = [
+    { img : "./imgs/BarberoOscar.jpg",
+      nombre: "Oscar Rodríguez", 
+      id: 1, 
+      diaNoDisponible: "DOM",
+      agendaId:"3ef6bc19c90d18bb47063b03fa299dc1c9bb1f1238672084905fcaf8808bb611@group.calendar.google.com"
+    },
+    { img: "./imgs/BarberoDaniel.jpg",
+      nombre: "Daniel Stiven Cano", 
+      id: 2, 
+      diaNoDisponible: "MAR",
+      agendaId:"5a5f753eb96bac8155a607114939f484f29f14c98a4e658e782ac5096429e802@group.calendar.google.com"
+    },
+]
+
+const calcularHorariosDisponibles = (horariosOcupados, duracionFranja = 30) => {
+  const inicioDia = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T08:00:00+01:00`);
+  const finDia = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T21:00:00+01:00`);
+
+  // Convertimos la duración de la franja a milisegundos
+  const duracionFranjaMs = duracionFranja * 60 * 1000;
+
+  // Generar todas las franjas horarias posibles
+  const franjas = [];
+  for (let tiempo = inicioDia.getTime(); tiempo < finDia.getTime(); tiempo += duracionFranjaMs) {
+    const start = new Date(tiempo);
+    const end = new Date(tiempo + duracionFranjaMs);
+    franjas.push({ start, end });
+  }
+
+  // Convertir horarios ocupados a objetos Date
+  const ocupados = horariosOcupados.map(h => ({
+    start: new Date(h.start),
+    end: new Date(h.end),
+  }));
+
+  // Filtrar las franjas que no se solapen con los horarios ocupados
+  const disponibles = franjas.filter(franja => {
+    return !ocupados.some(ocupado =>
+      // Comprobamos si la franja está completamente dentro del ocupado
+      (franja.start >= ocupado.start && franja.start < ocupado.end) ||
+      (franja.end > ocupado.start && franja.end <= ocupado.end) ||
+      (franja.start <= ocupado.start && franja.end >= ocupado.end)
+    );
+  });
+
+  // Devolver los horarios disponibles en formato legible
+  return disponibles.map(franja => ({
+    start: franja.start.toISOString(),
+    end: franja.end.toISOString(),
+  }));
+};
+
+const checkAvailability = async () => {
+  if (!selectedBarbero || !selectedFecha) {
+    toast.warn('Selecciona un barbero y una fecha antes de verificar la disponibilidad.');
+    return;
+  }
+
+  try {
+    const barbero = arrayBarberos[selectedBarbero - 1];
+    const diaDisponible = barbero.diaNoDisponible !== selectedFecha.weekday.toUpperCase();
+
+    if (!diaDisponible) {
+      toast.warn(`El barbero no trabaja el día ${selectedFecha.weekday}.`);
+      return;
+    }
+
+    setLoadingToken(true);
+    setResponseToken("Consultando disponibilidad...");
+    setDisabledFecha(true);
+
+    const responseToken = await axios.get("https://classbarber.pythonanywhere.com/api/google-token/");
+    if (responseToken.status === 200) {
+      const token = responseToken.data.access_token;
+
+      const body = {
+        timeMin: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T08:00:00+01:00`,
+        timeMax: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T21:00:00+01:00`,
+        timeZone: "Europe/Madrid",
+        items: [{ id: barbero.agendaId }],
+      };
+
+      const responseCalendar = await axios.post('https://www.googleapis.com/calendar/v3/freeBusy', body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (responseCalendar.status === 200) {
+        const busyTimes = responseCalendar.data.calendars[barbero.agendaId].busy;
+        const convertToUTC = (time) => new Date(time).toISOString();
+        const horariosOcupadosUTC = busyTimes.map(({ start, end }) => ({
+          start: convertToUTC(start),
+          end: convertToUTC(end)
+        }));
+        console.log("Horarios ocupados:", busyTimes);
+        console.log("Horarios ocupados UTC:", horariosOcupadosUTC);
+        console.log("Servicio seleccionado:", arrayServicios[selectedServicio - 1].minutos);
+        const resultDisponibles = calcularHorariosDisponibles(busyTimes, arrayServicios[selectedServicio - 1].minutos);
+        console.log("Horarios disponibles:", resultDisponibles);
+        // Filtrar horarios disponibles
+        const horariosFiltrados = resultDisponibles.filter(({ start, end }) => {
+          return !horariosOcupadosUTC.some(
+              (ocupado) =>
+                  (start >= ocupado.start && start < ocupado.end) ||
+                  (end > ocupado.start && end <= ocupado.end)
+          );
+        });
+
+        console.log("Horarios disponibles filtrados:", horariosFiltrados);
+        const convertToMadridTimeZone = (time) => {
+          const date = new Date(time);
+          return new Intl.DateTimeFormat("sv-SE", {
+              timeZone: "Europe/Madrid", // Zona horaria de Madrid
+              hour12: false,
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit"
+          })
+              .format(date)
+              .replace(" ", "T") + "+01:00"; // CET (invierno)
+      };
+      
+      // Convertir horarios filtrados al formato deseado con zona horaria de Madrid
+      const horariosFiltradosConMadrid = horariosFiltrados.map(({ start }) => ({
+          start: convertToMadridTimeZone(start)
+      }));
+      
+      console.log("Horarios disponibles con zona horaria Madrid:", horariosFiltradosConMadrid);
+
+      const formatToMadridTimeWithAmPm = (time) => {
+        const date = new Date(time);
+        return new Intl.DateTimeFormat("en-US", {
+            timeZone: "Europe/Madrid", // Zona horaria de Madrid
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true
+        }).format(date);
+    };
+    
+    // Convertir horarios filtrados al formato deseado con horas en am/pm
+    const horariosFiltradosConAmPm = horariosFiltrados.map(({ start }) => ({
+        start: formatToMadridTimeWithAmPm(start)
+    }));
+    console.log("Horarios disponibles con formato am/pm:", horariosFiltradosConAmPm);
+    setHorasDisponibles(horariosFiltradosConAmPm);
+      
+        if (busyTimes.length === 0) {
+          toast.success('El barbero está disponible todo el día.');
+        } else {
+          toast.info('El barbero tiene horarios ocupados. Consulta los horarios disponibles.');
+        }
+      } else {
+        toast.error('Error al consultar la disponibilidad en el calendario.');
+        setHorasDisponibles([]);
+      }
+    } else {
+      toast.error('Error al obtener el token de acceso.');
+      setHorasDisponibles([]);
+    }
+  } catch (error) {
+    console.error('Error al comprobar disponibilidad:', error);
+    toast.error('Ocurrió un error al verificar la disponibilidad.');
+    setHorasDisponibles([]);
+  } finally {
+    setLoadingToken(false);
+    setDisabledFecha(false);
+  }
+};
+
+
+
+  // useEffect para verificar disponibilidad cuando cambia la fecha
+  useEffect(() => {
+    if (selectedFecha && selectedBarbero && selectedServicio) {
+      checkAvailability()
+    }
+  }, [selectedFecha]);
 
   // Sincroniza el estado de citaProgramming con los valores seleccionados
   useEffect(() => {
@@ -32,33 +232,7 @@ const CitasModule = () => {
       });
   }, [selectedServicio, selectedBarbero, selectedFecha, selectedHorario]);
 
-  console.log("citaProgramming", citaProgramming)
-
-      const arrayServicios = [    
-          { nombre: "Corte de cabello", minutos: 30, id: 1 },
-          { nombre: "Arreglo de barba ", minutos: 15, id: 2 },
-          { nombre: "Cejas con navaja", minutos: 15, id: 3 },
-          { nombre: "Corte + Barba", minutos: 45, id: 4 },
-          { nombre: "Corte + Cejas", minutos: 45, id: 5 },
-          { nombre: "Corte + Barba + Cejas", minutos: 60, id: 6 },
-          { nombre: "Colorimetria", minutos: 90, id: 7 },
-          { nombre: "Delineado", minutos: 15, id: 8 },
-      ]
-
-      const arrayBarberos = [
-          { img : "./imgs/BarberoOscar.jpg",
-            nombre: "Oscar Rodríguez", 
-            id: 1, 
-            diaNoDisponible: "DOM",
-            agendaId:"3ef6bc19c90d18bb47063b03fa299dc1c9bb1f1238672084905fcaf8808bb611@group.calendar.google.com"
-          },
-          { img: "./imgs/BarberoDaniel.jpg",
-            nombre: "Daniel Stiven Cano", 
-            id: 2, 
-            diaNoDisponible: "MAR",
-            agendaId:""
-          },
-      ]
+    
     
     const opcionesHorarias = ["10:00","10:30","11:00","11:30","12:00"]
     
@@ -74,7 +248,11 @@ const CitasModule = () => {
     const notifyServiceSelected = (serviceId, serviceName) => {
       if (selectedServicio != serviceId) {
         setDisabledServices(true)
-        if(serviceId != 0){toast.success("Ha seleccionado el servicio: " + serviceName)}
+        if(serviceId != 0){
+          toast.success("Ha seleccionado el servicio: " + serviceName)
+          setSelectedFecha()
+          setHorasDisponibles([])
+        }
         setTimeout(() => {
           goToNextStep()
           setDisabledServices(false)
@@ -90,6 +268,7 @@ const CitasModule = () => {
         if(barberoId != 0){
           toast.success("Ha seleccionado el barbero: " + barberoName)
           setSelectedFecha()
+          setHorasDisponibles([])
         } 
         setTimeout(() => {
           goToNextStep()
@@ -117,7 +296,9 @@ const CitasModule = () => {
         const currentDate = new Date(today);
         currentDate.setDate(today.getDate() + i);
         result.push({
+          year:format(currentDate, 'yyyy', { locale: es }).toUpperCase(),
           month: format(currentDate, 'MMM', { locale: es }).toUpperCase(),
+          monthNumber: format(currentDate, 'MM'),
           day: format(currentDate, 'dd'),
           weekday: format(currentDate, 'EEE', { locale: es }).toUpperCase()
         });
@@ -133,9 +314,6 @@ const CitasModule = () => {
       }
       
     }, [selectedFecha])
-
-    
-
     return (
         <div>
             <div className='flex flex-col items-center content-center'>
@@ -355,43 +533,44 @@ const CitasModule = () => {
                     <div className='w-[96%] sm:max-w-lg  flex flex-col justify-center items-center bg-gray-50 p-4 rounded-lg border-2 border-customColor5'>
                      <div>
                      <span className='flex flex-row justify-center items-center'>
-                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-calendar2-check-fill" viewBox="0 0 16 16">
-  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5m9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5m-2.6 5.854a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
-</svg>&nbsp; Agenda disponible de : &nbsp; <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></span>
- 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-calendar2-check-fill" viewBox="0 0 16 16">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5m9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5m-2.6 5.854a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                      </svg>&nbsp; 
+                      Agenda disponible de : &nbsp; <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></span>
                      </div>
-                   
-<br />
-<div className='w-[94%] flex flex-col justify-start items-start'>
-      <div>Fechas disponibles:</div>
-      <div className='w-full flex flex-row justify-start items-center gap-2 overflow-x-auto'>
-        {dates.map((date, index) => (
-          <button
-            key={index}
-            className={`p-2 rounded-md min-w-[80px] flex flex-col justify-center items-center ${
-              selectedFecha === date
-                ? 'bg-gray-800 text-white'
-                : 'bg-gray-200 text-gray-800 hover:bg-gray-800 hover:text-white'
-            }`}
-            onClick={() => {
-              setSelectedFecha(date)
-              notifyDaySelected(date)
-              setSelectDay(date.weekday)
-            }}
-          >
-            <div>
-              <strong>{date.month}</strong>
-            </div>
-            <div>
-              <strong>{date.day}</strong>
-            </div>
-            <div>
-              <strong>{date.weekday}</strong>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
+                     <br />
+                      <div className='w-[94%] flex flex-col justify-start items-start'>
+                        <div>Fechas disponibles:</div>
+                        <div className='w-full flex flex-row justify-start items-center gap-2 overflow-x-auto'>
+                          {dates.map((date, index) => (
+                            <button
+                              key={index}
+                              className={`p-2 rounded-md min-w-[80px] flex flex-col justify-center items-center ${
+                                selectedFecha === date
+                                  ? 'bg-gray-800 text-white'
+                                  : 'bg-gray-200 text-gray-800 hover:bg-gray-800 hover:text-white'
+                              }`}
+                              disabled={disabledFecha}
+                              onClick={() => {
+                                setSelectedFecha(date)
+                                notifyDaySelected(date)
+                                setSelectDay(date.weekday)
+                                
+                              }}
+                            >
+                              <div>
+                                <strong>{date.month}</strong>
+                              </div>
+                              <div>
+                                <strong>{date.day}</strong>
+                              </div>
+                              <div>
+                                <strong>{date.weekday}</strong>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     <br />
                     {selectedFecha  && <>
                       <div>
@@ -402,36 +581,43 @@ const CitasModule = () => {
                       {
                         selectDay === arrayBarberos[selectedBarbero-1].diaNoDisponible ? <>
                          <strong>Día no disponible, barbero se encuentra en día de descanso.</strong> 
-                        </> : <>
-                    <div>
-                      {
-                        opcionesHorarias.map((item, index) => (
-                          <button key={index} className='bg-slate-200 rounded-sm p-2 m-2 hover:bg-slate-800 hover:text-slate-100'>{item}</button> 
-                        ))
-                      }
-                    </div>
-</>
-                      }
+                        </> : 
+                        <>
+                          {loadingToken &&
+                              <div className='flex flex-row justify-center items-center'>Cargando horarios...
+                              <div role="status">
+                                  <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                      <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                                  </svg>
+                                  <span class="sr-only">Loading...</span>
+                              </div>
+                              </div>
+                          }
+                          {responseToken && <>
+                            {
+                            responseToken
+                            }
+                            </>
+                          }
+                          {
+                            horasDisponibles && <>
+                            {horasDisponibles.map((horario, index) => (
+                                <div key={index}>{horario.start}</div>
+                            ))
+                            }
+                            </>}
+                        </>
+                    }
+                    
                     </div>
                     </>}
-                    
-                    
-                    
                     </div>
-                    
-
                   </div>
-                        <br />
-
-                    {/* <input
-                        type="time"
-                        value={selectedHorario}
-                        onChange={(e) => setSelectedHorario(e.target.value)}
-                    /> */}
-                    <div className="w-full gap-4 flex flex-row justify-center items-center content-center">
-                        <button onClick={goToPreviousStep} className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Anterior</button>
-                        <button onClick={() => alert("Cita Agendada")} className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Confirmar Cita</button>
-                    </div>
+                  <br />
+                  <div className="w-full gap-4 flex flex-row justify-center items-center content-center">
+                      <button onClick={goToPreviousStep} className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded font-bold py-2 px-4 flex items-center">Anterior</button>    
+                  </div>
                 </div>
             )}
             
