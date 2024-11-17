@@ -238,18 +238,17 @@ const checkAvailability = async () => {
     };
 
     const notifyServiceSelected = (serviceId, serviceName) => {
-      if (selectedServicio != serviceId) {
-        setDisabledServices(true)
-        if(serviceId != 0){
-          toast.success("Ha seleccionado el servicio: " + serviceName)
-          setSelectedFecha()
-          setHorasDisponibles([])
+      if (selectedServicio !== serviceId) {
+        setDisabledServices(true);
+        if (serviceId) {
+          toast.success(`Ha seleccionado el servicio: ${serviceName}`);
+          setSelectedFecha(null);
+          setHorasDisponibles([]);
         }
         setTimeout(() => {
-          goToNextStep()
-          setDisabledServices(false)
-        }, 1000)
-
+          goToNextStep();
+          setDisabledServices(false);
+        }, 1000);
       }
       
     }
