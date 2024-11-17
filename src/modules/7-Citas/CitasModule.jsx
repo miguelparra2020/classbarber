@@ -20,196 +20,178 @@ const CitasModule = () => {
     const [loadingToken, setLoadingToken] = useState(false);
     const [responseToken, setResponseToken] = useState("");
     const [horasDisponibles, setHorasDisponibles] = useState([]);
-    const [citaProgramming, setCitaProgramming] = useState({
-      servicio: null,
-      barbero: null,  
-      fecha: null,
-      horario: null
-  });
+    const [selectHoraDisponible, setSelectHoraDisponible] = useState();
+    const [isModalOpen, setModalOpen] = useState(false);
+    const toggleModal = () => setModalOpen(!isModalOpen);
 
-  const arrayServicios = [    
-    { nombre: "Corte de cabello", minutos: 30, id: 1 },
-    { nombre: "Arreglo de barba ", minutos: 15, id: 2 },
-    { nombre: "Cejas con navaja", minutos: 15, id: 3 },
-    { nombre: "Corte + Barba", minutos: 45, id: 4 },
-    { nombre: "Corte + Cejas", minutos: 45, id: 5 },
-    { nombre: "Corte + Barba + Cejas", minutos: 60, id: 6 },
-    { nombre: "Colorimetria", minutos: 90, id: 7 },
-    { nombre: "Delineado", minutos: 15, id: 8 },
-]
+    const arrayServicios = [    
+      { nombre: "Corte de cabello", minutos: 30, id: 1 },
+      { nombre: "Arreglo de barba ", minutos: 15, id: 2 },
+      { nombre: "Cejas con navaja", minutos: 15, id: 3 },
+      { nombre: "Corte + Barba", minutos: 45, id: 4 },
+      { nombre: "Corte + Cejas", minutos: 45, id: 5 },
+      { nombre: "Corte + Barba + Cejas", minutos: 60, id: 6 },
+      { nombre: "Colorimetria", minutos: 90, id: 7 },
+      { nombre: "Delineado", minutos: 15, id: 8 },
+    ]
 
-const arrayBarberos = [
-    { img : "./imgs/BarberoOscar.jpg",
-      nombre: "Oscar Rodríguez", 
-      id: 1, 
-      diaNoDisponible: "DOM",
-      agendaId:"3ef6bc19c90d18bb47063b03fa299dc1c9bb1f1238672084905fcaf8808bb611@group.calendar.google.com"
-    },
-    { img: "./imgs/BarberoDaniel.jpg",
-      nombre: "Daniel Stiven Cano", 
-      id: 2, 
-      diaNoDisponible: "MAR",
-      agendaId:"5a5f753eb96bac8155a607114939f484f29f14c98a4e658e782ac5096429e802@group.calendar.google.com"
-    },
-]
-
-const calcularHorariosDisponibles = (horariosOcupados, duracionFranja = 30) => {
-  const inicioDia = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T08:00:00+01:00`);
-  const finDia = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T21:00:00+01:00`);
-
-  // Convertimos la duración de la franja a milisegundos
-  const duracionFranjaMs = duracionFranja * 60 * 1000;
-
-  // Generar todas las franjas horarias posibles
-  const franjas = [];
-  for (let tiempo = inicioDia.getTime(); tiempo < finDia.getTime(); tiempo += duracionFranjaMs) {
-    const start = new Date(tiempo);
-    const end = new Date(tiempo + duracionFranjaMs);
-    franjas.push({ start, end });
-  }
-
-  // Convertir horarios ocupados a objetos Date
-  const ocupados = horariosOcupados.map(h => ({
-    start: new Date(h.start),
-    end: new Date(h.end),
-  }));
-
-  // Filtrar las franjas que no se solapen con los horarios ocupados
-  const disponibles = franjas.filter(franja => {
-    return !ocupados.some(ocupado =>
-      // Comprobamos si la franja está completamente dentro del ocupado
-      (franja.start >= ocupado.start && franja.start < ocupado.end) ||
-      (franja.end > ocupado.start && franja.end <= ocupado.end) ||
-      (franja.start <= ocupado.start && franja.end >= ocupado.end)
-    );
-  });
-
-  // Devolver los horarios disponibles en formato legible
-  return disponibles.map(franja => ({
-    start: franja.start.toISOString(),
-    end: franja.end.toISOString(),
-  }));
-};
-
-const checkAvailability = async () => {
-  if (!selectedBarbero || !selectedFecha) {
-    toast.warn('Selecciona un barbero y una fecha antes de verificar la disponibilidad.');
-    return;
-  }
-
-  try {
-    const barbero = arrayBarberos[selectedBarbero - 1];
-    const diaDisponible = barbero.diaNoDisponible !== selectedFecha.weekday.toUpperCase();
-
-    if (!diaDisponible) {
-      toast.warn(`El barbero no trabaja el día ${selectedFecha.weekday}.`);
-      return;
-    }
-
-    setLoadingToken(true);
-    setResponseToken("Consultando disponibilidad...");
-    setDisabledFecha(true);
-
-    const responseToken = await axios.get("https://classbarber.pythonanywhere.com/api/google-token/");
-    if (responseToken.status === 200) {
-      const token = responseToken.data.access_token;
-
-      const body = {
-        timeMin: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T08:00:00+01:00`,
-        timeMax: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T21:00:00+01:00`,
-        timeZone: "Europe/Madrid",
-        items: [{ id: barbero.agendaId }],
-      };
-
-      const responseCalendar = await axios.post('https://www.googleapis.com/calendar/v3/freeBusy', body, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+    const arrayBarberos = [
+        { img : "./imgs/BarberoOscar.jpg",
+          nombre: "Oscar Rodríguez", 
+          id: 1, 
+          diaNoDisponible: "DOM",
+          agendaId:"3ef6bc19c90d18bb47063b03fa299dc1c9bb1f1238672084905fcaf8808bb611@group.calendar.google.com"
         },
-      });
+        { img: "./imgs/BarberoDaniel.jpg",
+          nombre: "Daniel Stiven Cano", 
+          id: 2, 
+          diaNoDisponible: "MAR",
+          agendaId:"5a5f753eb96bac8155a607114939f484f29f14c98a4e658e782ac5096429e802@group.calendar.google.com"
+        },
+    ]
 
-      if (responseCalendar.status === 200) {
-        const busyTimes = responseCalendar.data.calendars[barbero.agendaId].busy;
-        const convertToUTC = (time) => new Date(time).toISOString();
-        const horariosOcupadosUTC = busyTimes.map(({ start, end }) => ({
-          start: convertToUTC(start),
-          end: convertToUTC(end)
-        }));
-        const resultDisponibles = calcularHorariosDisponibles(busyTimes, arrayServicios[selectedServicio - 1].minutos);
-        
-        // Filtrar horarios disponibles
-        const horariosFiltrados = resultDisponibles.filter(({ start, end }) => {
-          return !horariosOcupadosUTC.some(
-              (ocupado) =>
-                  (start >= ocupado.start && start < ocupado.end) ||
-                  (end > ocupado.start && end <= ocupado.end)
-          );
-        });
+    const calcularHorariosDisponibles = (horariosOcupados, duracionFranja = 30) => {
+      const inicioDia = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T08:00:00+01:00`);
+      const finDia = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T21:00:00+01:00`);
 
-      const formatToMadridTimeWithAmPm = (time) => {
-        const date = new Date(time);
-        return new Intl.DateTimeFormat("en-US", {
-            timeZone: "Europe/Madrid", // Zona horaria de Madrid
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true
-        }).format(date);
-    };
-    
-    // Convertir horarios filtrados al formato deseado con horas en am/pm
-    const horariosFiltradosConAmPm = horariosFiltrados.map(({ start }) => ({
-        start: formatToMadridTimeWithAmPm(start)
-    }));
-    setHorasDisponibles(horariosFiltradosConAmPm);
-    if(horariosFiltradosConAmPm){
-      setResponseToken("")
-    }
-      
-        if (busyTimes.length === 0) {
-          toast.success('El barbero está disponible todo el día.');
-        } else {
-          toast.info('El barbero tiene horarios ocupados. Consulta los horarios disponibles.');
-        }
-      } else {
-        toast.error('Error al consultar la disponibilidad en el calendario.');
-        setHorasDisponibles([]);
+      // Convertimos la duración de la franja a milisegundos
+      const duracionFranjaMs = duracionFranja * 60 * 1000;
+
+      // Generar todas las franjas horarias posibles
+      const franjas = [];
+      for (let tiempo = inicioDia.getTime(); tiempo < finDia.getTime(); tiempo += duracionFranjaMs) {
+        const start = new Date(tiempo);
+        const end = new Date(tiempo + duracionFranjaMs);
+        franjas.push({ start, end });
       }
-    } else {
-      toast.error('Error al obtener el token de acceso.');
-      setHorasDisponibles([]);
-    }
-  } catch (error) {
-    console.error('Error al comprobar disponibilidad:', error);
-    toast.error('Ocurrió un error al verificar la disponibilidad.');
-    setHorasDisponibles([]);
-  } finally {
-    setLoadingToken(false);
-    setDisabledFecha(false);
-  }
-};
 
+      // Convertir horarios ocupados a objetos Date
+      const ocupados = horariosOcupados.map(h => ({
+        start: new Date(h.start),
+        end: new Date(h.end),
+      }));
 
-
-  // useEffect para verificar disponibilidad cuando cambia la fecha
-  useEffect(() => {
-    if (selectedFecha && selectedBarbero && selectedServicio) {
-      checkAvailability()
-    }
-  }, [selectedFecha]);
-
-  // Sincroniza el estado de citaProgramming con los valores seleccionados
-  useEffect(() => {
-      setCitaProgramming({
-          servicio: selectedServicio,
-          barbero: selectedBarbero,
-          fecha: selectedFecha,
-          horario: selectedHorario
+      // Filtrar las franjas que no se solapen con los horarios ocupados
+      const disponibles = franjas.filter(franja => {
+        return !ocupados.some(ocupado =>
+          // Comprobamos si la franja está completamente dentro del ocupado
+          (franja.start >= ocupado.start && franja.start < ocupado.end) ||
+          (franja.end > ocupado.start && franja.end <= ocupado.end) ||
+          (franja.start <= ocupado.start && franja.end >= ocupado.end)
+        );
       });
-  }, [selectedServicio, selectedBarbero, selectedFecha, selectedHorario]);
 
-    
-    
-    
+      // Devolver los horarios disponibles en formato legible
+      return disponibles.map(franja => ({
+        start: franja.start.toISOString(),
+        end: franja.end.toISOString(),
+      }));
+    };
+
+    const checkAvailability = async () => {
+      if (!selectedBarbero || !selectedFecha) {
+        toast.warn('Selecciona un barbero y una fecha antes de verificar la disponibilidad.');
+        return;
+      }
+
+      try {
+        const barbero = arrayBarberos[selectedBarbero - 1];
+        const diaDisponible = barbero.diaNoDisponible !== selectedFecha.weekday.toUpperCase();
+
+        if (!diaDisponible) {
+          toast.warn(`El barbero no trabaja el día ${selectedFecha.weekday}.`);
+          return;
+        }
+
+        setLoadingToken(true);
+        setResponseToken("Consultando disponibilidad...");
+        setDisabledFecha(true);
+
+        const responseToken = await axios.get("https://classbarber.pythonanywhere.com/api/google-token/");
+        if (responseToken.status === 200) {
+          const token = responseToken.data.access_token;
+
+          const body = {
+            timeMin: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T08:00:00+01:00`,
+            timeMax: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T21:00:00+01:00`,
+            timeZone: "Europe/Madrid",
+            items: [{ id: barbero.agendaId }],
+          };
+
+          const responseCalendar = await axios.post('https://www.googleapis.com/calendar/v3/freeBusy', body, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (responseCalendar.status === 200) {
+            const busyTimes = responseCalendar.data.calendars[barbero.agendaId].busy;
+            const convertToUTC = (time) => new Date(time).toISOString();
+            const horariosOcupadosUTC = busyTimes.map(({ start, end }) => ({
+              start: convertToUTC(start),
+              end: convertToUTC(end)
+            }));
+            const resultDisponibles = calcularHorariosDisponibles(busyTimes, arrayServicios[selectedServicio - 1].minutos);
+            
+            // Filtrar horarios disponibles
+            const horariosFiltrados = resultDisponibles.filter(({ start, end }) => {
+              return !horariosOcupadosUTC.some(
+                  (ocupado) =>
+                      (start >= ocupado.start && start < ocupado.end) ||
+                      (end > ocupado.start && end <= ocupado.end)
+              );
+            });
+
+          const formatToMadridTimeWithAmPm = (time) => {
+            const date = new Date(time);
+            return new Intl.DateTimeFormat("en-US", {
+                timeZone: "Europe/Madrid", // Zona horaria de Madrid
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true
+            }).format(date);
+        };
+        
+        // Convertir horarios filtrados al formato deseado con horas en am/pm
+        const horariosFiltradosConAmPm = horariosFiltrados.map(({ start }) => ({
+            start: formatToMadridTimeWithAmPm(start)
+        }));
+        setHorasDisponibles(horariosFiltradosConAmPm);
+        if(horariosFiltradosConAmPm){
+          setResponseToken("")
+        }
+          
+            if (busyTimes.length === 0) {
+              toast.success('El barbero está disponible todo el día.');
+            } else {
+              toast.info('El barbero tiene horarios ocupados. Consulta los horarios disponibles.');
+            }
+          } else {
+            toast.error('Error al consultar la disponibilidad en el calendario.');
+            setHorasDisponibles([]);
+          }
+        } else {
+          toast.error('Error al obtener el token de acceso.');
+          setHorasDisponibles([]);
+        }
+      } catch (error) {
+        console.error('Error al comprobar disponibilidad:', error);
+        toast.error('Ocurrió un error al verificar la disponibilidad.');
+        setHorasDisponibles([]);
+      } finally {
+        setLoadingToken(false);
+        setDisabledFecha(false);
+      }
+    };
+
+    // useEffect para verificar disponibilidad cuando cambia la fecha
+    useEffect(() => {
+      if (selectedFecha && selectedBarbero && selectedServicio) {
+        checkAvailability()
+      }
+    }, [selectedFecha]);
+
     // Funciones para cambiar de paso
     const goToNextStep = () => {
         if (currentStep < 3) setCurrentStep(currentStep + 1);
@@ -218,7 +200,6 @@ const checkAvailability = async () => {
     const goToPreviousStep = () => {
         if (currentStep > 1) setCurrentStep(currentStep - 1);
     };
-
 
     const notifyServiceSelected = (serviceId, serviceName) => {
       if (selectedServicio !== serviceId) {
@@ -552,11 +533,11 @@ const checkAvailability = async () => {
                           {loadingToken &&
                               <div className='flex flex-row justify-center items-center'>Cargando horarios...
                               <div role="status">
-                                  <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <svg aria-hidden="true" className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
                                       <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
                                   </svg>
-                                  <span class="sr-only">Loading...</span>
+                                  <span className="sr-only">Loading...</span>
                               </div>
                               </div>
                           }
@@ -567,13 +548,15 @@ const checkAvailability = async () => {
                             </>
                           }
                           <div className='flex flex-row justify-center items-center flex-wrap gap-2 '>
-                          {
-                            horasDisponibles && <>
-                            {horasDisponibles.map((horario, index) => (
-                                <button key={index} className='bg-customColor5 hover:bg-customColor8 text-gray-800 hover:text-white rounded font-bold py-2 px-4'>{horario.start}</button>
-                            ))
-                            }
-                            </>}
+                          {horasDisponibles.map((horario, index) => (
+                              <button
+                              onClick={toggleModal}
+                              className="bg-customColor5 hover:bg-customColor8 text-gray-800 hover:text-white rounded font-bold py-2 px-4"
+                              key={index}
+                              >
+                                  {horario.start}
+                              </button>
+                          ))}
                             </div>
                         </>
                     }
@@ -588,7 +571,62 @@ const checkAvailability = async () => {
                   </div>
                 </div>
             )}
-            
+            {isModalOpen && (
+<div  id="timeline-modal"
+                className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50"
+           >
+    <div className="relative p-4 w-full max-w-md max-h-full">
+        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        Changelog
+                    </h3>
+                    <button type="button" onClick={toggleModal} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="timeline-modal">
+                        <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span className="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <div className="p-4 md:p-5">
+                    <ol className="relative border-s border-gray-200 dark:border-gray-600 ms-3.5 mb-4 md:mb-5">                  
+                        <li className="mb-10 ms-8">            
+                            <span className="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white dark:ring-gray-700 dark:bg-gray-600">
+                                <svg className="w-2.5 h-2.5 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
+                            </span>
+                            <h3 className="flex items-start mb-1 text-lg font-semibold text-gray-900 dark:text-white">Flowbite Application UI v2.0.0 <span className="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 ms-3">Latest</span></h3>
+                            <time className="block mb-3 text-sm font-normal leading-none text-gray-500 dark:text-gray-400">Released on Nov 10th, 2023</time>
+                            <button type="button" className="py-2 px-3 inline-flex items-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                <svg className="w-3 h-3 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/><path d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+                                Download
+                            </button>
+                        </li>
+                        <li className="mb-10 ms-8">
+                            <span className="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white dark:ring-gray-700 dark:bg-gray-600">
+                                <svg className="w-2.5 h-2.5 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
+                            </span>
+                            <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">Flowbite Figma v2.8.0</h3>
+                            <time className="block mb-3 text-sm font-normal leading-none text-gray-500 dark:text-gray-400">Released on Oct 7th, 2023</time>
+                            <button type="button" className="py-2 px-3 inline-flex items-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                <svg className="w-3 h-3 me-1.5" aria-hidden="true" viewBox="0 0 30 45" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.50012 45C11.6401 45 15.0002 41.6399 15.0002 37.4999V29.9999H7.50012C3.36009 29.9999 0 33.3599 0 37.4999C0 41.6399 3.36009 45 7.50012 45Z" fill="#0ACF83"/><path d="M0 22.5C0 18.36 3.36009 14.9999 7.50012 14.9999H15.0002V29.9999H7.50012C3.36009 30.0001 0 26.64 0 22.5Z" fill="#A259FF"/><path d="M0 7.50006C0 3.36006 3.36009 0 7.50012 0H15.0002V14.9999H7.50012C3.36009 14.9999 0 11.6401 0 7.50006Z" fill="#F24E1E"/><path d="M15.0002 0H22.4999C26.6399 0 30 3.36006 30 7.50006C30 11.6401 26.6399 14.9999 22.4999 14.9999L15.0002 14.9999V0Z" fill="#FF7262"/><path d="M30 22.5C30 26.64 26.6399 30 22.4999 30C18.3599 30 14.9998 26.64 14.9998 22.5C14.9998 18.36 18.3599 14.9999 22.4999 14.9999C26.6399 14.9999 30 18.36 30 22.5Z" fill="#1ABCFE"/></svg>
+                                Duplicate in Figma
+                            </button>
+                        </li>
+                        <li className="ms-8">
+                            <span className="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white dark:ring-gray-700 dark:bg-gray-600">
+                                <svg className="w-2.5 h-2.5 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
+                            </span>
+                            <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">Flowbite Library v1.2.2</h3>
+                            <time className="block mb-3 text-sm font-normal leading-none text-gray-500 dark:text-gray-400">Released on December 2nd, 2021</time>
+                        </li>
+                    </ol>
+                    <button className="text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    My Downloads
+                    </button>
+                </div>
+            </div>
+    </div>
+</div> )}
             <ToastContainer autoClose={1000} style={{marginTop: "12vh"}}/>
         </div>
     );
