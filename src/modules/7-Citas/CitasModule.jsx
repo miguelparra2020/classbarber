@@ -237,6 +237,7 @@ const checkAvailability = async () => {
         if (currentStep > 1) setCurrentStep(currentStep - 1);
     };
 
+    
     const notifyServiceSelected = (serviceId, serviceName) => {
       if (selectedServicio !== serviceId) {
         setDisabledServices(true);
