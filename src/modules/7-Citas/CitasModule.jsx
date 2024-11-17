@@ -145,26 +145,6 @@ const checkAvailability = async () => {
                   (end > ocupado.start && end <= ocupado.end)
           );
         });
-        const convertToMadridTimeZone = (time) => {
-          const date = new Date(time);
-          return new Intl.DateTimeFormat("sv-SE", {
-              timeZone: "Europe/Madrid", // Zona horaria de Madrid
-              hour12: false,
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit"
-          })
-              .format(date)
-              .replace(" ", "T") + "+01:00"; // CET (invierno)
-      };
-      
-      // Convertir horarios filtrados al formato deseado con zona horaria de Madrid
-      const horariosFiltradosConMadrid = horariosFiltrados.map(({ start }) => ({
-          start: convertToMadridTimeZone(start)
-      }));
 
       const formatToMadridTimeWithAmPm = (time) => {
         const date = new Date(time);
@@ -181,6 +161,9 @@ const checkAvailability = async () => {
         start: formatToMadridTimeWithAmPm(start)
     }));
     setHorasDisponibles(horariosFiltradosConAmPm);
+    if(horariosFiltradosConAmPm){
+      setResponseToken("")
+    }
       
         if (busyTimes.length === 0) {
           toast.success('El barbero está disponible todo el día.');
@@ -226,7 +209,6 @@ const checkAvailability = async () => {
 
     
     
-    const opcionesHorarias = ["10:00","10:30","11:00","11:30","12:00"]
     
     // Funciones para cambiar de paso
     const goToNextStep = () => {
@@ -237,7 +219,7 @@ const checkAvailability = async () => {
         if (currentStep > 1) setCurrentStep(currentStep - 1);
     };
 
-    
+
     const notifyServiceSelected = (serviceId, serviceName) => {
       if (selectedServicio !== serviceId) {
         setDisabledServices(true);
@@ -584,13 +566,15 @@ const checkAvailability = async () => {
                             }
                             </>
                           }
+                          <div className='flex flex-row justify-center items-center flex-wrap gap-2 '>
                           {
                             horasDisponibles && <>
                             {horasDisponibles.map((horario, index) => (
-                                <div key={index}>{horario.start}</div>
+                                <button key={index} className='bg-customColor5 hover:bg-customColor8 text-gray-800 hover:text-white rounded font-bold py-2 px-4'>{horario.start}</button>
                             ))
                             }
                             </>}
+                            </div>
                         </>
                     }
                     
