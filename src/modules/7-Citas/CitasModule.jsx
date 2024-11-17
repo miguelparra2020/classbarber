@@ -135,11 +135,8 @@ const checkAvailability = async () => {
           start: convertToUTC(start),
           end: convertToUTC(end)
         }));
-        console.log("Horarios ocupados:", busyTimes);
-        console.log("Horarios ocupados UTC:", horariosOcupadosUTC);
-        console.log("Servicio seleccionado:", arrayServicios[selectedServicio - 1].minutos);
         const resultDisponibles = calcularHorariosDisponibles(busyTimes, arrayServicios[selectedServicio - 1].minutos);
-        console.log("Horarios disponibles:", resultDisponibles);
+        
         // Filtrar horarios disponibles
         const horariosFiltrados = resultDisponibles.filter(({ start, end }) => {
           return !horariosOcupadosUTC.some(
@@ -148,8 +145,6 @@ const checkAvailability = async () => {
                   (end > ocupado.start && end <= ocupado.end)
           );
         });
-
-        console.log("Horarios disponibles filtrados:", horariosFiltrados);
         const convertToMadridTimeZone = (time) => {
           const date = new Date(time);
           return new Intl.DateTimeFormat("sv-SE", {
@@ -170,8 +165,6 @@ const checkAvailability = async () => {
       const horariosFiltradosConMadrid = horariosFiltrados.map(({ start }) => ({
           start: convertToMadridTimeZone(start)
       }));
-      
-      console.log("Horarios disponibles con zona horaria Madrid:", horariosFiltradosConMadrid);
 
       const formatToMadridTimeWithAmPm = (time) => {
         const date = new Date(time);
@@ -187,7 +180,6 @@ const checkAvailability = async () => {
     const horariosFiltradosConAmPm = horariosFiltrados.map(({ start }) => ({
         start: formatToMadridTimeWithAmPm(start)
     }));
-    console.log("Horarios disponibles con formato am/pm:", horariosFiltradosConAmPm);
     setHorasDisponibles(horariosFiltradosConAmPm);
       
         if (busyTimes.length === 0) {
@@ -306,14 +298,6 @@ const checkAvailability = async () => {
       return result;
     }
 
-    // Cuando escogemos el día, validar en google calendar su disponibilidad
-
-    useEffect(() => {
-      if(selectedFecha){
-        console.log("cambio fecha:", selectedFecha)
-      }
-      
-    }, [selectedFecha])
     return (
         <div>
             <div className='flex flex-col items-center content-center'>
