@@ -29,24 +29,15 @@ export const textIntro = `
 
 // Links sociales
 export const socialLinks = [
-    {
-        text: 'Go to GitHub repo',
-        href: 'https://github.com/JustGoodUI/ovidius-astro-theme',
-        icon: 'facebook'
-    },
+    
     {
         text: 'Follow on Instagram',
-        href: 'https://instagram.com/',
+        href: 'https://www.instagram.com/classbarber.es/profilecard/?igsh=MzJyODBpZzBkaGJ1',
         icon: 'instagram'
     },
     {
-        text: 'Follow on X',
-        href: 'https://twitter.com/justgoodui',
-        icon: 'x-twitter'
-    },
-    {
         text: 'Follow on TikTok',
-        href: 'https://tiktok.com/',
+        href: 'https://www.tiktok.com/@class.barbershop?_t=8qq6B5fgnfF&_r=1',
         icon: 'tiktok'
     }
 ];

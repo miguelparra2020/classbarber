@@ -18,6 +18,7 @@ const CitasModule = () => {
     const [disabledServices, setDisabledServices] = useState(false);
     const [disabledBarbero, setDisabledBarbero] = useState(false);
     const [loadingToken, setLoadingToken] = useState(false);
+    const [tokenCalendar, setTokenCalendar] = useState("");
     const [responseToken, setResponseToken] = useState("");
     const [horasDisponibles, setHorasDisponibles] = useState([]);
     const [selectHoraDisponible, setSelectHoraDisponible] = useState();
@@ -110,7 +111,7 @@ const CitasModule = () => {
         const responseToken = await axios.get("https://classbarber.pythonanywhere.com/api/google-token/");
         if (responseToken.status === 200) {
           const token = responseToken.data.access_token;
-
+          setTokenCalendar(token);
           const body = {
             timeMin: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T08:00:00+01:00`,
             timeMax: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T21:00:00+01:00`,
@@ -266,10 +267,41 @@ const CitasModule = () => {
       return result;
     }
 
-    const hadleCreateCita = () => {
-      notifyCitaCreated()
-      toggleModal()
+   
+    // Creación de cita:
+    const bodyToCreateCita = {
+      "summary": "Corte de cabello - Barbería",
+      "location": "Class Barber, Avenida Principal 123, Ciudad",
+      "description": "Cita para corte de cabello",
+      "start": {
+        "dateTime": "2024-11-18T10:30:00+01:00",
+        "timeZone": "Europe/Madrid"
+      },
+      "end": {
+        "dateTime": "2024-11-18T11:00:00+01:00",
+        "timeZone": "Europe/Madrid"
+      }
     }
+
+    const hadleCreateCita = async () => {
+      console.log("tokenCalendar", tokenCalendar);
+      try {
+        const response = await axios.post(
+          'https://www.googleapis.com/calendar/v3/calendars/5a5f753eb96bac8155a607114939f484f29f14c98a4e658e782ac5096429e802@group.calendar.google.com/events',
+          bodyToCreateCita, // Aquí debe ir el cuerpo directamente
+          {
+            headers: {
+              'Authorization': `Bearer ${tokenCalendar}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log("response create cita: ", response.data);
+      } catch (error) {
+        console.error("Error al crear cita:", error.response.data);
+      }
+    };
+    
 
     return (
         <div>
@@ -496,38 +528,38 @@ const CitasModule = () => {
                       Agenda disponible de : &nbsp; <strong>{arrayBarberos[selectedBarbero-1].nombre}</strong></span>
                      </div>
                      <br />
-                      <div className='w-[94%] flex flex-col justify-start items-start'>
-                        <div>Fechas disponibles:</div>
-                        <div className='w-full flex flex-row justify-start items-center gap-2 overflow-x-auto'>
-                          {dates.map((date, index) => (
-                            <button
-                              key={index}
-                              className={`p-2 rounded-md min-w-[80px] flex flex-col justify-center items-center ${
-                                selectedFecha === date
-                                  ? 'bg-gray-800 text-white'
-                                  : 'bg-gray-200 text-gray-800 hover:bg-gray-800 hover:text-white'
-                              }`}
-                              disabled={disabledFecha}
-                              onClick={() => {
-                                setSelectedFecha(date)
-                                notifyDaySelected(date)
-                                setSelectDay(date.weekday)
-                                
-                              }}
-                            >
-                              <div>
-                                <strong>{date.month}</strong>
-                              </div>
-                              <div>
-                                <strong>{date.day}</strong>
-                              </div>
-                              <div>
-                                <strong>{date.weekday}</strong>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
+                    <div className='w-[94%] flex flex-col justify-start items-start'>
+                      <div>Fechas disponibles:</div>
+                      <div className='w-full flex flex-row justify-start items-center gap-2 overflow-x-auto'>
+                        {dates.map((date, index) => (
+                          <button
+                            key={index}
+                            className={`p-2 rounded-md min-w-[80px] flex flex-col justify-center items-center ${
+                              selectedFecha === date
+                                ? 'bg-gray-800 text-white'
+                                : 'bg-gray-200 text-gray-800 hover:bg-gray-800 hover:text-white'
+                            }`}
+                            disabled={disabledFecha}
+                            onClick={() => {
+                              setSelectedFecha(date)
+                              notifyDaySelected(date)
+                              setSelectDay(date.weekday)
+                              
+                            }}
+                          >
+                            <div>
+                              <strong>{date.month}</strong>
+                            </div>
+                            <div>
+                              <strong>{date.day}</strong>
+                            </div>
+                            <div>
+                              <strong>{date.weekday}</strong>
+                            </div>
+                          </button>
+                        ))}
                       </div>
+                    </div>
                     <br />
                     {selectedFecha  && <>
                       <div>
@@ -651,7 +683,7 @@ const CitasModule = () => {
                 </div>
             </div>
     </div>
-</div> )}
+            </div> )}
             <ToastContainer autoClose={1000} style={{marginTop: "12vh"}}/>
         </div>
     );
