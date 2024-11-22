@@ -665,23 +665,23 @@ const CitasModule = () => {
                               <div>
                                   <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                     Nombre contacto:</label>
-                                  <input type="text" name="name" id="name" 
+                                  <input type="text" name="name" id="name" onChange={(e) => setNameCustomer(e.target.value)}
                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="Nombre usuario" required />
                                   {validateCustomer && nameCustomer === '' && <span className='text-red-600'>Por favor ingresar el nombre *</span>}
                               </div>
                               <div>
                                   <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                     Correo electrónico:</label>
-                                  <input type="email" name="email" id="email" 
+                                  <input type="email" name="email" id="email" onChange={(e) => setEmailCustomer(e.target.value)}
                                   class="bg-gray-50 border mb-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="name@gmail.com" required />
-                                  {validateCustomer && nameCustomer === '' && <span className='text-red-600'>Por favor ingresar el correo *</span>}
+                                  {validateCustomer && emailCustomer === '' && <span className='text-red-600'>Por favor ingresar el correo *</span>}
                               </div>
                               <div>
                                   <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                     Celular contacto:</label>
-                                  <input type="number" name="number" id="number" 
+                                  <input type="number" name="number" id="number" onChange={(e) => setCelCustomer(e.target.value)}
                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="613670695" required />
-                                  {validateCustomer && nameCustomer === '' && <span className='text-red-600'>Por favor ingresar el celular *</span>}
+                                  {validateCustomer && celCustomer === '' && <span className='text-red-600'>Por favor ingresar el celular *</span>}
                               </div>
                               
                         </li>
