@@ -24,7 +24,11 @@ const CitasModule = () => {
     const [horasDisponibles, setHorasDisponibles] = useState([]);
     const [selectHoraDisponible, setSelectHoraDisponible] = useState();
     const [isModalOpen, setModalOpen] = useState(false);
-    const toggleModal = () => setModalOpen(!isModalOpen);
+    const [nameCustomer, setNameCustomer] = useState("");
+    const [emailCustomer, setEmailCustomer] = useState("");
+    const [celCustomer, setCelCustomer] = useState("");
+    const [validateCustomer, setValidateCustomer] = useState(false);
+    const toggleModal = () => {setModalOpen(!isModalOpen)};
 
     const arrayServicios = [    
       { nombre: "Corte de cabello", minutos: 30, id: 1 },
@@ -286,6 +290,7 @@ const CitasModule = () => {
 
     const hadleCreateCita = async () => {
       console.log("tokenCalendar", tokenCalendar);
+      setValidateCustomer(true)
       // try {
       //   const response = await axios.post(
       //     'https://www.googleapis.com/calendar/v3/calendars/5a5f753eb96bac8155a607114939f484f29f14c98a4e658e782ac5096429e802@group.calendar.google.com/events',
@@ -662,18 +667,21 @@ const CitasModule = () => {
                                     Nombre contacto:</label>
                                   <input type="text" name="name" id="name" 
                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="Nombre usuario" required />
+                                  {validateCustomer && nameCustomer === '' && <span className='text-red-600'>Por favor ingresar el nombre *</span>}
                               </div>
                               <div>
                                   <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                     Correo electrónico:</label>
                                   <input type="email" name="email" id="email" 
                                   class="bg-gray-50 border mb-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="name@gmail.com" required />
+                                  {validateCustomer && nameCustomer === '' && <span className='text-red-600'>Por favor ingresar el correo *</span>}
                               </div>
                               <div>
                                   <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                     Celular contacto:</label>
                                   <input type="number" name="number" id="number" 
                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="613670695" required />
+                                  {validateCustomer && nameCustomer === '' && <span className='text-red-600'>Por favor ingresar el celular *</span>}
                               </div>
                               
                         </li>
