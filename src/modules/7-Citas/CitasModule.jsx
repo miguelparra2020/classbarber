@@ -285,21 +285,21 @@ const CitasModule = () => {
 
     const hadleCreateCita = async () => {
       console.log("tokenCalendar", tokenCalendar);
-      try {
-        const response = await axios.post(
-          'https://www.googleapis.com/calendar/v3/calendars/5a5f753eb96bac8155a607114939f484f29f14c98a4e658e782ac5096429e802@group.calendar.google.com/events',
-          bodyToCreateCita, // Aquí debe ir el cuerpo directamente
-          {
-            headers: {
-              'Authorization': `Bearer ${tokenCalendar}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        console.log("response create cita: ", response.data);
-      } catch (error) {
-        console.error("Error al crear cita:", error.response.data);
-      }
+      // try {
+      //   const response = await axios.post(
+      //     'https://www.googleapis.com/calendar/v3/calendars/5a5f753eb96bac8155a607114939f484f29f14c98a4e658e782ac5096429e802@group.calendar.google.com/events',
+      //     bodyToCreateCita, // Aquí debe ir el cuerpo directamente
+      //     {
+      //       headers: {
+      //         'Authorization': `Bearer ${tokenCalendar}`,
+      //         'Content-Type': 'application/json',
+      //       },
+      //     }
+      //   );
+      //   console.log("response create cita: ", response.data);
+      // } catch (error) {
+      //   console.error("Error al crear cita:", error.response.data);
+      // }
     };
     
 
