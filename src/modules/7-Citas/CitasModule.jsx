@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import axios from 'axios';
+import InstallButton from '../../components/interactivos/buttonInstall.jsx';
 
 const CitasModule = () => {
     // Estados para controlar el paso actual y los datos seleccionados
@@ -685,6 +686,7 @@ const CitasModule = () => {
     </div>
             </div> )}
             <ToastContainer autoClose={1000} style={{marginTop: "12vh"}}/>
+            <InstallButton/>
         </div>
     );
 };
