@@ -288,26 +288,63 @@ const CitasModule = () => {
       }
     }
 
+    const validateEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+      return emailRegex.test(email);
+    };
     const hadleCreateCita = async () => {
       console.log("tokenCalendar", tokenCalendar);
-      setValidateCustomer(true)
-      // try {
-      //   const response = await axios.post(
-      //     'https://www.googleapis.com/calendar/v3/calendars/5a5f753eb96bac8155a607114939f484f29f14c98a4e658e782ac5096429e802@group.calendar.google.com/events',
-      //     bodyToCreateCita, // Aquí debe ir el cuerpo directamente
-      //     {
-      //       headers: {
-      //         'Authorization': `Bearer ${tokenCalendar}`,
-      //         'Content-Type': 'application/json',
-      //       },
-      //     }
-      //   );
-      //   console.log("response create cita: ", response.data);
-      // } catch (error) {
-      //   console.error("Error al crear cita:", error.response.data);
-      // }
-    };
-    
+  setValidateCustomer(true);
+
+  // Validación de campos obligatorios
+  if (validateCustomer && (!nameCustomer || !emailCustomer || !celCustomer)) {
+    toast.error("Todos los campos son obligatorios");
+    setValidateCustomer(false);
+    return;
+  }
+
+  // Validación del correo electrónico
+  if (emailCustomer !== '' && !validateEmail(emailCustomer)) {
+    toast.error("El correo no es válido");
+    setValidateCustomer(false);
+    return;
+  }
+
+  // Validación del número de teléfono
+  if (celCustomer.length < 6 || celCustomer.length > 14) {
+    toast.error("El número de celular debe tener entre 6 y 14 dígitos");
+    setValidateCustomer(false);
+    return;
+  }
+
+  if (tokenCalendar !== '') {
+    // Mostrar el toast de "loading" y asignar un ID único
+    const toastId = toast.loading("Cargando cita...", { toastId: "loadingToast" });
+
+    try {
+      // Simulación de un proceso asíncrono (puedes reemplazarlo con tu lógica real)
+      await new Promise((resolve) => setTimeout(resolve, 2000));  // Simulación de 2 segundos de carga
+
+      // Actualizar el toast con éxito y cerrarlo
+      toast.update(toastId, {
+        render: "Cita creada con éxito",
+        type: "success",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    } catch (error) {
+      // Si ocurre un error, mostrar un error
+      toast.update(toastId, {
+        render: "No se pudo crear la cita",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
+    }
+  } else {
+    toast.error("No se pudo crear la cita");
+  }
+};
 
     return (
         <div>
@@ -622,9 +659,9 @@ const CitasModule = () => {
                 </div>
             )}
             {isModalOpen && (
-<div  id="timeline-modal"
-                className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50"
-           >
+              <div  id="timeline-modal"
+                className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 mt-4"
+              >
     <div className="relative p-4 w-full max-w-md max-h-full">
         <div className="relative bg-white rounded-lg shadow ">
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
@@ -667,33 +704,36 @@ const CitasModule = () => {
                                     Nombre contacto:</label>
                                   <input type="text" name="name" id="name" onChange={(e) => setNameCustomer(e.target.value)}
                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="Nombre usuario" required />
-                                  {validateCustomer && nameCustomer === '' && <span className='text-red-600'>Por favor ingresar el nombre *</span>}
-                              </div>
+                                    </div>
                               <div>
                                   <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                     Correo electrónico:</label>
                                   <input type="email" name="email" id="email" onChange={(e) => setEmailCustomer(e.target.value)}
                                   class="bg-gray-50 border mb-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="name@gmail.com" required />
-                                  {validateCustomer && emailCustomer === '' && <span className='text-red-600'>Por favor ingresar el correo *</span>}
-                              </div>
+                                </div>
                               <div>
                                   <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                     Celular contacto:</label>
                                   <input type="number" name="number" id="number" onChange={(e) => setCelCustomer(e.target.value)}
                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="613670695" required />
-                                  {validateCustomer && celCustomer === '' && <span className='text-red-600'>Por favor ingresar el celular *</span>}
-                              </div>
+                             </div>
                               
                         </li>
                     </ol>
-                    <button onClick={hadleCreateCita} className="text-white inline-flex w-full justify-center bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
-                    Confirmar cita
-                    </button>
+                    <div className='flex flexrow gap-2'>
+                        <button onClick={hadleCreateCita} className="text-white inline-flex w-[75%] justify-center bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                        Confirmar cita
+                        </button>
+                        <button onClick={toggleModal} className="text-white inline-flex w-[20%] justify-center bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                        Cerrar
+                        </button>
+                    </div>
+                    
                 </div>
             </div>
     </div>
             </div> )}
-            <ToastContainer autoClose={1000} style={{marginTop: "12vh"}}/>
+            <ToastContainer autoClose={1000} style={{marginTop: "20vh"}}/>
             <InstallButton/>
         </div>
     );
