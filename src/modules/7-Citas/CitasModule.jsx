@@ -38,7 +38,6 @@ const CitasModule = () => {
         setCelularPrefijo("+34"+celCustomer);
       }
     },[celCustomer])
-    console.log("celularPrefijo", celularPrefijo)
 
     useEffect(() => {
       // Verificar si el código está corriendo en el navegador
@@ -53,7 +52,6 @@ const CitasModule = () => {
         setCelCustomer(miCelular ? miCelular : "");
       }
     }, [selectedFecha, selectedBarbero, selectedServicio, isModalOpen]);
-    // console.log(localStorage.getItem('mi_nombre'))
     const sumarMinutos = (hora, minutosASumar) => {
       // Convertir la hora en un objeto Date
       const [horaStr] = hora.split(" "); // Se elimina AM/PM, si existe
@@ -321,10 +319,6 @@ const CitasModule = () => {
       }
       return result;
     }
-
-    console.log("selectedFecha", selectedFecha);
-    console.log("selectHoraDisponible", selectHoraDisponible);
-    console.log("selectHoraDisponible2", selectHoraDisponible?.start.slice(0, 5));
    
     // Creación de cita:
     const bodyToCreateCita = {
@@ -348,14 +342,12 @@ const CitasModule = () => {
         "timeZone": "Europe/Madrid"
       },
     }
-    console.log("bodyToCreateCita", bodyToCreateCita)
 
     const validateEmail = (email) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
       return emailRegex.test(email);
     };
     const hadleCreateCita = async () => {
-      console.log("tokenCalendar", tokenCalendar);
   setValidateCustomer(true);
 
   // Validación de campos obligatorios
