@@ -23,9 +23,9 @@ const CitasModule = () => {
     const [horasDisponibles, setHorasDisponibles] = useState([]);
     const [selectHoraDisponible, setSelectHoraDisponible] = useState();
     const [isModalOpen, setModalOpen] = useState(false);
-    const [nameCustomer, setNameCustomer] = useState("");
-    const [emailCustomer, setEmailCustomer] = useState("");
-    const [celCustomer, setCelCustomer] = useState("");
+    const [nameCustomer, setNameCustomer] = useState('');
+    const [emailCustomer, setEmailCustomer] = useState('');
+    const [celCustomer, setCelCustomer] = useState('');
     const [celularPrefijo, setCelularPrefijo] = useState("");
     const [validateCustomer, setValidateCustomer] = useState(false);
     const toggleModal = () => {setModalOpen(!isModalOpen)};
@@ -39,6 +39,47 @@ const CitasModule = () => {
       }
     },[celCustomer])
     console.log("celularPrefijo", celularPrefijo)
+
+    useEffect(() => {
+      // Verificar si el código está corriendo en el navegador
+      if (typeof window !== 'undefined') {
+        // Solo accedes a localStorage en el navegador
+        const miNombre = localStorage.getItem('mi_nombre');
+        const miCorreo = localStorage.getItem('mi_correo');
+        const miCelular = localStorage.getItem('mi_celular');
+  
+        setNameCustomer(miNombre ? miNombre : "");
+        setEmailCustomer(miCorreo ? miCorreo : "");
+        setCelCustomer(miCelular ? miCelular : "");
+      }
+    }, [selectedFecha, selectedBarbero, selectedServicio, isModalOpen]);
+    // console.log(localStorage.getItem('mi_nombre'))
+    const sumarMinutos = (hora, minutosASumar) => {
+      // Convertir la hora en un objeto Date
+      const [horaStr, meridiano] = hora.split(" "); // Separar la hora del AM/PM
+      let [horas, minutos] = horaStr.split(":").map(Number); // Dividir horas y minutos
+      
+      if (meridiano === "PM" && horas !== 12) horas += 12; // Convertir PM a formato 24h
+      if (meridiano === "AM" && horas === 12) horas = 0; // Ajustar medianoche
+  
+      const fecha = new Date();
+      fecha.setHours(horas, minutos); // Establecer la hora en el objeto Date
+  
+      // Sumar los minutos
+      fecha.setMinutes(fecha.getMinutes() + minutosASumar);
+  
+      // Formatear el resultado en formato "HH:mm AM/PM"
+      const horasResult = fecha.getHours();
+      const minutosResult = fecha.getMinutes();
+      const esPM = horasResult >= 12;
+  
+      const horasFormateadas = esPM ? (horasResult === 12 ? 12 : horasResult - 12) : (horasResult === 0 ? 12 : horasResult);
+      const minutosFormateados = minutosResult.toString().padStart(2, "0");
+      const meridianoResult = esPM ? "PM" : "AM";
+  
+      return `${horasFormateadas}:${minutosFormateados} ${meridianoResult}`;
+  }
+
     const arrayServicios = [    
       { nombre: "Corte de cabello", minutos: 30, id: 1 },
       { nombre: "Arreglo de barba ", minutos: 15, id: 2 },
@@ -237,7 +278,7 @@ const CitasModule = () => {
         setDisabledBarbero(true)
         if(barberoId != 0){
           toast.success("Ha seleccionado el barbero: " + barberoName)
-          setSelectedFecha()
+          setSelectedFecha(null)
           setHorasDisponibles([])
         } 
         setTimeout(() => {
@@ -279,6 +320,7 @@ const CitasModule = () => {
 
     console.log("selectedFecha", selectedFecha);
     console.log("selectHoraDisponible", selectHoraDisponible);
+    console.log("selectHoraDisponible2", selectHoraDisponible?.start.slice(0, 5));
    
     // Creación de cita:
     const bodyToCreateCita = {
@@ -294,11 +336,11 @@ const CitasModule = () => {
       correo: ${emailCustomer} y celular: ${celCustomer}
       `,
       "start": {
-        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T10:10:00+01:00`,
+        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T${selectHoraDisponible?.start.slice(0, 5)}:00+01:00`,
         "timeZone": "Europe/Madrid"
       },
       "end": {  
-        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T11:30:00+01:00`,
+        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T${sumarMinutos(`${selectHoraDisponible?.start}`, arrayServicios[selectedServicio - 1]?.minutos).slice(0, 5)}:00+01:00`,
         "timeZone": "Europe/Madrid"
       },
     }
@@ -352,21 +394,28 @@ const CitasModule = () => {
         }
       });
 
-      console.log(response);
+      if (response.status === 200){ 
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('mi_nombre', nameCustomer);
+          localStorage.setItem('mi_correo', emailCustomer);
+          localStorage.setItem('mi_celular', celCustomer);
+        }       
+        setSelectedFecha(null)
+        toggleModal()
 
-      toast.update(toastId, {
-        render: response,
-        type: "info",
-        isLoading: false,
-        autoClose: 2000,
-      });
-      // Actualizar el toast con éxito y cerrarlo
-      toast.update(toastId, {
-        render: "Cita creada con éxito",
-        type: "success",
-        isLoading: false,
-        autoClose: 1000,
-      });
+        setTimeout(() => {
+          
+          toast.update(toastId, {
+            render: "Cita creada con éxito",
+            type: "success",
+            isLoading: false,
+            autoClose: 1000,
+          });
+          
+        }, 1000);
+        
+      }
+      
     } catch (error) {
       // Si ocurre un error, mostrar un error
       toast.update(toastId, {
@@ -737,19 +786,19 @@ const CitasModule = () => {
                                       <div>
                                           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                             Nombre contacto:</label>
-                                          <input type="text" name="name" id="name" onChange={(e) => setNameCustomer(e.target.value)}
+                                          <input type="text" value={nameCustomer} name="name" id="name" onChange={(e) => setNameCustomer(e.target.value)}
                                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="Nombre usuario" required />
                                             </div>
                                       <div>
                                           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                             Correo electrónico:</label>
-                                          <input type="email" name="email" id="email" onChange={(e) => setEmailCustomer(e.target.value)}
+                                          <input type="email" value={emailCustomer} name="email" id="email" onChange={(e) => setEmailCustomer(e.target.value)}
                                           class="bg-gray-50 border mb-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="name@gmail.com" required />
                                         </div>
                                       <div>
                                           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
                                             Celular contacto:</label>
-                                          <input type="number" name="number" id="number" onChange={(e) => setCelCustomer(e.target.value)}
+                                          <input type="number" value={celCustomer} name="number" id="number" onChange={(e) => setCelCustomer(e.target.value)}
                                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="613670695" required />
                                     </div>
                                       
