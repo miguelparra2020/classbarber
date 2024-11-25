@@ -15,7 +15,6 @@ const CitasModule = () => {
     const [selectedFecha, setSelectedFecha] = useState();
     const [disabledFecha, setDisabledFecha] = useState(false);
     const [selectDay, setSelectDay] = useState();
-    const [selectedHorario, setSelectedHorario] = useState();
     const [disabledServices, setDisabledServices] = useState(false);
     const [disabledBarbero, setDisabledBarbero] = useState(false);
     const [loadingToken, setLoadingToken] = useState(false);
@@ -27,9 +26,19 @@ const CitasModule = () => {
     const [nameCustomer, setNameCustomer] = useState("");
     const [emailCustomer, setEmailCustomer] = useState("");
     const [celCustomer, setCelCustomer] = useState("");
+    const [celularPrefijo, setCelularPrefijo] = useState("");
     const [validateCustomer, setValidateCustomer] = useState(false);
     const toggleModal = () => {setModalOpen(!isModalOpen)};
 
+    useEffect(() => {
+      if(celCustomer.slice(0, 1) === "3"){
+        setCelularPrefijo("+57"+celCustomer);
+      }
+      if(celCustomer.slice(0, 1) === "6"){
+        setCelularPrefijo("+34"+celCustomer);
+      }
+    },[celCustomer])
+    console.log("celularPrefijo", celularPrefijo)
     const arrayServicios = [    
       { nombre: "Corte de cabello", minutos: 30, id: 1 },
       { nombre: "Arreglo de barba ", minutos: 15, id: 2 },
@@ -246,12 +255,8 @@ const CitasModule = () => {
       
     }
 
-    const notifyCitaCreated = () => {
-        toast.warning("Creando cita...")
-      
-    }
 
-    const [dates, setDates] = useState(generateDates());
+    const [dates] = useState(generateDates());
 
     // Función para generar los próximos días a partir de hoy
     function generateDates(days = 90) {
@@ -272,21 +277,32 @@ const CitasModule = () => {
       return result;
     }
 
+    console.log("selectedFecha", selectedFecha);
+    console.log("selectHoraDisponible", selectHoraDisponible);
    
     // Creación de cita:
     const bodyToCreateCita = {
-      "summary": "Corte de cabello - Barbería",
-      "location": "Class Barber, Avenida Principal 123, Ciudad",
-      "description": "Cita para corte de cabello",
+      "summary": `${nameCustomer} - ${ arrayServicios[selectedServicio - 1]?.nombre} - ${ arrayServicios[selectedServicio - 1]?.minutos} minutos`,  
+      "location": "Class Barber, Ibiza españa",
+      "description": `El cliente: ${nameCustomer},
+      solicitó el servicio: ${arrayServicios[selectedServicio - 1]?.nombre}, 
+      con duración de: ${arrayServicios[selectedServicio - 1]?.minutos} minutos,
+      con el barbero: ${arrayBarberos[selectedBarbero - 1]?.nombre}, 
+      para el día: ${selectedFecha?.day} de ${selectedFecha?.month},
+      a las: ${selectHoraDisponible?.start}, 
+      datos adicionales del cliente, 
+      correo: ${emailCustomer} y celular: ${celCustomer}
+      `,
       "start": {
-        "dateTime": "2024-11-18T10:30:00+01:00",
+        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T10:10:00+01:00`,
         "timeZone": "Europe/Madrid"
       },
-      "end": {
-        "dateTime": "2024-11-18T11:00:00+01:00",
+      "end": {  
+        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T11:30:00+01:00`,
         "timeZone": "Europe/Madrid"
-      }
+      },
     }
+    console.log("bodyToCreateCita", bodyToCreateCita)
 
     const validateEmail = (email) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
@@ -311,8 +327,14 @@ const CitasModule = () => {
   }
 
   // Validación del número de teléfono
-  if (celCustomer.length < 6 || celCustomer.length > 14) {
-    toast.error("El número de celular debe tener entre 6 y 14 dígitos");
+  if (celCustomer.length < 9 || celCustomer.length > 10) {
+    toast.error("El número de celular debe tener entre 9 y 10 dígitos");
+    
+    setValidateCustomer(false);
+    return;
+  }
+  if (celCustomer.slice(0, 1) !== "3" && celCustomer.slice(0, 1) !== "6" && celCustomer.slice(0, 1) !== "7") {
+    toast.error("El número de celular debe ser correcto");
     setValidateCustomer(false);
     return;
   }
@@ -321,16 +343,29 @@ const CitasModule = () => {
     // Mostrar el toast de "loading" y asignar un ID único
     const toastId = toast.loading("Cargando cita...", { toastId: "loadingToast" });
 
-    try {
-      // Simulación de un proceso asíncrono (puedes reemplazarlo con tu lógica real)
-      await new Promise((resolve) => setTimeout(resolve, 2000));  // Simulación de 2 segundos de carga
+    
 
+    try {
+      const response = await axios.post(`https://www.googleapis.com/calendar/v3/calendars/${arrayBarberos[selectedBarbero - 1].agendaId}/events`, bodyToCreateCita, {
+        headers: {
+          Authorization: `Bearer ${tokenCalendar}`
+        }
+      });
+
+      console.log(response);
+
+      toast.update(toastId, {
+        render: response,
+        type: "info",
+        isLoading: false,
+        autoClose: 2000,
+      });
       // Actualizar el toast con éxito y cerrarlo
       toast.update(toastId, {
         render: "Cita creada con éxito",
         type: "success",
         isLoading: false,
-        autoClose: 5000,
+        autoClose: 1000,
       });
     } catch (error) {
       // Si ocurre un error, mostrar un error
@@ -662,76 +697,76 @@ const CitasModule = () => {
               <div  id="timeline-modal"
                 className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 mt-4"
               >
-    <div className="relative p-4 w-full max-w-md max-h-full">
-        <div className="relative bg-white rounded-lg shadow ">
-                <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
-                    <h3 className="text-lg font-semibold text-gray-900 ">
-                        Agendamiento de cita  
-                    </h3>
-                    <button type="button" onClick={toggleModal} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center " data-modal-toggle="timeline-modal">
-                        <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                        <span className="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <div className="p-4 md:p-5">
-                    <ol className="relative border-s border-gray-200  ms-3.5 mb-4 md:mb-5">                  
-                        
-                        <li className="mb-2 ms-8">
-                            <span className="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white">
-                                <svg className="w-2.5 h-2.5 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
-                            </span>
-                            <h3 className="mb-1 text-lg font-semibold text-gray-900 ">
-                              Cita para el: {selectedFecha.day} de {selectedFecha.month} de {selectedFecha.year} a las {selectHoraDisponible.start}</h3>
-                            <time className="block mb-3 text-sm font-normal leading-none text-gray-500 ">Duración del servicio: {arrayServicios[selectedServicio-1].minutos} minutos</time>
-                            <div className='flex flex-row justify-start items-center gap-2  '>
-                              <span className="mb-1 text-sm text-gray-500 ">
-                                Barbero: </span> 
-                              <img src={arrayBarberos[selectedBarbero-1].img} alt="Foto del Barbero" className='w-5 h-5 rounded-full'/>
-                              <span className="mb-1 text-lg  text-gray-500 ">
-                              {arrayBarberos[selectedBarbero-1].nombre} </span>  
-                            </div>
-                             </li>
-                        <li className="ms-8">
-                            <span className="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white ">
-                                <svg className="w-2.5 h-2.5 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
-                            </span>
-                            <h3 className="mb-1 text-lg font-semibold text-gray-900 ">
-                              Datos para agendar la cita:</h3>
-                              <div>
-                                  <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
-                                    Nombre contacto:</label>
-                                  <input type="text" name="name" id="name" onChange={(e) => setNameCustomer(e.target.value)}
-                                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="Nombre usuario" required />
+            <div className="relative p-4 w-full max-w-md max-h-full">
+                <div className="relative bg-white rounded-lg shadow ">
+                        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
+                            <h3 className="text-lg font-semibold text-gray-900 ">
+                                Agendamiento de cita  
+                            </h3>
+                            <button type="button" onClick={toggleModal} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center " data-modal-toggle="timeline-modal">
+                                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span className="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <div className="p-4 md:p-5">
+                            <ol className="relative border-s border-gray-200  ms-3.5 mb-4 md:mb-5">                  
+                                
+                                <li className="mb-2 ms-8">
+                                    <span className="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white">
+                                        <svg className="w-2.5 h-2.5 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
+                                    </span>
+                                    <h3 className="mb-1 text-lg font-semibold text-gray-900 ">
+                                      Cita para el: {selectedFecha.day} de {selectedFecha.month} de {selectedFecha.year} a las {selectHoraDisponible.start}</h3>
+                                    <time className="block mb-3 text-sm font-normal leading-none text-gray-500 ">Duración del servicio: {arrayServicios[selectedServicio-1].minutos} minutos</time>
+                                    <div className='flex flex-row justify-start items-center gap-2  '>
+                                      <span className="mb-1 text-sm text-gray-500 ">
+                                        Barbero: </span> 
+                                      <img src={arrayBarberos[selectedBarbero-1].img} alt="Foto del Barbero" className='w-5 h-5 rounded-full'/>
+                                      <span className="mb-1 text-lg  text-gray-500 ">
+                                      {arrayBarberos[selectedBarbero-1].nombre} </span>  
                                     </div>
-                              <div>
-                                  <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
-                                    Correo electrónico:</label>
-                                  <input type="email" name="email" id="email" onChange={(e) => setEmailCustomer(e.target.value)}
-                                  class="bg-gray-50 border mb-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="name@gmail.com" required />
-                                </div>
-                              <div>
-                                  <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
-                                    Celular contacto:</label>
-                                  <input type="number" name="number" id="number" onChange={(e) => setCelCustomer(e.target.value)}
-                                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="613670695" required />
-                             </div>
-                              
-                        </li>
-                    </ol>
-                    <div className='flex flexrow gap-2'>
-                        <button onClick={hadleCreateCita} className="text-white inline-flex w-[75%] justify-center bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
-                        Confirmar cita
-                        </button>
-                        <button onClick={toggleModal} className="text-white inline-flex w-[20%] justify-center bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
-                        Cerrar
-                        </button>
+                                    </li>
+                                <li className="ms-8">
+                                    <span className="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white ">
+                                        <svg className="w-2.5 h-2.5 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
+                                    </span>
+                                    <h3 className="mb-1 text-lg font-semibold text-gray-900 ">
+                                      Datos para agendar la cita:</h3>
+                                      <div>
+                                          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
+                                            Nombre contacto:</label>
+                                          <input type="text" name="name" id="name" onChange={(e) => setNameCustomer(e.target.value)}
+                                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="Nombre usuario" required />
+                                            </div>
+                                      <div>
+                                          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
+                                            Correo electrónico:</label>
+                                          <input type="email" name="email" id="email" onChange={(e) => setEmailCustomer(e.target.value)}
+                                          class="bg-gray-50 border mb-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="name@gmail.com" required />
+                                        </div>
+                                      <div>
+                                          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
+                                            Celular contacto:</label>
+                                          <input type="number" name="number" id="number" onChange={(e) => setCelCustomer(e.target.value)}
+                                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 " placeholder="613670695" required />
+                                    </div>
+                                      
+                                </li>
+                            </ol>
+                            <div className='flex flexrow gap-2'>
+                                <button onClick={hadleCreateCita} className="text-white inline-flex w-[75%] justify-center bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                                Confirmar cita
+                                </button>
+                                <button onClick={toggleModal} className="text-white inline-flex w-[20%] justify-center bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                                Cerrar
+                                </button>
+                            </div>
+                            
+                        </div>
                     </div>
-                    
-                </div>
             </div>
-    </div>
             </div> )}
             <ToastContainer autoClose={1000} style={{marginTop: "20vh"}}/>
             <InstallButton/>
