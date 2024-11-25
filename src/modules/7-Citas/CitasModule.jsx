@@ -56,29 +56,33 @@ const CitasModule = () => {
     // console.log(localStorage.getItem('mi_nombre'))
     const sumarMinutos = (hora, minutosASumar) => {
       // Convertir la hora en un objeto Date
-      const [horaStr, meridiano] = hora.split(" "); // Separar la hora del AM/PM
+      const [horaStr] = hora.split(" "); // Se elimina AM/PM, si existe
       let [horas, minutos] = horaStr.split(":").map(Number); // Dividir horas y minutos
-      
-      if (meridiano === "PM" && horas !== 12) horas += 12; // Convertir PM a formato 24h
-      if (meridiano === "AM" && horas === 12) horas = 0; // Ajustar medianoche
-  
+      const horaDelDia = hora.slice(-2); // Extraer la hora del dia
+      // Ajustar las horas si es PM
+        if (horaDelDia === "PM" && horas !== 12) {
+          horas += 12; // Sumar 12 horas si es PM (excepto las 12 PM)
+        }
+        if (horaDelDia === "AM" && horas === 12) {
+          horas = 0; // Ajustar a medianoche (12 AM es 00:00 en formato 24 horas)
+        }
       const fecha = new Date();
       fecha.setHours(horas, minutos); // Establecer la hora en el objeto Date
-  
+    
       // Sumar los minutos
       fecha.setMinutes(fecha.getMinutes() + minutosASumar);
-  
-      // Formatear el resultado en formato "HH:mm AM/PM"
+    
+      // Obtener la hora y los minutos resultantes
       const horasResult = fecha.getHours();
       const minutosResult = fecha.getMinutes();
-      const esPM = horasResult >= 12;
-  
-      const horasFormateadas = esPM ? (horasResult === 12 ? 12 : horasResult - 12) : (horasResult === 0 ? 12 : horasResult);
+    
+      // Formatear las horas y minutos en formato "HH:mm"
+      const horasFormateadas = horasResult.toString().padStart(2, "0"); // Para asegurar que siempre tenga dos dígitos
       const minutosFormateados = minutosResult.toString().padStart(2, "0");
-      const meridianoResult = esPM ? "PM" : "AM";
-  
-      return `${horasFormateadas}:${minutosFormateados} ${meridianoResult}`;
-  }
+    
+      return `${horasFormateadas}:${minutosFormateados}`;
+    }
+    
 
     const arrayServicios = [    
       { nombre: "Corte de cabello", minutos: 30, id: 1 },
@@ -336,7 +340,7 @@ const CitasModule = () => {
       correo: ${emailCustomer} y celular: ${celCustomer}
       `,
       "start": {
-        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T${selectHoraDisponible?.start.slice(0, 5)}:00+01:00`,
+        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T${sumarMinutos(`${selectHoraDisponible?.start}`, 0).slice(0, 5)}:00+01:00`,
         "timeZone": "Europe/Madrid"
       },
       "end": {  
@@ -403,6 +407,7 @@ const CitasModule = () => {
         setSelectedFecha(null)
         toggleModal()
 
+
         setTimeout(() => {
           
           toast.update(toastId, {
@@ -413,6 +418,21 @@ const CitasModule = () => {
           });
           
         }, 1000);
+        try {
+          const bodyNotification = {
+            "message_to_send": `\"Hola ${nameCustomer}, Class Barber ha agendado su cita para el ${selectedFecha?.day} 
+            de ${selectedFecha?.month} a las ${selectHoraDisponible?.start}, Muchas gracias por preferirnos"`,
+            "number_to_send": `whatsapp:${celularPrefijo}`
+          }
+          const response = await axios.post(`https://classbarber.pythonanywhere.com/api/send-whatsapp/`, bodyNotification);
+          if (response.status === 200){ 
+            setTimeout(() => {
+            toast.success("Notificación en su what's app...");
+            }, 2000);
+          }
+        } catch (error) {
+          toast.warning("No se pudo enviar la notificación en what's app");
+        }
         
       }
       
