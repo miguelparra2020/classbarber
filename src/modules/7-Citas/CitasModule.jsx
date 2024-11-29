@@ -23,12 +23,14 @@ const CitasModule = () => {
     const [horasDisponibles, setHorasDisponibles] = useState([]);
     const [selectHoraDisponible, setSelectHoraDisponible] = useState();
     const [isModalOpen, setModalOpen] = useState(false);
+    const [isModalConfirmation, setModalConfirmation] = useState(false);
     const [nameCustomer, setNameCustomer] = useState('');
     const [emailCustomer, setEmailCustomer] = useState('');
     const [celCustomer, setCelCustomer] = useState('');
     const [celularPrefijo, setCelularPrefijo] = useState("");
     const [validateCustomer, setValidateCustomer] = useState(false);
     const toggleModal = () => {setModalOpen(!isModalOpen)};
+    const toggleModalConfirm = () => {setModalConfirmation(!isModalConfirmation)};
 
     useEffect(() => {
       if(celCustomer.slice(0, 1) === "3"){
@@ -396,10 +398,16 @@ const CitasModule = () => {
           localStorage.setItem('mi_correo', emailCustomer);
           localStorage.setItem('mi_celular', celCustomer);
         }       
+        setCurrentStep(1)
+        setDisabledFecha(false)
+        setSelectedBarbero()
+        setSelectedServicio()
         setSelectedFecha(null)
+        setSelectDay()
+        setDisabledServices(false)
+        setDisabledBarbero(false)
         toggleModal()
-
-
+        toggleModalConfirm()
         setTimeout(() => {
           
           toast.update(toastId, {
@@ -410,21 +418,6 @@ const CitasModule = () => {
           });
           
         }, 1000);
-        try {
-          const bodyNotification = {
-            "message_to_send": `\"Hola ${nameCustomer}, Class Barber ha agendado su cita para el ${selectedFecha?.day} 
-            de ${selectedFecha?.month} a las ${selectHoraDisponible?.start}, Muchas gracias por preferirnos"`,
-            "number_to_send": `whatsapp:${celularPrefijo}`
-          }
-          const response = await axios.post(`https://classbarber.pythonanywhere.com/api/send-whatsapp/`, bodyNotification);
-          if (response.status === 200){ 
-            setTimeout(() => {
-            toast.success("Notificación en su what's app...");
-            }, 2000);
-          }
-        } catch (error) {
-          toast.warning("No se pudo enviar la notificación en what's app");
-        }
         
       }
       
@@ -754,6 +747,7 @@ const CitasModule = () => {
                   </div>
                 </div>
             )}
+
             {isModalOpen && (
               <div  id="timeline-modal"
                 className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 mt-4"
@@ -821,6 +815,44 @@ const CitasModule = () => {
                                 Confirmar cita
                                 </button>
                                 <button onClick={toggleModal} className="text-white inline-flex w-[20%] justify-center bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                                Cerrar
+                                </button>
+                            </div>
+                            
+                        </div>
+                    </div>
+            </div>
+            </div> )}
+
+            {isModalConfirmation && (
+              <div  id="timeline-modal"
+                className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 mt-4"
+              >
+            <div className="relative p-4 w-full max-w-md max-h-full">
+                <div className="relative bg-white rounded-lg shadow ">
+                        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
+                            <h3 className="text-lg font-semibold text-gray-900 ">
+                                Su cita ha sido agendada con exito  
+                            </h3>
+                            <button type="button" onClick={toggleModalConfirm} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center " data-modal-toggle="timeline-modal">
+                                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span className="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <div className="p-4 md:p-5">
+                          <div className='flex flex-col justify-center items-center'>
+                          <img src="/cheque.png" alt="Foto de confirmación" className='w-40 h-40 rounded-full'/>
+                                   <br />  
+                          <div>
+                          <p className='text-center text-gray-500'>¡Gracias por elegirnos!</p>
+                          <br />
+                          </div>
+                          </div>
+                            <div className='flex flexrow gap-2'>
+                                <button onClick={toggleModalConfirm} className="text-white inline-flex 
+                                w-[100%] justify-center bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
                                 Cerrar
                                 </button>
                             </div>
