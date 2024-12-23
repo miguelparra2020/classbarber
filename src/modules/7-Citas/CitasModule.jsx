@@ -105,7 +105,7 @@ const CitasModule = () => {
         { img: "./imgs/BarberoDaniel.jpg",
           nombre: "Daniel S. Cano", 
           id: 2, 
-          diaNoDisponible: "MAR",
+          diaNoDisponible: "DOM",
           agendaId:"5a5f753eb96bac8155a607114939f484f29f14c98a4e658e782ac5096429e802@group.calendar.google.com"
         },
     ]
