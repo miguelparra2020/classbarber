@@ -21,16 +21,18 @@ const CitasModule = () => {
     const [tokenCalendar, setTokenCalendar] = useState("");
     const [responseToken, setResponseToken] = useState("");
     const [horasDisponibles, setHorasDisponibles] = useState([]);
-    const [selectHoraDisponible, setSelectHoraDisponible] = useState();
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [isModalConfirmation, setModalConfirmation] = useState(false);
+    const [selectHoraDisponible, setSelectHoraDisponible] = useState();   
     const [nameCustomer, setNameCustomer] = useState('');
     const [emailCustomer, setEmailCustomer] = useState('');
     const [celCustomer, setCelCustomer] = useState('');
     const [celularPrefijo, setCelularPrefijo] = useState("");
     const [validateCustomer, setValidateCustomer] = useState(false);
+    const [isModalOpen, setModalOpen] = useState(false);
     const toggleModal = () => {setModalOpen(!isModalOpen)};
-    const toggleModalConfirm = () => {setModalConfirmation(!isModalConfirmation)};
+    const [isModalConfirmation, setModalConfirmation] = useState(false);
+    const toggleModalConfirm = () => {setModalConfirmation(!isModalConfirmation)};    
+    const [showSearchModal, setShowSearchModal] = useState(false);
+    const toggleModalSearch = () => {setShowSearchModal(!showSearchModal)};
 
     useEffect(() => {
       if(celCustomer.slice(0, 1) === "3"){
@@ -433,14 +435,30 @@ const CitasModule = () => {
   } else {
     toast.error("No se pudo crear la cita");
   }
-};
+    };
+
 
     return (
         <div>
             <div className='flex flex-col items-center content-center'>
+              <div className="flex flex-row items-center content-center mt-4">
+              <button onClick={toggleModalSearch} 
+              className="bg-customColor8 hover:bg-customColor5 text-white hover:text-gray-800 rounded 
+              font-bold py-2 px-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+</svg> &nbsp;&nbsp;
+                 Buscar mis citas 
+                 &nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+  <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+</svg>
+                </button>
+                              
+              </div>
               <h1 className="text-3xl md:text-3xl font-bold leading-tighter tracking-tighter mb-1 font-heading">
                 <div className="mt-1">
-                  <span>Agendar cita</span>
+                  <span>Agendar nueva cita 👇</span>
                 </div>
               </h1>
             </div>
@@ -853,6 +871,42 @@ const CitasModule = () => {
                             <div className='flex flexrow gap-2'>
                                 <button onClick={toggleModalConfirm} className="text-white inline-flex 
                                 w-[100%] justify-center bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                                Cerrar
+                                </button>
+                            </div>
+                            
+                        </div>
+                    </div>
+            </div>
+            </div> )}
+
+            {showSearchModal && (
+              <div  id="timeline-modal"
+                className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 mt-4"
+              >
+            <div className="relative p-4 w-full max-w-md max-h-full">
+                <div className="relative bg-white rounded-lg shadow ">
+                        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
+                            <h3 className="text-lg font-semibold text-gray-900 ">
+                                Citas agendadas 
+                            </h3>
+                            <button type="button" onClick={toggleModalSearch} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center " data-modal-toggle="timeline-modal">
+                                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span className="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <div className="p-4 md:p-5">
+                            <ol className="relative border-s border-gray-200  ms-3.5 mb-4 md:mb-5">                  
+                                
+                                <li className="mb-2 ms-8">
+                                    <h3 className="mb-1 text-lg font-semibold text-gray-900 ">
+                                      Próximamente... </h3>
+                                      </li>
+                            </ol>
+                            <div className='flex flexrow gap-2'>
+                                <button onClick={toggleModalSearch} className="text-white inline-flex w-[20%] justify-center bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
                                 Cerrar
                                 </button>
                             </div>
