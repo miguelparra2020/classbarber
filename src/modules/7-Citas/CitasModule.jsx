@@ -25,6 +25,7 @@ const CitasModule = () => {
     const [nameCustomer, setNameCustomer] = useState('');
     const [emailCustomer, setEmailCustomer] = useState('');
     const [celCustomer, setCelCustomer] = useState('');
+    const [celCustomerToSearh, setCelCustomerToSearh] = useState('');
     const [celularPrefijo, setCelularPrefijo] = useState("");
     const [validateCustomer, setValidateCustomer] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
@@ -54,6 +55,7 @@ const CitasModule = () => {
         setNameCustomer(miNombre ? miNombre : "");
         setEmailCustomer(miCorreo ? miCorreo : "");
         setCelCustomer(miCelular ? miCelular : "");
+        setCelCustomerToSearh(miCelular ? miCelular : "");
       }
     }, [selectedFecha, selectedBarbero, selectedServicio, isModalOpen]);
     const sumarMinutos = (hora, minutosASumar) => {
@@ -898,14 +900,20 @@ const CitasModule = () => {
                             </button>
                         </div>
                         <form className="max-w-sm mx-auto">
-  <label for="website-admin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de usuario:</label>
+  <label for="website-admin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre del último usuario registrado: {nameCustomer}</label>
+  
   <div className="flex">
     <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
-      </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-phone" viewBox="0 0 16 16">
+  <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+</svg>
     </span>
-    <input type="text" id="website-admin" className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bonnie Green" />
+    <input type="text" id="website-admin" value={celCustomerToSearh} onChange={(e) => setCelCustomerToSearh(e.target.value)} className="mr-2 rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bonnie Green" />
+   
+    <button onClick={toggleModalSearch} className="text-white inline-flex w-[35%] justify-center bg-gray-500 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                                Buscar citas
+                                </button>     
   </div>
 </form>
                         <div className="p-4 md:p-5">
