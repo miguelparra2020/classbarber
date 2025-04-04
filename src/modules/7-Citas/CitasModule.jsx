@@ -63,6 +63,7 @@ const CitasModule = () => {
     const handleSearhCita = () => {
       setLoadingCitasCel(true)
     }
+    
 
     const sumarMinutos = (hora, minutosASumar) => {
       // Convertir la hora en un objeto Date
