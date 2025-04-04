@@ -34,9 +34,7 @@ const CitasModule = () => {
     const toggleModalConfirm = () => {setModalConfirmation(!isModalConfirmation)};    
     const [showSearchModal, setShowSearchModal] = useState(false);
     const toggleModalSearch = () => {setShowSearchModal(!showSearchModal)};
-    const [loadingCitasCel, setLoadingCitasCel] = useState(false);
-    const [responseCitasCel, setResponseCitasCel] = useState("");
-    const [citasDisponibles, setCitasDisponibles] = useState([]);
+    const [loadingCitasCel, setLoadingCitasCel] = useState(false)
 
     useEffect(() => {
       if(celCustomer.slice(0, 1) === "3"){
@@ -62,9 +60,8 @@ const CitasModule = () => {
       }
     }, [selectedFecha, selectedBarbero, selectedServicio, isModalOpen]);
 
-    const handleSearhCita = (cel) => {
-      setLoadingCitasCel(true);
-      console.log("hola", cel)
+    const handleSearhCita = () => {
+      setLoadingCitasCel(true)
     }
 
     const sumarMinutos = (hora, minutosASumar) => {
@@ -127,6 +124,16 @@ const CitasModule = () => {
       const inicioDia = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T08:00:00+01:00`);
       const finDia = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T21:00:00+01:00`);
 
+      // Obtener la fecha y hora actual
+      const ahora = new Date();
+      const fechaActual = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+      const fechaSeleccionada = new Date(selectedFecha.year, selectedFecha.monthNumber - 1, selectedFecha.day);
+
+      // Si es el día actual, ajustar el inicio del día a la hora actual
+      if (fechaActual.getTime() === fechaSeleccionada.getTime()) {
+        inicioDia.setHours(ahora.getHours(), ahora.getMinutes(), 0);
+      }
+
       // Convertimos la duración de la franja a milisegundos
       const duracionFranjaMs = duracionFranja * 60 * 1000;
 
@@ -144,7 +151,7 @@ const CitasModule = () => {
         end: new Date(h.end),
       }));
 
-      // Filtrar las franjas que no se solapen con los horarios ocupados
+      // Filtrar las franjas que no se solapan con los horarios ocupados
       const disponibles = franjas.filter(franja => {
         return !ocupados.some(ocupado =>
           // Comprobamos si la franja está completamente dentro del ocupado
@@ -349,11 +356,11 @@ const CitasModule = () => {
       correo: ${emailCustomer} y celular: ${celCustomer}
       `,
       "start": {
-        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T${sumarMinutos(`${selectHoraDisponible?.start}`, 0).slice(0, 5)}:00+01:00`,
+        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T${sumarMinutos(`${selectHoraDisponible?.start}`, 0).slice(0, 5)}:00`,
         "timeZone": "Europe/Madrid"
       },
       "end": {  
-        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T${sumarMinutos(`${selectHoraDisponible?.start}`, arrayServicios[selectedServicio - 1]?.minutos).slice(0, 5)}:00+01:00`,
+        "dateTime": `${selectedFecha?.year}-${selectedFecha?.monthNumber}-${selectedFecha?.day}T${sumarMinutos(`${selectHoraDisponible?.start}`, arrayServicios[selectedServicio - 1]?.minutos).slice(0, 5)}:00`,
         "timeZone": "Europe/Madrid"
       },
     }
@@ -363,89 +370,136 @@ const CitasModule = () => {
       return emailRegex.test(email);
     };
     const hadleCreateCita = async () => {
-  setValidateCustomer(true);
+      setValidateCustomer(true);
 
-  // Validación de campos obligatorios
-  if (validateCustomer && (!nameCustomer || !emailCustomer || !celCustomer)) {
-    toast.error("Todos los campos son obligatorios");
-    setValidateCustomer(false);
-    return;
-  }
-
-  // Validación del correo electrónico
-  if (emailCustomer !== '' && !validateEmail(emailCustomer)) {
-    toast.error("El correo no es válido");
-    setValidateCustomer(false);
-    return;
-  }
-
-  // Validación del número de teléfono
-  if (celCustomer.length < 9 || celCustomer.length > 10) {
-    toast.error("El número de celular debe tener entre 9 y 10 dígitos");
-    
-    setValidateCustomer(false);
-    return;
-  }
-  if (celCustomer.slice(0, 1) !== "3" && celCustomer.slice(0, 1) !== "6" && celCustomer.slice(0, 1) !== "7") {
-    toast.error("El número de celular debe ser correcto");
-    setValidateCustomer(false);
-    return;
-  }
-
-  if (tokenCalendar !== '') {
-    // Mostrar el toast de "loading" y asignar un ID único
-    const toastId = toast.loading("Cargando cita...", { toastId: "loadingToast" });
-
-    
-
-    try {
-      const response = await axios.post(`https://www.googleapis.com/calendar/v3/calendars/${arrayBarberos[selectedBarbero - 1].agendaId}/events`, bodyToCreateCita, {
-        headers: {
-          Authorization: `Bearer ${tokenCalendar}`
-        }
-      });
-
-      if (response.status === 200){ 
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('mi_nombre', nameCustomer);
-          localStorage.setItem('mi_correo', emailCustomer);
-          localStorage.setItem('mi_celular', celCustomer);
-        }       
-        setCurrentStep(1)
-        setDisabledFecha(false)
-        setSelectedBarbero()
-        setSelectedServicio()
-        setSelectedFecha(null)
-        setSelectDay()
-        setDisabledServices(false)
-        setDisabledBarbero(false)
-        toggleModal()
-        toggleModalConfirm()
-        setTimeout(() => {
-          
-          toast.update(toastId, {
-            render: "Cita creada con éxito",
-            type: "success",
-            isLoading: false,
-            autoClose: 1000,
-          });
-          
-        }, 1000);
-        
+      // Validación de campos obligatorios
+      if (validateCustomer && (!nameCustomer || !emailCustomer || !celCustomer)) {
+        toast.error("Todos los campos son obligatorios");
+        setValidateCustomer(false);
+        return;
       }
-      
-    } catch (error) {
-      // Si ocurre un error, mostrar un error
-      toast.update(toastId, {
-        render: "No se pudo crear la cita",
-        type: "error",
-        isLoading: false,
-        autoClose: 5000,
-      });
-    }
-  } else {
-    toast.error("No se pudo crear la cita");
-  }
+
+      // Validación del correo electrónico
+      if (emailCustomer !== '' && !validateEmail(emailCustomer)) {
+        toast.error("El correo no es válido");
+        setValidateCustomer(false);
+        return;
+      }
+
+      // Validación del número de teléfono
+      if (celCustomer.length < 9 || celCustomer.length > 10) {
+        toast.error("El número de celular debe tener entre 9 y 10 dígitos");
+        setValidateCustomer(false);
+        return;
+      }
+      if (celCustomer.slice(0, 1) !== "3" && celCustomer.slice(0, 1) !== "6" && celCustomer.slice(0, 1) !== "7") {
+        toast.error("El número de celular debe ser correcto");
+        setValidateCustomer(false);
+        return;
+      }
+
+      if (tokenCalendar !== '') {
+        // Mostrar el toast de "loading" y asignar un ID único
+        const toastId = toast.loading("Verificando disponibilidad...", { toastId: "loadingToast" });
+
+        try {
+          // Verificar disponibilidad antes de crear la cita
+          const barbero = arrayBarberos[selectedBarbero - 1];
+          const body = {
+            timeMin: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T08:00:00+01:00`,
+            timeMax: `${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T21:00:00+01:00`,
+            timeZone: "Europe/Madrid",
+            items: [{ id: barbero.agendaId }],
+          };
+
+          const responseCalendar = await axios.post('https://www.googleapis.com/calendar/v3/freeBusy', body, {
+            headers: {
+              Authorization: `Bearer ${tokenCalendar}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (responseCalendar.status === 200) {
+            const busyTimes = responseCalendar.data.calendars[barbero.agendaId].busy;
+            const horarioSeleccionado = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T${sumarMinutos(`${selectHoraDisponible?.start}`, 0).slice(0, 5)}:00`);
+            const horarioFinSeleccionado = new Date(`${selectedFecha.year}-${selectedFecha.monthNumber}-${selectedFecha.day}T${sumarMinutos(`${selectHoraDisponible?.start}`, arrayServicios[selectedServicio - 1]?.minutos).slice(0, 5)}:00`);
+
+            // Verificar si el horario seleccionado está ocupado
+            const horarioOcupado = busyTimes.some(({ start, end }) => {
+              const startTime = new Date(start);
+              const endTime = new Date(end);
+              return (horarioSeleccionado >= startTime && horarioSeleccionado < endTime) ||
+                     (horarioFinSeleccionado > startTime && horarioFinSeleccionado <= endTime) ||
+                     (horarioSeleccionado <= startTime && horarioFinSeleccionado >= endTime);
+            });
+
+            if (horarioOcupado) {
+              toast.update(toastId, {
+                render: "El horario seleccionado ya no está disponible. Actualizando horarios...",
+                type: "warning",
+                isLoading: false,
+                autoClose: 3000,
+              });
+              
+              // Actualizar la lista de horarios disponibles
+              await checkAvailability();
+              // Limpiar la selección del horario que ya no está disponible
+              setSelectHoraDisponible(null);
+              setValidateCustomer(false);
+              toggleModal();
+              return;
+            }
+
+            // Si el horario está disponible, proceder a crear la cita
+            toast.update(toastId, {
+              render: "Creando cita...",
+              type: "info",
+              isLoading: true,
+            });
+
+            const response = await axios.post(`https://www.googleapis.com/calendar/v3/calendars/${barbero.agendaId}/events`, bodyToCreateCita, {
+              headers: {
+                Authorization: `Bearer ${tokenCalendar}`
+              }
+            });
+
+            if (response.status === 200) {
+              if (typeof window !== 'undefined') {
+                localStorage.setItem('mi_nombre', nameCustomer);
+                localStorage.setItem('mi_correo', emailCustomer);
+                localStorage.setItem('mi_celular', celCustomer);
+              }
+              setCurrentStep(1);
+              setDisabledFecha(false);
+              setSelectedBarbero();
+              setSelectedServicio();
+              setSelectedFecha(null);
+              setSelectDay();
+              setDisabledServices(false);
+              setDisabledBarbero(false);
+              toggleModal();
+              toggleModalConfirm();
+              toast.update(toastId, {
+                render: "Cita creada con éxito",
+                type: "success",
+                isLoading: false,
+                autoClose: 1000,
+              });
+            }
+          }
+        } catch (error) {
+          console.error('Error al crear la cita:', error);
+          toast.update(toastId, {
+            render: "No se pudo crear la cita",
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+          });
+        }
+      } else {
+        toast.error("No se pudo crear la cita");
+      }
+      setValidateCustomer(false);
     };
 
     
